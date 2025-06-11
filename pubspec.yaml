@@ -1,0 +1,105 @@
+name: x_calcu
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Networking
+  dio: ^5.7.0
+  pretty_dio_logger: ^1.4.0
+  # State Manegment
+  flutter_bloc: ^8.1.6
+  bloc: ^8.1.1
+  # Adapting screen and fonts size
+  flutter_screenutil: ^5.9.3
+  # Code generator (mainly used with cubit & retrofit)
+  freezed_annotation: ^2.4.4
+  # For dependency injection
+  get_it: ^8.0.3
+  # Automatically generate code for converting to and from JSON annotation Dart classes 
+  json_annotation: ^4.9.0
+  # Storage for simple data
+  shared_preferences: ^2.5.1
+    # Localization
+  easy_localization: ^3.0.7
+  # Routing and navigations 
+  go_router: ^9.0.2
+  # Shimmer effect
+  shimmer: ^3.0.0
+  # Smooth page indicator
+  smooth_page_indicator: ^1.2.0+3
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  # Animate
+  flutter_animate: ^4.5.2
+  # Cached network image
+  cached_network_image: ^3.4.1
+  # Device preview
+  device_preview: ^1.2.0
+  # Icons
+  iconsax_flutter: ^1.0.0
+  flutter_native_splash: ^2.4.3
+  # Image
+  flutter_svg: ^2.0.16
+  # Text Scroll
+  marquee: ^2.3.0
+  jiffy: ^6.3.2
+  dropdown_textfield: ^1.2.0
+  persistent_bottom_nav_bar: ^6.2.1
+
+    
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
+  # Code generator (mainly used with cubit & retrofit)
+  freezed: ^2.5.7
+  # Automatically generate code for converting to and from JSON annotation Dart classes 
+  json_serializable: ^6.9.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  generate: true
+  uses-material-design: true
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Cairo-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo-ExtraBold.ttf
+          weight: 800
+
+  assets:
+    - assets/images/
+    - assets/svg/
+    - assets/icons/
+    - assets/translation/
+

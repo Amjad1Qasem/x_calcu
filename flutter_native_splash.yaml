@@ -1,0 +1,32 @@
+flutter_native_splash:
+
+  color: "#ffffff"
+  image: assets/images/app_logo.png
+  # background_image: assets/images/bg_splash.png
+
+
+  color_dark: "#272727"
+  image_dark: assets/images/app_logo_dark.png
+
+
+  # branding: assets/images/Docdoc.png
+
+  # branding_mode: center
+  
+  # Set the branding padding from the bottom of the screen.  The default value is 0
+  # branding_bottom_padding: 500
+
+  #color_dark: "#042a49"
+  #background_image_dark: "assets/dark-background.png"
+  #image_dark: assets/splash-invert.png
+  #branding_dark: assets/dart_dark.png
+
+  # From Android 12 onwards, the splash screen is handled differently than in previous versions.
+  # Please visit https://developer.android.com/guide/topics/ui/splash-screen
+  # Following are specific parameters for Android 12+.
+  android_12:
+    color: "#ffffff"
+    image: assets/images/app_logo.png
+    color_dark: "#272727"
+    image_dark: assets/images/app_logo_dark.png
+    
