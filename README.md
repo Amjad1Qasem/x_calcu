@@ -1,16 +1,36 @@
-# x_calcu
+📱 x_calcu – Mediation App
+A modern mobile application built with Flutter for secure and professional mediation between individuals and businesses.
 
-A new Flutter project.
+Key Features:
 
-## Getting Started
+🔐 Secure Login with Email & Face ID (iOS compatible)
 
-This project is a starting point for a Flutter application.
+📁 Documented Transactions (Real Estate & Business Deals)
 
-A few resources to get you started if this is your first Flutter project:
+🧾 Auto-saved Operation Records with Attachments
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+📤 Share Transactions (individually or by date range) via social apps & email
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+⚙️ Admin-only Account Creation (via dashboard)
+
+✨ Smooth Onboarding Experience
+
+📲 Designed with modern UX principles and dark/light theme compatibility
+
+Tech Stack:
+
+Flutter + Bloc
+
+Dio for API communication
+
+SharedPreferences for local storage
+
+Face ID / Biometric integration
+
+Easy Localization
+
+IconSax for clean and consistent icons
+
+Target Platforms:
+
+✅ iOS (App Store guidelines compliant)
