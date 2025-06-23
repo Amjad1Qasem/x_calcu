@@ -22,7 +22,7 @@ void main() async {
         builder: (context) => EasyLocalization(
           supportedLocales: const [Locale('en'), Locale('ar')],
           path: 'assets/translation',
-          startLocale: const Locale('ar'),
+          startLocale: const Locale('en'),
           saveLocale: true,
           assetLoader: const RootBundleAssetLoader(),
           child: const MyApp(),
