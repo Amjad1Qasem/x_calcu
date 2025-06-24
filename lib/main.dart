@@ -1,4 +1,3 @@
-
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_logger/src/logger.dart' as level;
@@ -19,29 +18,26 @@ void main() async {
     (value) => runApp(
       DevicePreview(
         enabled: kDebugMode,
-        builder: (context) => EasyLocalization(
-          supportedLocales: const [Locale('en'), Locale('ar')],
-          path: 'assets/translation',
-          startLocale: const Locale('ar'),
-          saveLocale: true,
-          assetLoader: const RootBundleAssetLoader(),
-          child: const MyApp(),
-        ),
+        builder:
+            (context) => EasyLocalization(
+              supportedLocales: const [Locale('en'), Locale('ar')],
+              path: 'assets/translation',
+              startLocale: const Locale('en'),
+              saveLocale: true,
+              assetLoader: const RootBundleAssetLoader(),
+              child: const MyApp(),
+            ),
       ),
     ),
   );
 }
 
 Future<void> initFunction() async {
-
-    dependencyInjectionSetup();
-    await EasyLocalization.ensureInitialized();
-    await DioHelper.init();
-    await Prefs.init();
-    await getIt<AppStateModel>().init();
-
-
-
+  dependencyInjectionSetup();
+  await EasyLocalization.ensureInitialized();
+  await DioHelper.init();
+  await Prefs.init();
+  await getIt<AppStateModel>().init();
 
   EasyLocalization.logger.enableLevels = [level.EasyLogger().enableLevels[3]];
 }

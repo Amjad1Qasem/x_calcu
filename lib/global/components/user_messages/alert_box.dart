@@ -11,7 +11,8 @@ showDialogBox(BuildContext context, String message, {void Function()? onTap}) {
     builder: (_) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.r))),
+          borderRadius: BorderRadius.all(Radius.circular(40.r)),
+        ),
         title: Text(
           textAlign: TextAlign.center,
           message,
@@ -22,8 +23,9 @@ showDialogBox(BuildContext context, String message, {void Function()? onTap}) {
           AppButton(
             label: 'تم'.tr(),
             width: 600.w,
-            color: ColorManager.blue,
-            onTap: onTap ??
+            color: ColorManager.primaryColor,
+            onTap:
+                onTap ??
                 () {
                   Navigator.pop(context);
                 },
@@ -34,14 +36,18 @@ showDialogBox(BuildContext context, String message, {void Function()? onTap}) {
   );
 }
 
-showConfirmDialogBox(BuildContext context, String message,
-    {void Function()? onTap}) {
+showConfirmDialogBox(
+  BuildContext context,
+  String message, {
+  void Function()? onTap,
+}) {
   showDialog(
     context: context,
     builder: (_) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.r))),
+          borderRadius: BorderRadius.all(Radius.circular(40.r)),
+        ),
         // titleTextStyle: TextStyle(),
         title: Text(
           message,
@@ -52,16 +58,21 @@ showConfirmDialogBox(BuildContext context, String message,
           Row(
             children: [
               Expanded(
-                  child: AppButton(
-                      label: 'ok',
-                      onTap: onTap ??
-                          () {
-                            Navigator.pop(context);
-                          },
-                      color: Colors.red)),
+                child: AppButton(
+                  label: 'ok',
+                  onTap:
+                      onTap ??
+                      () {
+                        Navigator.pop(context);
+                      },
+                  color: Colors.red,
+                ),
+              ),
               Expanded(
-                child:
-                    AppButton(label: 'no', onTap: () => Navigator.pop(context)),
+                child: AppButton(
+                  label: 'no',
+                  onTap: () => Navigator.pop(context),
+                ),
               ),
             ],
           ),

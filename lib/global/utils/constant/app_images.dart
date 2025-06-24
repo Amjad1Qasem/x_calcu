@@ -8,9 +8,10 @@ abstract class AppImages {
   static const _lottiePath = 'assets/lottie';
 
   /// *******************
-
+  static const logo = '$_pngImagesPath/logo.png';
   // Svg Images
   // static const login = '$_svgImagePath/name.svg';
+  static const notificationImage = '$_svgIconsPath/notification.svg';
   static const firstBoarding = '$_svgImagePath/first_boarding.svg';
   static const secondBoarding = '$_svgImagePath/second_boarding.svg';
   static const thirdBoarding = '$_svgImagePath/third_boarding.svg';
@@ -29,10 +30,19 @@ abstract class AppImages {
   /// *******************
 
   // * Svg Icons *
-  // static const logoIcon = '$_svgIconsPath/logo_icon.svg';
+  static const notificationUnActiveIcon =
+      '$_svgIconsPath/notification_un_active_icon.svg';
   static const notificationActiveIcon =
       '$_svgIconsPath/notification_active_icon.svg';
-  static const notificationIcon = '$_svgIconsPath/notification_icon.svg';
+  static const homeUnActiveIcon = '$_svgIconsPath/home_un_active_icon.svg';
+  static const homeActiveIcon = '$_svgIconsPath/home_active_icon.svg';
+  static const partnerUnActiveIcon =
+      '$_svgIconsPath/partner_un_active_icon.svg';
+  static const partnerActiveIcon = '$_svgIconsPath/partner_active_icon.svg';
+  static const settingUnActiveIcon =
+      '$_svgIconsPath/setting_un_active_icon.svg';
+  static const settingActiveIcon = '$_svgIconsPath/setting_active_icon.svg';
+  // static const logoIcon = '$_svgIconsPath/logo_icon.svg';
   // static const favoriteActiveIcon = '$_svgIconsPath/favorite_active _icon.svg';
   // static const settingActiveIcon = '$_svgIconsPath/setting-active-icon.svg';
   // static const logoUnAtiveIcon = '$_svgIconsPath/logo_unactive_icon.svg';

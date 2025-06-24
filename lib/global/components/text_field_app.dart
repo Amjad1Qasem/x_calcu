@@ -64,106 +64,110 @@ class TextFieldApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: padding ?? EdgeInsets.symmetric(vertical: 10.h),
-        child: TextFormField(
-          textInputAction: textInputAction,
-          autofillHints: autofillHints,
-          readOnly: readOnly,
-          maxLength: maxLength ?? 99,
-          maxLines: maxLines,
-          controller: controller,
-          keyboardType: keyboardType ?? TextInputType.text,
-          obscureText: isPassword ?? false,
-          validator: validation,
-          enabled: enable,
-          onChanged: onChanged,
-          focusNode: focusNode,
-          onFieldSubmitted: onFieldSubmitted,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          style: style ?? Utils(context).normalText,
-          decoration: InputDecoration(
-            prefixIcon: prefixText != null
-                ? Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 14.h),
+      padding: padding ?? EdgeInsets.symmetric(vertical: 10.h),
+      child: TextFormField(
+        textInputAction: textInputAction,
+        autofillHints: autofillHints,
+        readOnly: readOnly,
+        maxLength: maxLength ?? 99,
+        maxLines: maxLines,
+        controller: controller,
+        keyboardType: keyboardType ?? TextInputType.text,
+        obscureText: isPassword ?? false,
+        validator: validation,
+        enabled: enable,
+        onChanged: onChanged,
+        focusNode: focusNode,
+        onFieldSubmitted: onFieldSubmitted,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        style: style ?? Utils(context).normalText,
+        decoration: InputDecoration(
+          prefixIcon:
+              prefixText != null
+                  ? Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 14.h,
+                    ),
                     child: Text(
                       prefixText!,
-                      style: Utils(context).normalText.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                      style: Utils(
+                        context,
+                      ).normalText.copyWith(fontWeight: FontWeight.w600),
                     ),
                   )
-                : prefixIcon,
-            suffixIcon: suffixText != null
-                ? Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 14.h),
+                  : prefixIcon,
+          suffixIcon:
+              suffixText != null
+                  ? Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 14.h,
+                    ),
                     child: Text(
                       suffixText!,
-                      style: Utils(context)
-                          .normalText
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: Utils(
+                        context,
+                      ).normalText.copyWith(fontWeight: FontWeight.w600),
                     ),
                   )
-                : suffixIcon,
-            counter: const SizedBox.shrink(),
-            hintText: hintText,
-            isDense: true,
-            hintMaxLines: hintMaxLines,
-            hintStyle:
-                style ?? Utils(context).hintText.copyWith(fontSize: 13.sp),
+                  : suffixIcon,
+          counter: const SizedBox.shrink(),
+          hintText: hintText,
+          isDense: true,
+          hintMaxLines: hintMaxLines,
+          hintStyle: style ?? Utils(context).hintText.copyWith(fontSize: 14.sp),
 
-            // labelStyle: Utils(context).blackBigText,
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 14.sp,
-              horizontal: 16.w,
-            ),
-            filled: true,
-            fillColor: Utils(context).white,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: BorderSide(
-                color: Utils(context).disableGrey,
-                width: 1.w,
-              ),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: BorderSide(
-                color: Utils(context).disableGrey,
-                width: 1.w,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: BorderSide(
-                color: readOnly
-                    ? Utils(context).disableGrey
-                    : Theme.of(context).primaryColor,
-                width: readOnly ? 1.w : 1.5.w,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.error,
-                width: 1.5.w,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.error,
-                width: 1.5.w,
-              ),
-            ),
-            errorMaxLines: 3,
-            errorText: errorText,
-            errorStyle: TextStyle(
-              fontSize: 12.sp,
-              color: Colors.red,
+          // labelStyle: Utils(context).blackBigText,
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 14.sp,
+            horizontal: 16.w,
+          ),
+          filled: true,
+          fillColor: Utils(context).white,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: Utils(context).disableGrey,
+              width: 1.w,
             ),
           ),
-        ));
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: Utils(context).disableGrey,
+              width: 1.w,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color:
+                  readOnly
+                      ? Utils(context).disableGrey
+                      : Theme.of(context).primaryColor,
+              width: readOnly ? 1.w : 1.5.w,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.error,
+              width: 1.5.w,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.error,
+              width: 1.5.w,
+            ),
+          ),
+          errorMaxLines: 3,
+          errorText: errorText,
+          errorStyle: TextStyle(fontSize: 12.sp, color: Colors.red),
+        ),
+      ),
+    );
   }
 }

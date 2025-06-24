@@ -1,4 +1,3 @@
-
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -39,33 +38,39 @@ class AppDropDown extends StatelessWidget {
           counter: const SizedBox.shrink(),
           hintText: hintText ?? 'select_item'.tr(),
           hintStyle: Utils(context).hintText,
-          contentPadding:
-              EdgeInsets.symmetric(vertical: 8.sp, horizontal: 16.w),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 8.sp,
+            horizontal: 16.w,
+          ),
           filled: true,
           fillColor: Utils(context).white,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Utils(context).disableGrey, width: 1.w),
+            borderSide: BorderSide(
+              color: Utils(context).disableGrey,
+              width: 1.w,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
-            borderSide:
-                BorderSide(color: Theme.of(context).primaryColor, width: 1.5.w),
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 1.5.w,
+            ),
           ),
         ),
         controller: controller,
         dropDownIconProperty: IconProperty(
-            icon: isArabic
-                ? Iconsax.arrow_left_2_copy
-                : Iconsax.arrow_right_3_copy),
+          icon:
+              isArabic ? Iconsax.arrow_left_2_copy : Iconsax.arrow_right_3_copy,
+        ),
         searchDecoration: const InputDecoration(hintText: "Search"),
         validator: (value) => value == null ? "Required field" : null,
         dropDownItemCount: dropDownItemCount ?? 6,
-        listTextStyle: Utils(context).greyTextMedium.copyWith(fontSize: 15.sp),
+        listTextStyle: Utils(context).secondText.copyWith(fontSize: 15.sp),
         dropDownList: dropDownList == null ? [] : dropDownList!,
         onChanged: onChanged,
-        textStyle: Utils(context).greyTextMedium.copyWith(fontSize: 15.sp),
+        textStyle: Utils(context).secondText.copyWith(fontSize: 15.sp),
       ),
     );
   }

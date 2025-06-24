@@ -34,6 +34,7 @@ class _IntroScreenState extends State<IntroScreen> {
       body: BlocConsumer<StartupCubit, StartupState>(
         bloc: _bloc,
         listener: (context, state) {
+          printError('**\\Introoo $state **//');
           state.maybeWhen(
             unauthenticated: () => context.go(RouterPath.loginScreen),
             success: (_) => context.go(RouterPath.mainLayout),
@@ -44,7 +45,7 @@ class _IntroScreenState extends State<IntroScreen> {
             banned:
                 (info) =>
                     context.go(RouterPath.bannedAccountScreen, extra: info),
-            uncertain: (info) {},
+            // uncertain: (info) {},
             // context.go(RouterPath.phoneVerificationScreen, extra: true),
             orElse: () {},
           );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BBSCard extends StatelessWidget {
-  const BBSCard({
+class XCalCard extends StatelessWidget {
+  const XCalCard({
     super.key,
     required this.child,
     this.padding,
@@ -25,18 +26,20 @@ class BBSCard extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      padding: padding,
+      padding:
+          padding ?? EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
       margin: margin,
-      decoration: decoration ??
+      decoration:
+          decoration ??
           BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(radius??10),
+            borderRadius: BorderRadius.circular(radius ?? 10),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                spreadRadius: 0.5,
-                blurRadius: 1.5,
-                offset: const Offset(0, 1),
+                color: Colors.black.withValues(alpha: 0.3),
+                spreadRadius: 1,
+                blurRadius: 6,
+                offset: const Offset(0, 0),
               ),
             ],
           ),
