@@ -47,34 +47,6 @@ class ProfileUserWidget extends StatelessWidget {
     );
   }
 
-  // Widget _buildGlobalSettingsSection(BuildContext context) {
-  //   return SectionComponentsWidget(
-  //     lenght: 3,
-  //     items: [
-  //       SectionItemWidget(
-  //         onTap:
-  //             () => openDialog(
-  //               context: context,
-  //               title: "notifications".tr(),
-  //               supTitle: 'do_you_want_to_enable_notifications'.tr(),
-  //               onPressedBtn2: () {},
-  //             ),
-  //         title: "notifications".tr(),
-  //         trailing: 'activated'.tr(),
-  //         iconPath: Iconsax.notification_copy,
-  //         isGlobalSection: true,
-  //       ),
-  // languageSharedWidget(context),
-  //       SectionItemWidget(
-  //         onTap: () {},
-  //         title: "dark_mode".tr(),
-  //         iconPath: Iconsax.sun_1_copy,
-  //         isDarkThemeButton: true,
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Widget _buildfaceIdSection(BuildContext context) {
     return SectionComponentsWidget(
       lenght: 1,
@@ -164,7 +136,7 @@ class ProfileUserWidget extends StatelessWidget {
       bloc: getIt<AuthCubit>(),
       listener: (context, state) {
         if (state is LoggedOut) {
-          context.goNamed('login');
+          context.goNamed(RouterPath.loginScreen);
         } else if (state is Error) {
           snackBar(
             context: context,
@@ -186,27 +158,6 @@ class ProfileUserWidget extends StatelessWidget {
         },
         label: "log_out".tr(),
       ),
-      /*
-      SectionComponentsWidget(
-        lenght: 1,
-        items: [
-          SectionItemWidget(
-            onTap: () async {
-              openDialog(
-                context: context,
-                title: 'logOut_need'.tr(),
-                onPressedBtn2: () async {
-                  await getIt<AppStateModel>().logout();
-                  getIt<AuthCubit>().submitLogout();
-                },
-              );
-            },
-            title: "log_out".tr(),
-            iconPath: Iconsax.login_copy,
-          ),
-        ],
-      ),
-   */
     );
   }
 }

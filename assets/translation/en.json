@@ -85,7 +85,19 @@
   "search_processes":"Search the processes",
   "input":"Input",
   "output":"Output",
-  "sort_by": "Sort By"
+  "sort_by": "Sort By",
+  "no_notifications": "You have no notifications",
+  "name_a_to_z": "Name: A to Z",
+  "log_out": "Log Out",
+  "logOut_need": "Do you want to logout !!",
+  "contact_ust": "Contact Us",
+"privacy_and_security": "Privacy and Security",
+"help_and_support": "Help and Support",
+"companies": "Companies"
+
+
+
+
 
 
 

@@ -71,12 +71,12 @@ class _MainLayoutState extends State<MainLayout> {
           screens: _buildScreens(),
           items: _navBarsItems(context: context),
           onItemSelected: (index) async {
-            if (index == 2) {
-              getIt<AppStateModel>().setClientType(clientType: 'client');
-              getIt<AppStateModel>().setStoreId(null);
-              _showNotAuthDialog(context);
-              return;
-            }
+            // if (index == 2) {
+            //   getIt<AppStateModel>().setClientType(clientType: 'client');
+            //   getIt<AppStateModel>().setStoreId(null);
+            //   _showNotAuthDialog(context);
+            //   return;
+            // }
             setState(() {
               _index = index;
             });
@@ -123,8 +123,8 @@ List<Widget> _buildScreens() {
       child: Padding(padding: EdgeInsets.only(bottom: 90), child: HomeScreen()),
     ),
     CustomTabScreenWrapper(child: NotificationScreen()),
-    CustomTabScreenWrapper(child: PartnersScreen()),
     CustomTabScreenWrapper(child: CompaniesScreen()),
+    CustomTabScreenWrapper(child: PartnersScreen()),
     CustomTabScreenWrapper(child: SettingScreen()),
   ];
 }

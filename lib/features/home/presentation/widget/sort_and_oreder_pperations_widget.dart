@@ -83,6 +83,7 @@
 //     );
 //   }
 // }
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -97,7 +98,7 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> sortOptions = ['name_a_to_z', 'name_z_to_a'];
+    List<String> sortOptions = ['name_a_to_z'.tr(), 'name_z_to_a'];
     return BlocBuilder<HomeCubit, HomeState>(
       bloc: getIt<HomeCubit>(),
       buildWhen: (_, __) => true,

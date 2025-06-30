@@ -85,7 +85,18 @@
   "search_processes":"ابحث في العمليات",
   "input":"الدخل",
   "output":"الخرج",
-  "sort_by": "عرض حسب"
+  "sort_by": "عرض حسب",
+  "no_notifications": "لا يوجد لديك اشعارات",
+  "name_a_to_z": "الاسم من أ إلى ي",
+  "log_out": "تسجيل الخروج",
+  "logOut_need": "هل حقاً تريد تسجيل الخروج !!",
+  "contact_ust": "تواصل معنا",  
+"privacy_and_security": "الخصوصية والأمان",
+"help_and_support": "المساعدة والدعم",
+"companies": "الشركات"
+
+
+
 
 
   

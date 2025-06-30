@@ -1,10 +1,42 @@
+import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:x_calcu/global/components/scaffold_page.dart';
+import 'package:x_calcu/global/design/common_sizes.dart';
+import 'package:x_calcu/global/design/themes/themes.dart';
+import 'package:x_calcu/global/utils/constant/app_images.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return
+     Skaffold(
+      isAppBarNull: false,
+      isBack: false,
+      title: 'notification'.tr(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: SvgPicture.asset(AppImages.notificationImage)),
+            CommonSizes.vSmallestSpace5v,
+            Text(
+              'no_notifications'.tr(),
+              style: Utils(context).blackBigText.copyWith(
+                color: Utils(context).primary,
+                fontSize: 19.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  
   }
 }

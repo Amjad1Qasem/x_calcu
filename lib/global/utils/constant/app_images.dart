@@ -10,8 +10,11 @@ abstract class AppImages {
   /// *******************
   static const logo = '$_pngImagesPath/logo.png';
   // Svg Images
+  static const outputNotificationImage =
+      '$_svgImagePath/output_notification.svg';
+  static const inputNotificationImage = '$_svgImagePath/input_notification.svg';
   // static const login = '$_svgImagePath/name.svg';
-  static const notificationImage = '$_svgIconsPath/notification.svg';
+  static const notificationImage = '$_svgImagePath/notification.svg';
   static const firstBoarding = '$_svgImagePath/first_boarding.svg';
   static const secondBoarding = '$_svgImagePath/second_boarding.svg';
   static const thirdBoarding = '$_svgImagePath/third_boarding.svg';
