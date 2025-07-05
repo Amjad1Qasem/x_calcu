@@ -1,8 +1,16 @@
 import 'package:get_it/get_it.dart';
+import 'package:x_calcu/features/companies/cubit/companies_cubit.dart';
+import 'package:x_calcu/features/companies/data/companies_repo.dart';
 import 'package:x_calcu/features/home/cubit/home_cubit.dart';
 import 'package:x_calcu/features/home/data/home_repo.dart';
 import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
 import 'package:x_calcu/features/login/data/auth_repo.dart';
+import 'package:x_calcu/features/operations/cubit/get_partner/get_partner_cubit.dart';
+import 'package:x_calcu/features/operations/cubit/operations/operations_cubit.dart';
+import 'package:x_calcu/features/operations/data/operations_repo.dart';
+import 'package:x_calcu/features/partners/cubit/add_partner/add_partner_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
+import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
 import 'package:x_calcu/features/setting/cubit/setting_cubit.dart';
 import 'package:x_calcu/features/startup/bloc/startup/startup_cubit.dart';
 import 'package:x_calcu/features/startup/bloc/system_setting/system_setting_cubit.dart';
@@ -27,6 +35,9 @@ void dependencyInjectionSetup() {
   getIt.registerLazySingleton<StartUpRepo>(() => StartUpRepo());
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo());
+  getIt.registerLazySingleton<PartnerRepo>(() => PartnerRepo());
+  getIt.registerLazySingleton<OperationsRepo>(() => OperationsRepo());
+  getIt.registerLazySingleton<CompaniesRepo>(() => CompaniesRepo());
 
   /// Blocs
   getIt.registerLazySingleton<ThemeBloc>(() => ThemeBloc());
@@ -42,4 +53,19 @@ void dependencyInjectionSetup() {
   );
   getIt.registerLazySingleton<SettingCubit>(() => SettingCubit());
   getIt.registerLazySingleton<HomeCubit>(() => HomeCubit(getIt<HomeRepo>()));
+  getIt.registerLazySingleton<PartnerCubit>(
+    () => PartnerCubit(getIt<PartnerRepo>()),
+  );
+  getIt.registerFactory<OperationsCubit>(
+    () => OperationsCubit(getIt<OperationsRepo>()),
+  );
+  getIt.registerLazySingleton<GetPartnerCubit>(
+    () => GetPartnerCubit(getIt<OperationsRepo>()),
+  );
+  getIt.registerLazySingleton<AddPartnerCubit>(
+    () => AddPartnerCubit(getIt<PartnerRepo>()),
+  );
+  getIt.registerLazySingleton<CompaniesCubit>(
+    () => CompaniesCubit(getIt<CompaniesRepo>()),
+  );
 }

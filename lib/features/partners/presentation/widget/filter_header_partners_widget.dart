@@ -8,7 +8,7 @@ import 'package:x_calcu/global/components/x_calc/animated_toggle_button.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 
-class FilterHeaderWidget extends SliverPersistentHeaderDelegate {
+class FilterHeaderPartnersWidget extends SliverPersistentHeaderDelegate {
   @override
   Widget build(context, double shrinkOffset, bool overlapsContent) {
     final cubit = getIt<HomeCubit>();

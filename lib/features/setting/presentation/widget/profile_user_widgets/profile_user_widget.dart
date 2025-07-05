@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
+import 'package:x_calcu/features/setting/presentation/widget/profile_user_widgets/face_id_widget.dart';
 import 'package:x_calcu/features/setting/presentation/widget/section_components_widget.dart';
 import 'package:x_calcu/features/startup/bloc/startup/startup_cubit.dart';
 import 'package:x_calcu/global/components/app_bar.dart';
@@ -30,11 +31,6 @@ class ProfileUserWidget extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // CommonSizes.vSmallerSpace,
-              // _buildAccountSettingsSection(context),
-              // CommonSizes.vSmallerSpace,
-              // _buildGlobalSettingsSection(context),
-              // CommonSizes.vSmallerSpace,
               _buildfaceIdSection(context),
               CommonSizes.vSmallerSpace,
               _buildPrivacySettingsSection(context),
@@ -48,61 +44,7 @@ class ProfileUserWidget extends StatelessWidget {
   }
 
   Widget _buildfaceIdSection(BuildContext context) {
-    return SectionComponentsWidget(
-      lenght: 1,
-      items: [
-        // SectionItemWidget(
-        //   onTap: () => context.push(RouterPath.privacyPolicyScreen),
-        //   title: "face_id".tr(),
-        //   iconPath: Iconsax.message_copy,
-        //   isGlobalSection: true,
-        // ),
-        SectionItemWidget(
-          onTap:
-              () => openDialog(
-                context: context,
-                title: "language".tr(),
-                supTitle: "choose_your_language".tr(),
-                // textBtn2: bloc == 'ar' ? "arabic".tr() : "english".tr(),
-                // textBtn1: bloc == 'ar' ? "english".tr() : "arabic".tr(),
-                textBtn2: 'العربية',
-                textBtn1: 'English',
-                onPressedBtn1: () async {
-                  // if (bloc == 'ar') {
-                  // gg.add(SetEnglish(context));
-                  // } else {
-                  //   gg.add(SetArabic(context));
-                  // }
-                  await Future.delayed(const Duration(milliseconds: 300));
-                  // getIt<NewCategoryCubit>().loadAllCategories();
-                  Navigator.of(context, rootNavigator: true).pop();
-                },
-                onPressedBtn2: () async {
-                  // if (bloc == 'ar') {
-                  // gg.add(SetArabic(context));
-                  // } else {
-                  //   gg.add(SetEnglish(context));
-                  // }
-                  await Future.delayed(const Duration(milliseconds: 300));
-                  // getIt<NewCategoryCubit>().loadAllCategories();
-                  Navigator.of(context, rootNavigator: true).pop();
-                },
-              ),
-          title: "language".tr(),
-          trailing: () {
-            // final state = gg.state;
-            // return state.when(
-            //   initial: () => bloc != 'ar' ? 'العربية' : 'English',
-            //   fetched: (locale) =>
-            //       locale.languageCode != 'ar' ? 'العربية' : 'English',
-            // );
-          }(),
-          iconPath: Iconsax.translate,
-          isGlobalSection: true,
-          isDarkThemeButton: false,
-        ),
-      ],
-    );
+    return SectionComponentsWidget(lenght: 1, items: [faceIdWidget(context)]);
   }
 
   Widget _buildPrivacySettingsSection(BuildContext context) {
@@ -150,6 +92,7 @@ class ProfileUserWidget extends StatelessWidget {
           openDialog(
             context: context,
             title: 'logOut_need'.tr(),
+
             onPressedBtn2: () async {
               await getIt<AppStateModel>().logout();
               getIt<AuthCubit>().submitLogout();

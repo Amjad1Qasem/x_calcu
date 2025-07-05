@@ -19,6 +19,7 @@ class AppButton extends StatelessWidget {
     this.raduis = 38,
     this.loading = false,
     this.gradient,
+    this.isCustomRadius,
     this.textStyle,
     this.icon,
     this.isBorder = false,
@@ -37,6 +38,7 @@ class AppButton extends StatelessWidget {
   final double? width;
   final double? height;
   final double? raduis;
+  final bool? isCustomRadius;
   final TextStyle? textStyle;
   final bool isBorder;
   final IconData? icon;
@@ -71,7 +73,15 @@ class AppButton extends StatelessWidget {
                         ? Utils(context).lightGray
                         : color ?? Utils(context).primary
                     : Colors.transparent,
-            borderRadius: BorderRadius.circular(raduis!),
+            borderRadius:
+                isCustomRadius == null
+                    ? BorderRadius.circular(raduis!)
+                    : BorderRadius.only(
+                      topLeft: Radius.circular(0),
+                      topRight: Radius.circular(0),
+                      bottomLeft: Radius.circular(raduis!),
+                      bottomRight: Radius.circular(raduis!),
+                    ),
           ),
           child: Center(
             child:

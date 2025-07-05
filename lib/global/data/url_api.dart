@@ -6,4 +6,7 @@ class UrlApi {
 
   static String systemSetting = '/system-setting';
   static String infoUser = '/user-info';
+  static String getPartnerts = '/getPartnerts';
+  static String getPartner(id) => '/getPartner/$id';
+  static String addPartner = '/Partner';
 }

@@ -17,7 +17,7 @@ class SectionComponentsWidget extends StatelessWidget {
     this.sectionColor,
   });
 
-  final List<SectionItemWidget> items;
+  final List<Widget> items;
   final int lenght;
   final Color? sectionColor;
 

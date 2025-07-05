@@ -1,11 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:x_calcu/features/companies/presentation/widget/company_form_widget.dart';
+import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
-import 'package:x_calcu/global/design/common_sizes.dart';
-import 'package:x_calcu/global/design/themes/themes.dart';
-import 'package:x_calcu/global/utils/constant/app_images.dart';
 
 class CompaniesScreen extends StatelessWidget {
   const CompaniesScreen({super.key});
@@ -14,21 +11,14 @@ class CompaniesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skaffold(
       isAppBarNull: false,
-      isBack: false,
-      title: 'companies'.tr(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'no_notifications'.tr(),
-              style: Utils(context).blackBigText.copyWith(
-                color: Utils(context).primary,
-                fontSize: 19.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+      isBack: true,
+      title: 'add_partner'.tr(),
+
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [CompanyFormWidget(), AppButton(label: 'add'.tr())],
+          ),
         ),
       ),
     );

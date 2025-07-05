@@ -98,7 +98,10 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> sortOptions = ['name_a_to_z'.tr(), 'name_z_to_a'];
+    List<String> sortOptions = [
+      'from_newest_to_oldest'.tr(),
+      'from_oldest_to_newest'.tr(),
+    ];
     return BlocBuilder<HomeCubit, HomeState>(
       bloc: getIt<HomeCubit>(),
       buildWhen: (_, __) => true,
@@ -127,7 +130,7 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Iconsax.gps_copy, size: 21.sp),
+                  Icon(Iconsax.sort_copy, size: 21.sp),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 10.sp),
                     width: 1,
@@ -137,7 +140,7 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       showFilterBottomSheet(
-                        height: 200,
+                        height: 800,
                         context,
                         sortOptions,
                         selectedSortOption,
@@ -147,7 +150,7 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
                         },
                       );
                     },
-                    child: Icon(Iconsax.sort_copy, size: 21.sp),
+                    child: Icon(Iconsax.calendar_1_copy, size: 21.sp),
                   ),
                 ],
               ),

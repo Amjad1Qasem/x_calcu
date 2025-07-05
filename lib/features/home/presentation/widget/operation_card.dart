@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:x_calcu/global/components/x_calc/bbs_card.dart';
+import 'package:x_calcu/global/components/x_calc/x_cal_card.dart';
 import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/x_calc/operation_type.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
@@ -9,7 +9,8 @@ import 'package:x_calcu/global/design/themes/themes.dart';
 
 // Operation Card Widget
 class OperationCard extends StatelessWidget {
-  const OperationCard({super.key});
+  const OperationCard({super.key,required this.onTap});
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class OperationCard extends StatelessWidget {
             nameAnDate(context),
             CommonSizes.vPluSmallerSpace,
             AppButton(
-              onTap: () {},
+              onTap: onTap,
               label: 'Show details',
               icon: Iconsax.eye_copy,
               padding: EdgeInsets.zero,

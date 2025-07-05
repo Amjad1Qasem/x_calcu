@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:x_calcu/features/home/presentation/screen/home_screen.dart';
 import 'package:x_calcu/features/companies/presentation/screen/companies_screen.dart';
 import 'package:x_calcu/features/notification/presentation/screen/notification_screen.dart';
+import 'package:x_calcu/features/operations/presentation/screen/add_operations_screen.dart';
 import 'package:x_calcu/features/partners/presentation/screen/partners_screen.dart';
 import 'package:x_calcu/features/setting/presentation/screen/setting_screen.dart';
 import 'package:x_calcu/global/components/bottom_dialog/bottom_dialog_manager.dart';
@@ -118,12 +119,12 @@ class _MainLayoutState extends State<MainLayout> {
 }
 
 List<Widget> _buildScreens() {
-  return const [
+  return [
     CustomTabScreenWrapper(
       child: Padding(padding: EdgeInsets.only(bottom: 90), child: HomeScreen()),
     ),
     CustomTabScreenWrapper(child: NotificationScreen()),
-    CustomTabScreenWrapper(child: CompaniesScreen()),
+    CustomTabScreenWrapper(child: AddOperationsScreen(isFromPartner: false)),
     CustomTabScreenWrapper(child: PartnersScreen()),
     CustomTabScreenWrapper(child: SettingScreen()),
   ];

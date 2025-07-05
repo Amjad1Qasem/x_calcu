@@ -45,6 +45,7 @@ abstract class AppImages {
   static const settingUnActiveIcon =
       '$_svgIconsPath/setting_un_active_icon.svg';
   static const settingActiveIcon = '$_svgIconsPath/setting_active_icon.svg';
+  static const trashIcon = '$_svgIconsPath/trash.svg';
   // static const logoIcon = '$_svgIconsPath/logo_icon.svg';
   // static const favoriteActiveIcon = '$_svgIconsPath/favorite_active _icon.svg';
   // static const settingActiveIcon = '$_svgIconsPath/setting-active-icon.svg';
