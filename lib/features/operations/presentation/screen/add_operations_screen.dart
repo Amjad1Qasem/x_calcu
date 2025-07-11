@@ -1,9 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_calcu/features/operations/presentation/widget/add_operations_btn_widget.dart';
 import 'package:x_calcu/features/operations/presentation/widget/operations_fields_widget.dart';
-import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
@@ -43,7 +45,7 @@ class AddOperationsScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             OperationsFieldsWidget(isFromPartner: false, isReadOnly: false),
-            AppButton(label: 'add'.tr()),
+            AddOperationsBtnWidget(),
             CommonSizes.vLargerSpace,
           ],
         ),

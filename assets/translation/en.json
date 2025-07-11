@@ -80,7 +80,6 @@
   "home":"Home",
   "notification": "Notifications",
   "setting": "Settings",
-  "face_id": "Face ID",
   "home_screen":"Home",
   "search_processes":"Search the processes",
   "input":"Input",
@@ -100,10 +99,7 @@
   "privacy_and_security": "Privacy and Security",
   "help_and_support": "Help and Support",
   "companies": "Companies" ,
-  "do_want_activate_face":"Do you want to activate face print?",
   "cansel":"Cancel",
-  "active":"Active",
-  "not_activated":"Not Activated",
   "client_name": "Client Name",
   "customer_name": "Customer Name",
   "operation_type": "Operation Type",
@@ -123,7 +119,22 @@
   "add": "Add",
   "partner_name": "Partner Name",
   "partner_number": "Partner Number",
-  "partner_email": "Partner Email"
+  "partner_email": "Partner Email",
+  "face_id": "Face ID",
+  "do_want_activate_face": "Do you want to activate Face ID?",
+  "do_you_want_disable_face": "Do you want to disable Face ID?",
+  "active": "Activate",
+  "disable": "Disable",
+  "cancel": "Cancel",
+  "not_activated": "Not Activated",
+  "activated": "Activated",
+  "alert_title": "Alert 🔔",
+    "error_past_time": "Cannot select a past time",
+    "confirm": "OK",
+    "unknown_client": "Unknown Client",
+    "notification_title": "Payment Due Reminder 💰",
+    "notification_body": "Today you should collect a payment from client: {clientName}",
+    "error_reminder_setup": "An error occurred while setting the reminder"
 
 
 

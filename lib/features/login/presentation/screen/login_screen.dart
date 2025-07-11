@@ -4,8 +4,10 @@ import 'package:x_calcu/features/login/presentation/widget/login_button.dart';
 import 'package:x_calcu/features/login/presentation/widget/login_form.dart';
 import 'package:x_calcu/features/login/presentation/widget/logo_avatar.dart';
 import 'package:x_calcu/features/login/presentation/widget/skip_text.dart';
+import 'package:x_calcu/features/startup/bloc/biometric_auth/biometric_auth_cubit.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
+import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -60,10 +62,17 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 children: [
                   LoginForm(formKey: loginForm, onFieldChanged: onFieldChanged),
+
+                  TextButton(
+                    onPressed:
+                        () => getIt<BiometricAuthCubit>().authenticateUser(),
+                    child: Text("Login with Face ID"),
+                  ),
                   CommonSizes.vBiggestSpace,
                   LoginButton(formKey: loginForm, isFormValid: isFormValid),
                   CommonSizes.vSmallSpace,
                   const ClickTextRegister(),
+                  CommonSizes.vSmallSpace,
                 ],
               ),
             ],

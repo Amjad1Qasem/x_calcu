@@ -12,6 +12,7 @@ import 'package:x_calcu/features/partners/cubit/add_partner/add_partner_cubit.da
 import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
 import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
 import 'package:x_calcu/features/setting/cubit/setting_cubit.dart';
+import 'package:x_calcu/features/startup/bloc/biometric_auth/biometric_auth_cubit.dart';
 import 'package:x_calcu/features/startup/bloc/startup/startup_cubit.dart';
 import 'package:x_calcu/features/startup/bloc/system_setting/system_setting_cubit.dart';
 import 'package:x_calcu/features/startup/data/startup_repo.dart';
@@ -41,6 +42,7 @@ void dependencyInjectionSetup() {
 
   /// Blocs
   getIt.registerLazySingleton<ThemeBloc>(() => ThemeBloc());
+  getIt.registerLazySingleton<BiometricAuthCubit>(() => BiometricAuthCubit());
   getIt.registerLazySingleton<LocalizationBloc>(() => LocalizationBloc());
   getIt.registerLazySingleton<StartupCubit>(
     () => StartupCubit(getIt<StartUpRepo>()),

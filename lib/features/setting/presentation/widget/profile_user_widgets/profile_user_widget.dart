@@ -89,11 +89,16 @@ class ProfileUserWidget extends StatelessWidget {
       },
       child: AppButton(
         onTap: () async {
-          openDialog(
+          await openDialog(
             context: context,
             title: 'logOut_need'.tr(),
-
-            onPressedBtn2: () async {
+            message: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+            icon: Icons.logout,
+            iconColor: Colors.red,
+            iconBackgroundColor: Colors.red.withValues(alpha: 0.1),
+            confirmText: "yes".tr(),
+            cancelText: "no".tr(),
+            onConfirm: () async {
               await getIt<AppStateModel>().logout();
               getIt<AuthCubit>().submitLogout();
             },

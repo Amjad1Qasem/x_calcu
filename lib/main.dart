@@ -4,16 +4,22 @@ import 'package:easy_logger/src/logger.dart' as level;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/shared_prefs.dart';
 import 'package:x_calcu/my_app.dart';
+import 'package:x_calcu/notification_service.dart';
 
 import 'global/networking/dio_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initFunction();
+  tz.initializeTimeZones();
+
+  await NotificationService.init();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) => runApp(
       DevicePreview(

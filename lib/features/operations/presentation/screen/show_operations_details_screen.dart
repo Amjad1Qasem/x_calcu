@@ -34,7 +34,7 @@ class _ShowOperationsDetailsScreenState
       actions: [
         GestureDetector(
           onTap: () {
-            context.push(RouterPath.addPartnerScreen);
+            context.push(RouterPath.addOperationsScreen, extra: false);
           },
           child: Padding(
             padding: EdgeInsetsDirectional.only(end: 12.sp),

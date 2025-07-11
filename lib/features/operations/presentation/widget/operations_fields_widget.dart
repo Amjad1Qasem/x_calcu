@@ -5,6 +5,7 @@ import 'package:x_calcu/features/operations/cubit/operations/operations_cubit.da
 import 'package:x_calcu/features/operations/data/operations_model.dart';
 import 'package:x_calcu/features/operations/presentation/widget/build_date_picker_field.dart';
 import 'package:x_calcu/features/operations/presentation/widget/build_dynamic_field.dart';
+import 'package:x_calcu/features/operations/presentation/widget/build_reminder_date_picker_field.dart';
 import 'package:x_calcu/features/operations/presentation/widget/items_drop_down_menu.dart';
 import 'package:x_calcu/features/operations/presentation/widget/percentage_calculation_widget%20.dart';
 import 'package:x_calcu/global/components/form_label_widget.dart';
@@ -36,7 +37,6 @@ class OperationsFieldsWidget extends StatelessWidget {
         return Form(
           key: cubit.addOperationsKey,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               if (!isFromPartner)
                 ItemsDropDownMenu(
@@ -141,12 +141,12 @@ class OperationsFieldsWidget extends StatelessWidget {
               ),
 
               FormLabelWidget(label: "reminder_date"),
-              buildDatePickerField(
+              buildReminderDatePickerField(
+                customerController: cubit.customerController,
                 context: context,
-                controller: cubit.reminderDateController,
+                reminderController: cubit.reminderDateController,
                 isReadOnly: isReadOnly,
               ),
-
               FormLabelWidget(label: "notes"),
               TextFieldApp(
                 hintText: '',

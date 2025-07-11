@@ -27,10 +27,13 @@ abstract class AppThemes {
     selectedColor: ColorManager.greenlight,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: ColorManager.backgroundColor,
-      systemNavigationBarColor: ColorManager.primaryColor,
+      // systemNavigationBarColor: ColorManager.primaryColor,
+      // systemNavigationBarIconBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarIconBrightness: Brightness.dark,
       statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.white, // خلفية الشريط أبيض
+      systemNavigationBarIconBrightness:
+          Brightness.dark, // أيقونات الشريط باللون الأسود
     ),
 
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(

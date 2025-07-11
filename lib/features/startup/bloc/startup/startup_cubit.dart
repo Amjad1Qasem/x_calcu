@@ -17,32 +17,6 @@ class StartupCubit extends Cubit<StartupState> {
 
   StartupCubit(this._startUpRepo) : super(const StartupState.loading());
 
-  /// **Fetch onboarding data if not seen**
-  // Future<void> checkOnBoardingStatus() async {
-  //   emit(const StartupState.loading());
-  //   await Future.delayed(const Duration(milliseconds: 1500));
-  //   try {
-  //     final hasSeenOnboarding = await LocalStorageHelper.hasSeenOnboarding();
-  //     if (!hasSeenOnboarding) {
-  //       debugPrint('saleh !hasSeenOnboarding $hasSeenOnboarding');
-  //       var response = await _startUpRepo.getBoardingData();
-  //       response.when(
-  //         success: (data) {
-  //           // getIt<CountryCubit>().getCountryCode();
-  //           emit(StartupState.onboardingRequired());
-  //         },
-  //         failure: (error) {
-  //           emit(const StartupState.error());
-  //         },
-  //       );
-  //       return;
-  //     }
-  //     await checkAuthentication();
-  //   } catch (e) {
-  //     emit(const StartupState.error());
-  //   }
-  // }
-
   /// **Check if user is authenticated**
   Future<void> checkAuthentication() async {
     emit(const StartupState.loading());
@@ -113,20 +87,6 @@ class StartupCubit extends Cubit<StartupState> {
     await LocalStorageHelper.setOnBoardingState(true);
     await checkAuthentication();
   }
-
-  // Future<void> getOnBoardingData() async {
-  //   emit(const StartupState.loading());
-  //   var response = await _startUpRepo.getBoardingData();
-  //   response.when(
-  //     success: (data) {
-  //       // getIt<CountryCubit>().getCountryCode();
-  //       emit(StartupState.onboardingRequired());
-  //     },
-  //     failure: (error) {
-  //       emit(const StartupState.error());
-  //     },
-  //   );
-  // }
 
   /// **Logout user**
   Future<void> logout() async {

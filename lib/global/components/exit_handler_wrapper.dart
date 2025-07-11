@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
+import 'package:x_calcu/global/design/themes/themes.dart';
 
 class CustomTabScreenWrapper extends StatelessWidget {
   final Widget child;
@@ -12,21 +13,25 @@ class CustomTabScreenWrapper extends StatelessWidget {
 
   Future<bool> _showExitConfirmDialog(BuildContext context) async {
     final completer = Completer<bool>();
-    openDialog(
+    await openDialog(
       context: context,
       title: "exit_app".tr(),
-      textBtn1: "no".tr(),
-      textBtn2: "yes".tr(),
-      onPressedBtn1: () async {
+      message: 'هل تريد الخروج من التطبيق؟',
+      icon: Icons.exit_to_app,
+      iconColor: Utils(context).primary,
+      iconBackgroundColor: Utils(context).primary.withValues(alpha: 0.1),
+      confirmText: "yes".tr(),
+      cancelText: "no".tr(),
+      onConfirm: () async {
+        context.pop();
+        completer.complete(true);
+      },
+      onCancel: () async {
         await Navigator.of(context, rootNavigator: true).maybePop();
         completer.complete(false);
       },
-      onPressedBtn2: () async {
-        context.pop();
-        // await Navigator.of(context, rootNavigator: true).maybePop();
-        completer.complete(true);
-      },
     );
+
     return completer.future;
   }
 
