@@ -37,10 +37,11 @@ class _ExpandableWidgetState extends State<ExpandableWidget> {
               Row(
                 children: [
                   _buildToggleButton(
-                      widget.expandLabel,
-                      isArLocale
-                          ? Icons.keyboard_arrow_left
-                          : Icons.keyboard_arrow_right),
+                    widget.expandLabel,
+                    isArLocale
+                        ? Icons.keyboard_arrow_left
+                        : Icons.keyboard_arrow_right,
+                  ),
                 ],
               ),
             ],
@@ -84,13 +85,10 @@ class _ExpandableWidgetState extends State<ExpandableWidget> {
               margin: EdgeInsets.symmetric(horizontal: 5.sp),
               padding: EdgeInsets.all(1.sp),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Utils(context).secondaryBlue.withValues(alpha: 0.2)),
-              child: Icon(
-                icon,
-                color: Colors.blue,
-                size: 17.sp,
+                borderRadius: BorderRadius.circular(30),
+                color: Utils(context).secondTextColor.withValues(alpha: 0.2),
               ),
+              child: Icon(icon, color: Colors.blue, size: 17.sp),
             ),
           ],
         ),

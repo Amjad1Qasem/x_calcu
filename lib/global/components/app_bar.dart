@@ -24,14 +24,17 @@ class AppBarShredWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        actionsIconTheme:
-            IconThemeData(size: 24.sp, color: Utils(context).appBarIconsColor),
-        backgroundColor: Utils(context).backgroundColor,
-        surfaceTintColor: Utils(context).backgroundColor,
-        toolbarHeight: 50.h,
-        centerTitle: true,
-        leading: isBack == true
-            ? GestureDetector(
+      actionsIconTheme: IconThemeData(
+        size: 24.sp,
+        color: Utils(context).appBarIconsColor,
+      ),
+      backgroundColor: Utils(context).backgroundColor,
+      surfaceTintColor: Utils(context).backgroundColor,
+      toolbarHeight: 50.h,
+      centerTitle: true,
+      leading:
+          isBack == true
+              ? GestureDetector(
                 onTap: () => backClick ?? Navigator.pop(context),
                 child: Icon(
                   color: Utils(context).appBarIconsColor,
@@ -39,12 +42,13 @@ class AppBarShredWidget extends StatelessWidget implements PreferredSizeWidget {
                   size: 18.sp,
                 ),
               )
-            : leading,
-        title: Text(
-          title,
-          style: Utils(context).blueHeadlineText.copyWith(fontSize: 16.sp),
-        ),
-        actions: actions);
+              : leading,
+      title: Text(
+        title,
+        style: Utils(context).blueHeadlineText.copyWith(fontSize: 16.sp),
+      ),
+      actions: actions,
+    );
   }
 
   @override

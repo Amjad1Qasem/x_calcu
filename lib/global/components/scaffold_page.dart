@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/global/components/app_bar.dart';
@@ -38,22 +37,20 @@ class Skaffold extends StatelessWidget {
       backgroundColor: Utils(context).backgroundColor,
       floatingActionButton: floatingButton,
 
-      appBar: isAppBarNull == true
-          ? null
-          : appBar ??
-              AppBarShredWidget(
-                actions: actions,
-                isBack: isBack ?? true,
-                leading: leading,
-                title: title ?? '',
-              ),
+      appBar:
+          isAppBarNull == true
+              ? null
+              : appBar ??
+                  AppBarShredWidget(
+                    actions: actions,
+                    isBack: isBack ?? true,
+                    leading: leading,
+                    title: title ?? '',
+                  ),
       body: Padding(
-        padding: padding ??
-            EdgeInsetsDirectional.only(
-              start: 16.w,
-              end: 16.w,
-              top: 10.h,
-            ),
+        padding:
+            padding ??
+            EdgeInsetsDirectional.only(start: 16.w, end: 16.w, top: 10.h),
         child: body,
       ),
     );

@@ -1,4 +1,3 @@
-
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -31,23 +30,23 @@ class MyApp extends StatelessWidget {
           builder: (_, child) {
             return BlocBuilder<ThemeBloc, ThemeState>(
               bloc: getIt<ThemeBloc>(),
-              buildWhen: (previous, current) =>
-                  current is ThemeFetched, // Ensure rebuild
+              buildWhen:
+                  (previous, current) =>
+                      current is ThemeFetched, // Ensure rebuild
               builder: (context, state) {
                 final themeMode =
                     state is ThemeFetched ? state.themeMode : ThemeMode.light;
-                final themeData = themeMode == ThemeMode.dark
-                    ? AppThemes.dark
-                    : AppThemes.light;
+                final themeData =
+                    themeMode == ThemeMode.dark
+                        ? AppThemes.dark
+                        : AppThemes.light;
                 return MaterialApp.router(
                   builder: (context, child) {
                     return DevicePreview.appBuilder(context, child);
                     // final appBuilder = DevicePreview.appBuilder(context, child);
                     // return DeepLinkListener(child: appBuilder);
                   },
-                  localizationsDelegates: [
-                    ...context.localizationDelegates,
-                  ],
+                  localizationsDelegates: [...context.localizationDelegates],
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
                   debugShowCheckedModeBanner: false,

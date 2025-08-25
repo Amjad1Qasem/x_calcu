@@ -1,4 +1,7 @@
 class MyKeys {
+
+  static const String biometricEnabled = 'biometric_enabled';
+
   static String get locale => 'locale';
 
   static String get theme => 'theme';

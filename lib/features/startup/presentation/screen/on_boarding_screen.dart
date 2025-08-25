@@ -6,16 +6,14 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:x_calcu/features/startup/bloc/startup/startup_cubit.dart';
 import 'package:x_calcu/features/startup/data/boarding_model.dart';
 import 'package:x_calcu/global/components/app_button.dart';
-import 'package:x_calcu/global/components/bottom_dialog/show_language_bottom_sheet.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/custom_utils/image_utils.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/router/router_path.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
-
-  // final List<Boarding> boardingData;
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
@@ -61,6 +59,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 80.w,
+        /*
         leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 8.sp),
           child: GestureDetector(
@@ -73,6 +72,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
           ),
         ),
+       */
         actions: [
           Padding(
             padding: EdgeInsetsDirectional.only(end: 14.sp),
@@ -81,9 +81,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               //  context.push(RouterPath.mainLayoutPage),
               child: Text(
                 'skip'.tr(),
-                style: Utils(context).blueClickbleText.copyWith(
-                  decoration: TextDecoration.underline,
-                ),
+                style: Utils(
+                  context,
+                ).clickbleText.copyWith(decoration: TextDecoration.underline),
               ),
             ),
           ),
@@ -97,12 +97,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               controller: _imageController,
               itemCount: boardingData.length,
               onPageChanged: _onPageChanged,
-              physics: const NeverScrollableScrollPhysics(),
-              // Prevent manual scrolling
               itemBuilder:
-                  (_, index) => ImageUtils(
-                    imageUrl: boardingData[index].image ?? '',
-                    fit: BoxFit.contain,
+                  (_, index) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 40),
+                    child: ImageUtils(
+                      imageUrl: boardingData[index].image ?? '',
+                      fit: BoxFit.contain,
+                      // scale: 4,
+                    ),
                   ),
             ),
           ),
@@ -111,8 +113,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             child: SmoothPageIndicator(
               effect: const ExpandingDotsEffect(
                 dotHeight: 6.0,
-                activeDotColor: Colors.yellow,
-                dotColor: Colors.grey,
+                activeDotColor: Color(0xfffdc500),
+                dotColor: Color(0xffd4d4d4),
               ),
               controller: _imageController,
               // Use image controller for indicator
@@ -138,13 +140,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                boardingData[index].title ?? '',
+                                boardingData[index].title?.tr() ?? '',
                                 textAlign: TextAlign.center,
                                 style: Utils(context).blackBigText,
                               ),
                               CommonSizes.vSmallestSpace,
                               Text(
-                                boardingData[index].description ?? '',
+                                boardingData[index].description?.tr() ?? '',
                                 textAlign: TextAlign.center,
                                 style: Utils(
                                   context,
@@ -178,7 +180,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         onTap: () {
           if (isLastPage) {
             getIt<StartupCubit>().completeOnBoarding();
-            context.push("/login");
+            context.push(RouterPath.loginScreen);
           } else {
             // Programmatically move both page controllers
             _imageController.nextPage(
