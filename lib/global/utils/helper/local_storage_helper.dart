@@ -9,6 +9,16 @@ import 'package:x_calcu/global/utils/helper/shared_prefs.dart';
 import 'package:x_calcu/global/utils/keys/forms_keys.dart';
 
 abstract class LocalStorageHelper {
+  /// Save Face ID state
+  static Future<void> setBiometricEnabled(bool enabled) async {
+    await Prefs.instance?.setBool(MyKeys.biometricEnabled, enabled);
+  }
+
+  /// Get Face ID state
+  static Future<bool> isBiometricEnabled() async {
+    return Prefs.instance?.getBool(MyKeys.biometricEnabled) ?? false;
+  }
+
   /// **Save Language**
   static Future<void> setLocale(Locale locale) async {
     await Prefs.instance?.setString(MyKeys.locale, locale.languageCode);
@@ -99,6 +109,4 @@ abstract class LocalStorageHelper {
     debugPrint('clearOnBoardingState');
     await Prefs.instance?.remove(MyKeys.firstOpenApp);
   }
-
-
 }

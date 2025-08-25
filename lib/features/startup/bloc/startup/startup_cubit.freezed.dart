@@ -25,7 +25,6 @@ mixin _$StartupState {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36,7 +35,6 @@ mixin _$StartupState {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,7 +45,6 @@ mixin _$StartupState {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -59,7 +56,6 @@ mixin _$StartupState {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -70,7 +66,6 @@ mixin _$StartupState {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -81,7 +76,6 @@ mixin _$StartupState {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -158,7 +152,6 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) {
     return loading();
@@ -173,7 +166,6 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) {
     return loading?.call();
@@ -188,7 +180,6 @@ class _$LoadingImpl implements _Loading {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -207,7 +198,6 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) {
     return loading(this);
@@ -222,7 +212,6 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
@@ -237,7 +226,6 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -301,7 +289,6 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) {
     return onboardingRequired();
@@ -316,7 +303,6 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) {
     return onboardingRequired?.call();
@@ -331,7 +317,6 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -350,7 +335,6 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) {
     return onboardingRequired(this);
@@ -365,7 +349,6 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) {
     return onboardingRequired?.call(this);
@@ -380,7 +363,6 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -444,7 +426,6 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) {
     return unauthenticated();
@@ -459,7 +440,6 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) {
     return unauthenticated?.call();
@@ -474,7 +454,6 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -493,7 +472,6 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) {
     return unauthenticated(this);
@@ -508,7 +486,6 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) {
     return unauthenticated?.call(this);
@@ -523,7 +500,6 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -627,7 +603,6 @@ class _$SuccessImpl implements _Success {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) {
     return success(accountDetails);
@@ -642,7 +617,6 @@ class _$SuccessImpl implements _Success {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) {
     return success?.call(accountDetails);
@@ -657,7 +631,6 @@ class _$SuccessImpl implements _Success {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -676,7 +649,6 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) {
     return success(this);
@@ -691,7 +663,6 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) {
     return success?.call(this);
@@ -706,7 +677,6 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -818,7 +788,6 @@ class _$SuspendedImpl implements _Suspended {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) {
     return suspended(accountDetails);
@@ -833,7 +802,6 @@ class _$SuspendedImpl implements _Suspended {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) {
     return suspended?.call(accountDetails);
@@ -848,7 +816,6 @@ class _$SuspendedImpl implements _Suspended {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -867,7 +834,6 @@ class _$SuspendedImpl implements _Suspended {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) {
     return suspended(this);
@@ -882,7 +848,6 @@ class _$SuspendedImpl implements _Suspended {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) {
     return suspended?.call(this);
@@ -897,7 +862,6 @@ class _$SuspendedImpl implements _Suspended {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -1009,7 +973,6 @@ class _$BannedImpl implements _Banned {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) {
     return banned(accountDetails);
@@ -1024,7 +987,6 @@ class _$BannedImpl implements _Banned {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) {
     return banned?.call(accountDetails);
@@ -1039,7 +1001,6 @@ class _$BannedImpl implements _Banned {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -1058,7 +1019,6 @@ class _$BannedImpl implements _Banned {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) {
     return banned(this);
@@ -1073,7 +1033,6 @@ class _$BannedImpl implements _Banned {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) {
     return banned?.call(this);
@@ -1088,7 +1047,6 @@ class _$BannedImpl implements _Banned {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
@@ -1108,197 +1066,6 @@ abstract class _Banned implements StartupState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BannedImplCopyWith<_$BannedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$UncertainImplCopyWith<$Res> {
-  factory _$$UncertainImplCopyWith(
-    _$UncertainImpl value,
-    $Res Function(_$UncertainImpl) then,
-  ) = __$$UncertainImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({AuthModel accountDetails});
-
-  $AuthModelCopyWith<$Res> get accountDetails;
-}
-
-/// @nodoc
-class __$$UncertainImplCopyWithImpl<$Res>
-    extends _$StartupStateCopyWithImpl<$Res, _$UncertainImpl>
-    implements _$$UncertainImplCopyWith<$Res> {
-  __$$UncertainImplCopyWithImpl(
-    _$UncertainImpl _value,
-    $Res Function(_$UncertainImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of StartupState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? accountDetails = null}) {
-    return _then(
-      _$UncertainImpl(
-        null == accountDetails
-            ? _value.accountDetails
-            : accountDetails // ignore: cast_nullable_to_non_nullable
-                as AuthModel,
-      ),
-    );
-  }
-
-  /// Create a copy of StartupState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AuthModelCopyWith<$Res> get accountDetails {
-    return $AuthModelCopyWith<$Res>(_value.accountDetails, (value) {
-      return _then(_value.copyWith(accountDetails: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$UncertainImpl implements _Uncertain {
-  const _$UncertainImpl(this.accountDetails);
-
-  @override
-  final AuthModel accountDetails;
-
-  @override
-  String toString() {
-    return 'StartupState.uncertain(accountDetails: $accountDetails)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UncertainImpl &&
-            (identical(other.accountDetails, accountDetails) ||
-                other.accountDetails == accountDetails));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, accountDetails);
-
-  /// Create a copy of StartupState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UncertainImplCopyWith<_$UncertainImpl> get copyWith =>
-      __$$UncertainImplCopyWithImpl<_$UncertainImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function() onboardingRequired,
-    required TResult Function() unauthenticated,
-    required TResult Function(AuthModel accountDetails) success,
-    required TResult Function(AuthModel accountDetails) suspended,
-    required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
-    required TResult Function() error,
-  }) {
-    return uncertain(accountDetails);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function()? onboardingRequired,
-    TResult? Function()? unauthenticated,
-    TResult? Function(AuthModel accountDetails)? success,
-    TResult? Function(AuthModel accountDetails)? suspended,
-    TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
-    TResult? Function()? error,
-  }) {
-    return uncertain?.call(accountDetails);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function()? onboardingRequired,
-    TResult Function()? unauthenticated,
-    TResult Function(AuthModel accountDetails)? success,
-    TResult Function(AuthModel accountDetails)? suspended,
-    TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
-    TResult Function()? error,
-    required TResult orElse(),
-  }) {
-    if (uncertain != null) {
-      return uncertain(accountDetails);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_OnboardingRequired value) onboardingRequired,
-    required TResult Function(_Unauthenticated value) unauthenticated,
-    required TResult Function(_Success value) success,
-    required TResult Function(_Suspended value) suspended,
-    required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
-    required TResult Function(_Error value) error,
-  }) {
-    return uncertain(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_OnboardingRequired value)? onboardingRequired,
-    TResult? Function(_Unauthenticated value)? unauthenticated,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_Suspended value)? suspended,
-    TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
-    TResult? Function(_Error value)? error,
-  }) {
-    return uncertain?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_OnboardingRequired value)? onboardingRequired,
-    TResult Function(_Unauthenticated value)? unauthenticated,
-    TResult Function(_Success value)? success,
-    TResult Function(_Suspended value)? suspended,
-    TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (uncertain != null) {
-      return uncertain(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Uncertain implements StartupState {
-  const factory _Uncertain(final AuthModel accountDetails) = _$UncertainImpl;
-
-  AuthModel get accountDetails;
-
-  /// Create a copy of StartupState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UncertainImplCopyWith<_$UncertainImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1351,7 +1118,6 @@ class _$ErrorImpl implements _Error {
     required TResult Function(AuthModel accountDetails) success,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(AuthModel accountDetails) uncertain,
     required TResult Function() error,
   }) {
     return error();
@@ -1366,7 +1132,6 @@ class _$ErrorImpl implements _Error {
     TResult? Function(AuthModel accountDetails)? success,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(AuthModel accountDetails)? uncertain,
     TResult? Function()? error,
   }) {
     return error?.call();
@@ -1381,7 +1146,6 @@ class _$ErrorImpl implements _Error {
     TResult Function(AuthModel accountDetails)? success,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(AuthModel accountDetails)? uncertain,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -1400,7 +1164,6 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Success value) success,
     required TResult Function(_Suspended value) suspended,
     required TResult Function(_Banned value) banned,
-    required TResult Function(_Uncertain value) uncertain,
     required TResult Function(_Error value) error,
   }) {
     return error(this);
@@ -1415,7 +1178,6 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Success value)? success,
     TResult? Function(_Suspended value)? suspended,
     TResult? Function(_Banned value)? banned,
-    TResult? Function(_Uncertain value)? uncertain,
     TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
@@ -1430,7 +1192,6 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Success value)? success,
     TResult Function(_Suspended value)? suspended,
     TResult Function(_Banned value)? banned,
-    TResult Function(_Uncertain value)? uncertain,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {

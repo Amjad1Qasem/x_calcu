@@ -1,13 +1,12 @@
 // main
 class UrlApi {
   // auth & boarding
-  static String baseUrl = 'https://bluebuysale.com/api';
-  static String login = '/login';
-  static String boarding = '/on-boarding';
+  static String baseUrl = 'https://x-calcu.test/api';
+  static String login = '/auth/login';
 
   static String systemSetting = '/system-setting';
-    static String infoUser = '/user-info';
-
-
-
+  static String infoUser = '/user-info';
+  static String getPartnerts = '/getPartnerts';
+  static String getPartner(id) => '/getPartner/$id';
+  static String addPartner = '/Partner';
 }

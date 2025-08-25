@@ -1,12 +1,12 @@
 flutter_native_splash:
 
-  color: "#ffffff"
-  image: assets/images/app_logo.png
+  color: "#f3f4f6"
+  image: assets/images/boarding_logo.png
   # background_image: assets/images/bg_splash.png
 
 
-  color_dark: "#272727"
-  image_dark: assets/images/app_logo_dark.png
+  # color_dark: "#272727"
+  # image_dark: assets/images/app_logo_dark.png
 
 
   # branding: assets/images/Docdoc.png
@@ -25,8 +25,8 @@ flutter_native_splash:
   # Please visit https://developer.android.com/guide/topics/ui/splash-screen
   # Following are specific parameters for Android 12+.
   android_12:
-    color: "#ffffff"
-    image: assets/images/app_logo.png
-    color_dark: "#272727"
-    image_dark: assets/images/app_logo_dark.png
+    color: "#f3f4f6"
+    image: assets/images/boarding_logo.png
+    # color_dark: "#272727"
+    # image_dark: assets/images/app_logo_dark.png
     

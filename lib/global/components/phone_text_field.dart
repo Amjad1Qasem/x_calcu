@@ -1,5 +1,3 @@
-
-
 // import 'dart:ui' as ui;
 // import 'package:easy_localization/easy_localization.dart';
 // import 'package:flutter/material.dart';
@@ -88,7 +86,7 @@
 //   Widget build(BuildContext context) {
 //     final bool rtl = getIt<AppStateModel>().rtl;
 //     final String? errorTextBloc =
-//         getIt<AuthBloc>().validationErrors["phone_number"]?.first;
+//         getIt<AuthCubit>().validationErrors["phone_number"]?.first;
 
 //     return Directionality(
 //       textDirection: ui.TextDirection.ltr,

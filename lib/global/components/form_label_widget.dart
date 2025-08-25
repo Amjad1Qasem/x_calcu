@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,26 +23,26 @@ class FormLabelWidget extends StatelessWidget {
       children: [
         icon != null
             ? Padding(
-                padding: EdgeInsets.only(right: 4.w),
-                child: Image.asset(
-                  icon!,
-                  height: 20.sp,
-                ),
-              )
+              padding: EdgeInsets.only(right: 4.w),
+              child: Image.asset(icon!, height: 20.sp),
+            )
             : CommonSizes.shrink,
         Text(
           label.tr(),
-          style: Utils(context)
-              .primaryText
-              .copyWith(color: Utils(context).primary, fontSize: 16.sp),
+          style: Utils(context).primaryText.copyWith(
+            color: Utils(context).secondTextColor,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w600,
+          ),
         ),
+        CommonSizes.hTheSmallestSpace,
         Visibility(
           visible: required == true,
           child: Text(
             '*',
-            style: Utils(context)
-                .blueHeadlineText
-                .copyWith(color: ColorManager.red),
+            style: Utils(
+              context,
+            ).blueHeadlineText.copyWith(color: ColorManager.red),
           ),
         ),
       ],

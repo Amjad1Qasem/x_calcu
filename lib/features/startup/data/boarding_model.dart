@@ -18,34 +18,20 @@ class Boarding with _$Boarding {
       _$BoardingFromJson(json);
 }
 
-// class UnbordingContent {
-//   String? image;
-//   String? title;
-//   String? body;
-
-//   UnbordingContent({this.image, this.title, this.body});
-// }
-
 List<Boarding> boardingData = [
   Boarding(
-    title: "أعلن لدينا، وتميز عن الجميع",
-    description:
-        """لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
-أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد""",
+    title: "boarding_title_1",
+    description: "boarding_description_1",
     image: AppImages.firstBoarding,
   ),
   Boarding(
-    title: "اكتشف. تواصل. اشتري!",
-    description:
-        """لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
-أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد""",
+    title: "boarding_title_2",
+    description: "boarding_description_2",
     image: AppImages.secondBoarding,
   ),
   Boarding(
-    title: "احصل على نقاط وهدايا",
-    description:
-        """لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور
-أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد""",
+    title: "boarding_title_3",
+    description: "boarding_description_3",
     image: AppImages.thirdBoarding,
   ),
 ];

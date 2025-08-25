@@ -11,7 +11,7 @@ Widget loadingAppWidget({Color? color}) {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
         child: CircularProgressIndicator(
-          color: color ?? ColorManager.yellow,
+          color: color ?? ColorManager.secondaryColor,
         ),
       ),
     ),
