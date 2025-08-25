@@ -1,7 +1,8 @@
 // main
 class UrlApi {
   // auth & boarding
-  static String baseUrl = 'https://x-calcu.test/api';
+  static String baseUrl = 'https://api.x-secure.gmbh/api';
+
   static String login = '/auth/login';
 
   static String systemSetting = '/system-setting';

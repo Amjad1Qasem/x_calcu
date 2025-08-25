@@ -9,41 +9,53 @@ import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/shared_prefs.dart';
 import 'package:x_calcu/my_app.dart';
-import 'package:x_calcu/notification_service.dart';
-
 import 'global/networking/dio_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initFunction();
+
+  // initialize timezones
   tz.initializeTimeZones();
 
-  await NotificationService.init();
+  // await init services before runApp
+  await initFunction();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (value) => runApp(
-      DevicePreview(
-        enabled: kDebugMode,
-        builder:
-            (context) => EasyLocalization(
-              supportedLocales: const [Locale('en'), Locale('ar')],
-              path: 'assets/translation',
-              startLocale: const Locale('en'),
-              saveLocale: true,
-              assetLoader: const RootBundleAssetLoader(),
-              child: const MyApp(),
-            ),
-      ),
+  // lock orientation
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  runApp(
+    DevicePreview(
+      enabled: kDebugMode,
+      builder:
+          (context) => EasyLocalization(
+            supportedLocales: const [Locale('en'), Locale('ar')],
+            path: 'assets/translation',
+            startLocale: const Locale('en'),
+            saveLocale: true,
+            assetLoader: const RootBundleAssetLoader(),
+            child: const MyApp(),
+          ),
     ),
   );
 }
 
 Future<void> initFunction() async {
+  // dependency injection setup
   dependencyInjectionSetup();
+
+  // EasyLocalization init
   await EasyLocalization.ensureInitialized();
+
+  // network + shared prefs + app state
   await DioHelper.init();
   await Prefs.init();
   await getIt<AppStateModel>().init();
 
-  EasyLocalization.logger.enableLevels = [level.EasyLogger().enableLevels[3]];
+  // optional: enable EasyLogger for debug
+  if (kDebugMode) {
+    EasyLocalization.logger.enableLevels = [
+      // enables only errors + warnings
+      level.EasyLogger().enableLevels[1], // adjust level if needed
+    ];
+  }
 }

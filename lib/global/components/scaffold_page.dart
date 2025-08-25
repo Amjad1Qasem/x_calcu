@@ -33,25 +33,27 @@ class Skaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Utils(context).backgroundColor,
-      floatingActionButton: floatingButton,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Utils(context).backgroundColor,
+        floatingActionButton: floatingButton,
 
-      appBar:
-          isAppBarNull == true
-              ? null
-              : appBar ??
-                  AppBarShredWidget(
-                    actions: actions,
-                    isBack: isBack ?? true,
-                    leading: leading,
-                    title: title ?? '',
-                  ),
-      body: Padding(
-        padding:
-            padding ??
-            EdgeInsetsDirectional.only(start: 16.w, end: 16.w, top: 10.h),
-        child: body,
+        appBar:
+            isAppBarNull == true
+                ? null
+                : appBar ??
+                    AppBarShredWidget(
+                      actions: actions,
+                      isBack: isBack ?? true,
+                      leading: leading,
+                      title: title ?? '',
+                    ),
+        body: Padding(
+          padding:
+              padding ??
+              EdgeInsetsDirectional.only(start: 16.w, end: 16.w, top: 10.h),
+          child: body,
+        ),
       ),
     );
   }

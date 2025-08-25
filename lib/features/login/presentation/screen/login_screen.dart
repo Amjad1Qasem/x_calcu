@@ -31,52 +31,46 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Skaffold(
-        isAppBarNull: true,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // GestureDetector(
-                  //   onTap: () => showLanguageBottomSheet(context),
-                  //   child: CircleAvatar(
-                  //     backgroundColor: Utils(context).primary,
-                  //     child: Icon(
-                  //       Icons.translate,
-                  //       color: Colors.white,
-                  //       size: 14.sp,
-                  //     ),
-                  //   ),
-                  // ),
-                  const SkipText(),
-                ],
-              ),
-              CommonSizes.vSmallestSpace,
-              const LogoAvatar(),
-              CommonSizes.vBigSpace,
-              Column(
-                children: [
-                  LoginForm(formKey: loginForm, onFieldChanged: onFieldChanged),
-
-                  TextButton(
-                    onPressed:
-                        () => getIt<BiometricAuthCubit>().authenticateUser(),
-                    child: Text("Login with Face ID"),
-                  ),
-                  CommonSizes.vBiggestSpace,
-                  LoginButton(formKey: loginForm, isFormValid: isFormValid),
-                  CommonSizes.vSmallSpace,
-                  const ClickTextRegister(),
-                  CommonSizes.vSmallSpace,
-                ],
-              ),
-            ],
-          ),
+    return Skaffold(
+      isAppBarNull: true,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /* Language Btn */
+                // GestureDetector(
+                //   onTap: () => showLanguageBottomSheet(context),
+                //   child: CircleAvatar(
+                //     backgroundColor: Utils(context).primary,
+                //     child: Icon(
+                //       Icons.translate,
+                //       color: Colors.white,
+                //       size: 14.sp,
+                //     ),
+                //   ),
+                // ),
+                const SkipText(),
+              ],
+            ),
+            CommonSizes.vSmallestSpace,
+            const LogoAvatar(),
+            CommonSizes.vBigSpace,
+            LoginForm(formKey: loginForm, onFieldChanged: onFieldChanged),
+            // TextButton(
+            //   onPressed: () => getIt<BiometricAuthCubit>().authenticateUser(),
+            //   child: Text("Login with Face ID"),
+            // ),
+            CommonSizes.vBiggestSpace,
+            LoginButton(formKey: loginForm, isFormValid: isFormValid),
+            CommonSizes.vSmallSpace,
+            const ClickTextRegister(),
+            CommonSizes.vSmallSpace,
+          ],
         ),
       ),
     );
