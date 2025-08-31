@@ -8,5 +8,6 @@ class OperationsState with _$OperationsState {
     @Default(false) bool? isError,
     @Default(false) bool? isOutputOperation,
     OperationModel? operation,
+    @Default([]) List<OperationModel> operations,
   }) = _OperationsState;
 }

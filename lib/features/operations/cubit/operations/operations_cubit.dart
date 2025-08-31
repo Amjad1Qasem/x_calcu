@@ -47,35 +47,77 @@ class OperationsCubit extends Cubit<OperationsState> {
     partnerNameController.text = model.clientName ?? '';
     customerController.text = model.partnerName ?? '';
     invoiceNumberController.text = model.invoiceNumber ?? '';
-    invoiceValueController.text = model.invoiceValue.toString();
-    paidAmountController.text = model.paidValue.toString();
-    paidDateController.text = model.paidDate ?? '';
-    remainingInvoiceController.text = model.remainingInvoice.toString();
-    percentageController.text = model.percentage.toString();
-    totalDueController.text = model.totalDue.toString();
-    receivedAmountController.text = model.receivedValue.toString();
-    receivedDateController.text = model.receivedDate ?? '';
-    remainingAmountController.text = model.remainingAmount.toString();
+    invoiceValueController.text = model.invoiceValue?.toString() ?? '';
+    remainingInvoiceController.text = model.remainingInvoice?.toString() ?? '';
+    totalDueController.text = model.totalDue?.toString() ?? '';
+    remainingAmountController.text = model.remainingAmount?.toString() ?? '';
     operationDateController.text = model.operationDate ?? '';
     reminderDateController.text = model.reminderDate ?? '';
     notesController.text = model.notes ?? '';
+
+    // Handle nested objects
+    if (model.paidInvoice != null) {
+      paidAmountController.text =
+          model.paidInvoice!.totalPaidValue?.toString() ?? '';
+      // You might want to handle the paid details list here
+    }
+
+    if (model.percentageDetails != null) {
+      percentageController.text =
+          model.percentageDetails!.percentageValue?.toString() ?? '';
+      percentageAmountController.text =
+          model.percentageDetails!.percentageValue?.toString() ?? '';
+    }
+
+    if (model.receivedAmount != null) {
+      receivedAmountController.text =
+          model.receivedAmount!.totalReceivedValue?.toString() ?? '';
+      // You might want to handle the received details list here
+    }
+
     emit(state.copyWith(operation: model));
   }
 
   Future<void> createOperation() async {
     emit(state.copyWith(isLoading: true, isError: false));
+
+    // Create nested objects for the new model structure
+    final paidInvoice = PaidInvoiceSummary(
+      totalPaidValue: double.tryParse(paidAmountController.text) ?? 0,
+      paidDetails: [
+        PaidInvoiceDetail(
+          invoiceValue: double.tryParse(paidAmountController.text) ?? 0,
+          invoiceDate: paidDateController.text,
+        ),
+      ],
+    );
+
+    final percentageDetails = PercentageDetails(
+      percentage: '${percentageController.text}%',
+      percentageValue: double.tryParse(percentageController.text) ?? 0,
+    );
+
+    final receivedAmount = ReceivedAmountSummary(
+      totalReceivedValue: double.tryParse(receivedAmountController.text) ?? 0,
+      receivedDetails: [
+        ReceivedAmountDetail(
+          invoiceValue: double.tryParse(receivedAmountController.text) ?? 0,
+          invoiceDate: receivedDateController.text,
+        ),
+      ],
+    );
+
     final model = OperationModel(
       partnerName: customerController.text,
       clientName: partnerNameController.text,
+      operationType: isOutput ? 'Output' : 'Input',
       invoiceNumber: invoiceNumberController.text,
       invoiceValue: double.tryParse(invoiceValueController.text) ?? 0,
-      paidValue: double.tryParse(paidAmountController.text) ?? 0,
-      paidDate: paidDateController.text,
+      paidInvoice: paidInvoice,
       remainingInvoice: double.tryParse(remainingInvoiceController.text) ?? 0,
-      percentage: double.tryParse(percentageController.text) ?? 0,
+      percentageDetails: percentageDetails,
       totalDue: double.tryParse(totalDueController.text) ?? 0,
-      receivedValue: double.tryParse(receivedAmountController.text) ?? 0,
-      receivedDate: receivedDateController.text,
+      receivedAmount: receivedAmount,
       remainingAmount: double.tryParse(remainingAmountController.text) ?? 0,
       operationDate: operationDateController.text,
       reminderDate: reminderDateController.text,
@@ -83,6 +125,97 @@ class OperationsCubit extends Cubit<OperationsState> {
     );
 
     final result = await _operationsRepo.createOperation(data: model);
+
+    result.when(
+      success:
+          (data) => emit(state.copyWith(isSuccess: true, isLoading: false)),
+      failure: (_) => emit(state.copyWith(isError: true, isLoading: false)),
+    );
+  }
+
+  //* Get Operations Data */
+  Future<void> getOperations() async {
+    emit(state.copyWith(isLoading: true, isError: false));
+
+    final result = await _operationsRepo.getOperationsData();
+
+    result.when(
+      success:
+          (data) => emit(
+            state.copyWith(isLoading: false, isError: false, operations: data),
+          ),
+      failure: (_) => emit(state.copyWith(isLoading: false, isError: true)),
+    );
+  }
+
+  //* Get Operation Details */
+  Future<void> getOperationDetails({required int operationId}) async {
+    emit(state.copyWith(isLoading: true, isError: false));
+
+    final result = await _operationsRepo.getOperationDetails(
+      operationId: operationId,
+    );
+
+    result.when(
+      success:
+          (data) => emit(
+            state.copyWith(isLoading: false, isError: false, operation: data),
+          ),
+      failure: (_) => emit(state.copyWith(isLoading: false, isError: true)),
+    );
+  }
+
+  //* Update Operation */
+  Future<void> updateOperation({required int operationId}) async {
+    emit(state.copyWith(isLoading: true, isError: false));
+
+    // Create nested objects for the new model structure
+    final paidInvoice = PaidInvoiceSummary(
+      totalPaidValue: double.tryParse(paidAmountController.text) ?? 0,
+      paidDetails: [
+        PaidInvoiceDetail(
+          invoiceValue: double.tryParse(paidAmountController.text) ?? 0,
+          invoiceDate: paidDateController.text,
+        ),
+      ],
+    );
+
+    final percentageDetails = PercentageDetails(
+      percentage: '${percentageController.text}%',
+      percentageValue: double.tryParse(percentageController.text) ?? 0,
+    );
+
+    final receivedAmount = ReceivedAmountSummary(
+      totalReceivedValue: double.tryParse(receivedAmountController.text) ?? 0,
+      receivedDetails: [
+        ReceivedAmountDetail(
+          invoiceValue: double.tryParse(receivedAmountController.text) ?? 0,
+          invoiceDate: receivedDateController.text,
+        ),
+      ],
+    );
+
+    final model = OperationModel(
+      partnerName: customerController.text,
+      clientName: partnerNameController.text,
+      operationType: isOutput ? 'Output' : 'Input',
+      invoiceNumber: invoiceNumberController.text,
+      invoiceValue: double.tryParse(invoiceValueController.text) ?? 0,
+      paidInvoice: paidInvoice,
+      remainingInvoice: double.tryParse(remainingInvoiceController.text) ?? 0,
+      percentageDetails: percentageDetails,
+      totalDue: double.tryParse(totalDueController.text) ?? 0,
+      receivedAmount: receivedAmount,
+      remainingAmount: double.tryParse(remainingAmountController.text) ?? 0,
+      operationDate: operationDateController.text,
+      reminderDate: reminderDateController.text,
+      notes: notesController.text,
+    );
+
+    final result = await _operationsRepo.updateOperation(
+      operationId: operationId,
+      data: model,
+    );
 
     result.when(
       success:

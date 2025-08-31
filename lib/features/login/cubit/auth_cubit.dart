@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:x_calcu/features/login/data/auth_repo.dart';
 import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/data/auth_model.dart';
+import 'package:x_calcu/global/networking/failure.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import 'package:x_calcu/global/utils/helper/local_storage_helper.dart';
@@ -44,25 +47,24 @@ class AuthCubit extends Cubit<AuthState> {
     );
     await response.when(
       success: (data) async {
-        if (data.statusAccount == 'suspended') {
-          emit(AuthState.suspended(data));
-        } else if (data.statusAccount == 'banned') {
-          emit(AuthState.banned(data));
-        } else {
-          TextInput.finishAutofillContext();
-          await LocalStorageHelper.setUserData(data);
-          getIt<AppStateModel>().updateUserPreferences(data);
-          await LocalStorageHelper.setToken(data.token ?? "");
-
-          emit(AuthState.success(data));
-        }
+        printSuccess(data.runtimeType.toString());
+        printSuccess(data.token.toString());
+        printSuccess(data.toString());
+        TextInput.finishAutofillContext();
+        await LocalStorageHelper.setUserData(data);
+        getIt<AppStateModel>().updateUserPreferences(data);
+        await LocalStorageHelper.setToken(data.token ?? "");
+        emit(AuthState.success(data));
       },
       failure: (error) {
-        // if (error is BadRequest) {
-        //   validationErrors = error.errors ?? {};
-        //   printSuccess('validationErrors $validationErrors');
-        // }
-        emit(AuthState.error(error.message));
+        printError(error.runtimeType.toString());
+        printError(error.toString());
+        if (error is BadRequest) {
+          validationErrors = error.errors ?? {};
+          printError('validationErrors $validationErrors');
+        } else {
+          emit(AuthState.error(error.message));
+        }
       },
     );
   }
@@ -74,18 +76,20 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthState.passwordVisibilityToggled(isVisible));
   }
 
-/// **Submit Logout**
   void submitLogout() async {
     emit(const AuthState.loading());
-
-    try {
-      await LocalStorageHelper.clearUserData();
-      emailCont.clear();
-      passwordCont.clear();
-      emit(const AuthState.loggedOut());
-    } catch (error) {
-      emit(AuthState.error("Logout failed".tr()));
-    }
+    final response = await _authRepository.logoutRepo();
+    await response.when(
+      success: (data) async {
+        await LocalStorageHelper.clearUserData();
+        await getIt<AppStateModel>().logout();
+        emailCont.clear();
+        passwordCont.clear();
+        emit(const AuthState.loggedOut());
+      },
+      failure: (error) {
+        emit(AuthState.error(error.message));
+      },
+    );
   }
-
 }

@@ -13,7 +13,7 @@ import 'package:x_calcu/features/partners/presentation/screen/partner_details_sc
 import 'package:x_calcu/features/partners/presentation/screen/partners_screen.dart';
 import 'package:x_calcu/features/privacy_policy/screens/privacy_policy_screen.dart';
 import 'package:x_calcu/features/privacy_policy/screens/terms_and_conditions_screen.dart';
-import 'package:x_calcu/features/search_and_filter/presentation/screens/search_screen.dart';
+
 import 'package:x_calcu/features/setting/presentation/screen/setting_screen.dart';
 import 'package:x_calcu/features/startup/presentation/screen/banned_account_screen.dart';
 import 'package:x_calcu/features/startup/presentation/screen/intro_page.dart';
@@ -100,11 +100,6 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const TermsAndConditionsScreen(),
     ),
 
-    GoRoute(
-      path: RouterPath.searchScreen,
-      name: RouterPath.searchScreen,
-      builder: (context, state) => const SearchScreen(),
-    ),
     GoRoute(
       path: RouterPath.addPartnerScreen,
       name: RouterPath.addPartnerScreen,

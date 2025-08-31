@@ -23,8 +23,14 @@ PartnerModel _$PartnerModelFromJson(Map<String, dynamic> json) {
 mixin _$PartnerModel {
   int? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  String? get number => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  String? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_percentage_value')
+  String? get totalPercentageValue => throw _privateConstructorUsedError;
 
   /// Serializes this PartnerModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,7 +49,15 @@ abstract class $PartnerModelCopyWith<$Res> {
     $Res Function(PartnerModel) then,
   ) = _$PartnerModelCopyWithImpl<$Res, PartnerModel>;
   @useResult
-  $Res call({int? id, String? name, String? number, String? email});
+  $Res call({
+    int? id,
+    String? name,
+    String? phone,
+    String? email,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'total_percentage_value') String? totalPercentageValue,
+  });
 }
 
 /// @nodoc
@@ -63,8 +77,11 @@ class _$PartnerModelCopyWithImpl<$Res, $Val extends PartnerModel>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? number = freezed,
+    Object? phone = freezed,
     Object? email = freezed,
+    Object? updatedAt = freezed,
+    Object? createdAt = freezed,
+    Object? totalPercentageValue = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -78,15 +95,30 @@ class _$PartnerModelCopyWithImpl<$Res, $Val extends PartnerModel>
                     ? _value.name
                     : name // ignore: cast_nullable_to_non_nullable
                         as String?,
-            number:
-                freezed == number
-                    ? _value.number
-                    : number // ignore: cast_nullable_to_non_nullable
+            phone:
+                freezed == phone
+                    ? _value.phone
+                    : phone // ignore: cast_nullable_to_non_nullable
                         as String?,
             email:
                 freezed == email
                     ? _value.email
                     : email // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            updatedAt:
+                freezed == updatedAt
+                    ? _value.updatedAt
+                    : updatedAt // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            createdAt:
+                freezed == createdAt
+                    ? _value.createdAt
+                    : createdAt // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            totalPercentageValue:
+                freezed == totalPercentageValue
+                    ? _value.totalPercentageValue
+                    : totalPercentageValue // ignore: cast_nullable_to_non_nullable
                         as String?,
           )
           as $Val,
@@ -103,7 +135,15 @@ abstract class _$$PartnerModelImplCopyWith<$Res>
   ) = __$$PartnerModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id, String? name, String? number, String? email});
+  $Res call({
+    int? id,
+    String? name,
+    String? phone,
+    String? email,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'total_percentage_value') String? totalPercentageValue,
+  });
 }
 
 /// @nodoc
@@ -122,8 +162,11 @@ class __$$PartnerModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? number = freezed,
+    Object? phone = freezed,
     Object? email = freezed,
+    Object? updatedAt = freezed,
+    Object? createdAt = freezed,
+    Object? totalPercentageValue = freezed,
   }) {
     return _then(
       _$PartnerModelImpl(
@@ -137,15 +180,30 @@ class __$$PartnerModelImplCopyWithImpl<$Res>
                 ? _value.name
                 : name // ignore: cast_nullable_to_non_nullable
                     as String?,
-        number:
-            freezed == number
-                ? _value.number
-                : number // ignore: cast_nullable_to_non_nullable
+        phone:
+            freezed == phone
+                ? _value.phone
+                : phone // ignore: cast_nullable_to_non_nullable
                     as String?,
         email:
             freezed == email
                 ? _value.email
                 : email // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        updatedAt:
+            freezed == updatedAt
+                ? _value.updatedAt
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        createdAt:
+            freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        totalPercentageValue:
+            freezed == totalPercentageValue
+                ? _value.totalPercentageValue
+                : totalPercentageValue // ignore: cast_nullable_to_non_nullable
                     as String?,
       ),
     );
@@ -155,7 +213,15 @@ class __$$PartnerModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PartnerModelImpl implements _PartnerModel {
-  const _$PartnerModelImpl({this.id, this.name, this.number, this.email});
+  const _$PartnerModelImpl({
+    this.id,
+    this.name,
+    this.phone,
+    this.email,
+    @JsonKey(name: 'updated_at') this.updatedAt,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'total_percentage_value') this.totalPercentageValue,
+  });
 
   factory _$PartnerModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PartnerModelImplFromJson(json);
@@ -165,13 +231,22 @@ class _$PartnerModelImpl implements _PartnerModel {
   @override
   final String? name;
   @override
-  final String? number;
+  final String? phone;
   @override
   final String? email;
+  @override
+  @JsonKey(name: 'updated_at')
+  final String? updatedAt;
+  @override
+  @JsonKey(name: 'created_at')
+  final String? createdAt;
+  @override
+  @JsonKey(name: 'total_percentage_value')
+  final String? totalPercentageValue;
 
   @override
   String toString() {
-    return 'PartnerModel(id: $id, name: $name, number: $number, email: $email)';
+    return 'PartnerModel(id: $id, name: $name, phone: $phone, email: $email, updatedAt: $updatedAt, createdAt: $createdAt, totalPercentageValue: $totalPercentageValue)';
   }
 
   @override
@@ -181,13 +256,28 @@ class _$PartnerModelImpl implements _PartnerModel {
             other is _$PartnerModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.number, number) || other.number == number) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.totalPercentageValue, totalPercentageValue) ||
+                other.totalPercentageValue == totalPercentageValue));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, number, email);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    name,
+    phone,
+    email,
+    updatedAt,
+    createdAt,
+    totalPercentageValue,
+  );
 
   /// Create a copy of PartnerModel
   /// with the given fields replaced by the non-null parameter values.
@@ -207,8 +297,11 @@ abstract class _PartnerModel implements PartnerModel {
   const factory _PartnerModel({
     final int? id,
     final String? name,
-    final String? number,
+    final String? phone,
     final String? email,
+    @JsonKey(name: 'updated_at') final String? updatedAt,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'total_percentage_value') final String? totalPercentageValue,
   }) = _$PartnerModelImpl;
 
   factory _PartnerModel.fromJson(Map<String, dynamic> json) =
@@ -219,9 +312,18 @@ abstract class _PartnerModel implements PartnerModel {
   @override
   String? get name;
   @override
-  String? get number;
+  String? get phone;
   @override
   String? get email;
+  @override
+  @JsonKey(name: 'updated_at')
+  String? get updatedAt;
+  @override
+  @JsonKey(name: 'created_at')
+  String? get createdAt;
+  @override
+  @JsonKey(name: 'total_percentage_value')
+  String? get totalPercentageValue;
 
   /// Create a copy of PartnerModel
   /// with the given fields replaced by the non-null parameter values.

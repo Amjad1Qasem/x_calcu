@@ -9,6 +9,7 @@ import 'package:x_calcu/features/setting/presentation/widget/section_components_
 import 'package:x_calcu/features/startup/bloc/startup/startup_cubit.dart';
 import 'package:x_calcu/global/components/app_bar.dart';
 import 'package:x_calcu/global/components/app_button.dart';
+import 'package:x_calcu/global/components/loaders/loading_overlay.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
@@ -77,9 +78,15 @@ class ProfileUserWidget extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       bloc: getIt<AuthCubit>(),
       listener: (context, state) {
+        if (state is Loading) {
+          LoadingOverlay.of(context).show();
+        }
         if (state is LoggedOut) {
+          LoadingOverlay.of(context).hide();
           context.goNamed(RouterPath.loginScreen);
-        } else if (state is Error) {
+        }
+        if (state is Error) {
+          LoadingOverlay.of(context).hide();
           snackBar(
             context: context,
             title: state.message,
@@ -92,16 +99,16 @@ class ProfileUserWidget extends StatelessWidget {
           await openDialog(
             context: context,
             title: 'logOut_need'.tr(),
-            message: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+            message: 'are_you_sure_you_want_to_logout'.tr(),
             icon: Icons.logout,
             iconColor: Colors.red,
             iconBackgroundColor: Colors.red.withValues(alpha: 0.1),
             confirmText: "yes".tr(),
             cancelText: "no".tr(),
             onConfirm: () async {
-              await getIt<AppStateModel>().logout();
               getIt<AuthCubit>().submitLogout();
             },
+            onCancel: () => context.pop(),
           );
         },
         label: "log_out".tr(),

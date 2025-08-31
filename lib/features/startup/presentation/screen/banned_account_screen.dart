@@ -21,7 +21,7 @@ class BannedAccountScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildHeader(),
+            // _buildHeader(),
             const SizedBox(height: 30),
             _buildUserInfo(),
             const SizedBox(height: 40),
@@ -34,14 +34,14 @@ class BannedAccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return ImageUtils(
-      imageUrl: accountInfo.userImage ?? '',
-      height: 150.sp,
-      width: 150.sp,
-      isCircular: true,
-    );
-  }
+  // Widget _buildHeader() {
+  //   return ImageUtils(
+  //     imageUrl: accountInfo.userImage ?? '',
+  //     height: 150.sp,
+  //     width: 150.sp,
+  //     isCircular: true,
+  //   );
+  // }
 
   Widget _buildUserInfo() {
     return Column(

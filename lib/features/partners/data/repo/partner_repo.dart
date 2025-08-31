@@ -21,7 +21,8 @@ class PartnerRepo {
   Future<Result<PartnerModel>> addPartner({required PartnerModel data}) async {
     return await DioHelper.postModel<PartnerModel>(
       UrlApi.addPartner,
-      PartnerModel.fromJson,
+
+      fromJson: PartnerModel.fromJson,
     );
   }
 }

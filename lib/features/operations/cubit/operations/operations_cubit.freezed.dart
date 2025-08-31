@@ -22,6 +22,7 @@ mixin _$OperationsState {
   bool? get isError => throw _privateConstructorUsedError;
   bool? get isOutputOperation => throw _privateConstructorUsedError;
   OperationModel? get operation => throw _privateConstructorUsedError;
+  List<OperationModel> get operations => throw _privateConstructorUsedError;
 
   /// Create a copy of OperationsState
   /// with the given fields replaced by the non-null parameter values.
@@ -43,6 +44,7 @@ abstract class $OperationsStateCopyWith<$Res> {
     bool? isError,
     bool? isOutputOperation,
     OperationModel? operation,
+    List<OperationModel> operations,
   });
 
   $OperationModelCopyWith<$Res>? get operation;
@@ -68,6 +70,7 @@ class _$OperationsStateCopyWithImpl<$Res, $Val extends OperationsState>
     Object? isError = freezed,
     Object? isOutputOperation = freezed,
     Object? operation = freezed,
+    Object? operations = null,
   }) {
     return _then(
       _value.copyWith(
@@ -96,6 +99,11 @@ class _$OperationsStateCopyWithImpl<$Res, $Val extends OperationsState>
                     ? _value.operation
                     : operation // ignore: cast_nullable_to_non_nullable
                         as OperationModel?,
+            operations:
+                null == operations
+                    ? _value.operations
+                    : operations // ignore: cast_nullable_to_non_nullable
+                        as List<OperationModel>,
           )
           as $Val,
     );
@@ -131,6 +139,7 @@ abstract class _$$OperationsStateImplCopyWith<$Res>
     bool? isError,
     bool? isOutputOperation,
     OperationModel? operation,
+    List<OperationModel> operations,
   });
 
   @override
@@ -156,6 +165,7 @@ class __$$OperationsStateImplCopyWithImpl<$Res>
     Object? isError = freezed,
     Object? isOutputOperation = freezed,
     Object? operation = freezed,
+    Object? operations = null,
   }) {
     return _then(
       _$OperationsStateImpl(
@@ -184,6 +194,11 @@ class __$$OperationsStateImplCopyWithImpl<$Res>
                 ? _value.operation
                 : operation // ignore: cast_nullable_to_non_nullable
                     as OperationModel?,
+        operations:
+            null == operations
+                ? _value._operations
+                : operations // ignore: cast_nullable_to_non_nullable
+                    as List<OperationModel>,
       ),
     );
   }
@@ -198,7 +213,8 @@ class _$OperationsStateImpl implements _OperationsState {
     this.isError = false,
     this.isOutputOperation = false,
     this.operation,
-  });
+    final List<OperationModel> operations = const [],
+  }) : _operations = operations;
 
   @override
   @JsonKey()
@@ -214,10 +230,18 @@ class _$OperationsStateImpl implements _OperationsState {
   final bool? isOutputOperation;
   @override
   final OperationModel? operation;
+  final List<OperationModel> _operations;
+  @override
+  @JsonKey()
+  List<OperationModel> get operations {
+    if (_operations is EqualUnmodifiableListView) return _operations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_operations);
+  }
 
   @override
   String toString() {
-    return 'OperationsState(isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isOutputOperation: $isOutputOperation, operation: $operation)';
+    return 'OperationsState(isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isOutputOperation: $isOutputOperation, operation: $operation, operations: $operations)';
   }
 
   @override
@@ -233,7 +257,11 @@ class _$OperationsStateImpl implements _OperationsState {
             (identical(other.isOutputOperation, isOutputOperation) ||
                 other.isOutputOperation == isOutputOperation) &&
             (identical(other.operation, operation) ||
-                other.operation == operation));
+                other.operation == operation) &&
+            const DeepCollectionEquality().equals(
+              other._operations,
+              _operations,
+            ));
   }
 
   @override
@@ -244,6 +272,7 @@ class _$OperationsStateImpl implements _OperationsState {
     isError,
     isOutputOperation,
     operation,
+    const DeepCollectionEquality().hash(_operations),
   );
 
   /// Create a copy of OperationsState
@@ -265,6 +294,7 @@ abstract class _OperationsState implements OperationsState {
     final bool? isError,
     final bool? isOutputOperation,
     final OperationModel? operation,
+    final List<OperationModel> operations,
   }) = _$OperationsStateImpl;
 
   @override
@@ -277,6 +307,8 @@ abstract class _OperationsState implements OperationsState {
   bool? get isOutputOperation;
   @override
   OperationModel? get operation;
+  @override
+  List<OperationModel> get operations;
 
   /// Create a copy of OperationsState
   /// with the given fields replaced by the non-null parameter values.

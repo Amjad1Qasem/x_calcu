@@ -8,23 +8,88 @@ class OperationsRepo {
 
   Future<Result<List<DropDownModel>>> getCvFieldssData() async {
     final response = await DioHelper.getAllModel(
-      url: UrlApi.getPartnerts,
+      url: UrlApi.partnersFilter,
       fromJson: DropDownModel.fromJson,
     );
     return response;
   }
 
-  // Future<Result<bool>> createOperation(OperationModel model) async {
-  //   return await DioHelper.postModel('/operations', model.toJson());
-  // }
+  //* Get Operations Data */
+  Future<Result<List<OperationModel>>> getOperationsData({
+    String operationType = 'input',
+    String orderBy = 'asc',
+  }) async {
+    final response = await DioHelper.getAllModel<OperationModel>(
+      url: UrlApi.allOperations,
+      fromJson: OperationModel.fromJson,
+      query: {'operationType': operationType, 'orderBy': orderBy},
+    );
+    return response;
+  }
 
+  //* Create Operation */
   Future<Result<OperationModel>> createOperation({
     required OperationModel data,
   }) async {
     return await DioHelper.postModel<OperationModel>(
-      UrlApi.login,
-      data,
+      UrlApi.addOperation,
+      obj: data,
       fromJson: OperationModel.fromJson,
     );
+  }
+
+  //* Update Operation */
+  Future<Result<OperationModel>> updateOperation({
+    required int operationId,
+    required OperationModel data,
+  }) async {
+    return await DioHelper.patchModel<OperationModel>(
+      '${UrlApi.addOperation}/$operationId',
+      data.toJson(),
+      fromJson: OperationModel.fromJson,
+    );
+  }
+
+  //* Get Operation Details */
+  Future<Result<OperationModel>> getOperationDetails({
+    required int operationId,
+  }) async {
+    return await DioHelper.getModel<OperationModel>(
+      '${UrlApi.addOperation}/$operationId',
+      OperationModel.fromJson,
+    );
+  }
+
+  //* Get Operations Data with Filtering */
+  Future<Result<List<OperationModel>>> getOperationsDataWithFilter({
+    String? operationType,
+    String? orderBy,
+    String? search,
+    int? page,
+    int? limit,
+  }) async {
+    final queryParams = <String, dynamic>{};
+
+    // Add required parameters with defaults
+    queryParams['operationType'] = operationType ?? 'input';
+    queryParams['orderBy'] = orderBy ?? 'asc';
+
+    // Add optional parameters
+    if (search != null && search.isNotEmpty) {
+      queryParams['search'] = search;
+    }
+    if (page != null) {
+      queryParams['page'] = page;
+    }
+    if (limit != null) {
+      queryParams['limit'] = limit;
+    }
+
+    final response = await DioHelper.getAllModel<OperationModel>(
+      url: UrlApi.allOperations,
+      fromJson: OperationModel.fromJson,
+      query: queryParams,
+    );
+    return response;
   }
 }

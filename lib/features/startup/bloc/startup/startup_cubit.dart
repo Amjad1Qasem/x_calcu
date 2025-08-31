@@ -27,12 +27,15 @@ class StartupCubit extends Cubit<StartupState> {
       }
 
       final isLoggedIn = await LocalStorageHelper.isLoggedIn();
+      printWarning('isLoggedIn $isLoggedIn ');
       if (!isLoggedIn) {
+        printWarning('is not LoggedIn $isLoggedIn ');
         return emit(const StartupState.unauthenticated());
       }
 
       await fetchUserInfo();
     } catch (e) {
+      printError(e.toString());
       emit(const StartupState.error());
     }
   }
@@ -43,16 +46,9 @@ class StartupCubit extends Cubit<StartupState> {
       var response = await _startUpRepo.getInfoData();
       await response.when(
         success: (data) async {
-          printWarning('fetchUser ${data.statusAccount}');
-          if (data.statusAccount == 'suspended') {
-            emit(StartupState.suspended(data));
-          } else if (data.statusAccount == 'banned') {
-            emit(StartupState.banned(data));
-          } else {
-            await LocalStorageHelper.setUserData(data);
-            getIt<AppStateModel>().updateUserPreferencesStartup(data);
-            emit(StartupState.success(data));
-          }
+          await LocalStorageHelper.setUserData(data);
+          getIt<AppStateModel>().updateUserPreferencesStartup(data);
+          emit(StartupState.success(data));
         },
         failure: (error) {
           emit(const StartupState.error());

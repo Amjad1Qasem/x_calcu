@@ -12,7 +12,7 @@ class RouterPath {
   static String onBoardingScreen = '/onBoardingScreen';
   static String privacyPolicyScreen = '/privacyPolicyScreen';
   static String termsAndConditionsScreen = '/termsAndConditionsScreen';
-  static String searchScreen = '/searchScreen';
+
   static String addPartnerScreen = '/addPartnerScreen';
   static String showOperationsDetailsScreen = '/showOperationsDetailsScreen';
   static String addOperationsScreen = '/addOperationsScreen';

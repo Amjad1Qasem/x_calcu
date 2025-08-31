@@ -19,7 +19,7 @@ class RequestHeadersInterceptors extends Interceptor {
         'AIOEnOSLmuellmwKzSPfG794LCfT4cskhTgi9KS1RhsmkkCGwMD6FtRI1eXUKCS9';
     // options.headers['Entity-Type'] = appState.entityType;
     // options.headers['lang'] = appState.locale.languageCode;
-    debugPrint('appState.locale ${appState.locale.languageCode}');
+    // debugPrint('appState.locale ${appState.locale.languageCode}');
     return handler.next(options);
   }
 }

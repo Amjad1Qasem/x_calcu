@@ -62,19 +62,19 @@ class AppStateModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateNotificationCount(int notificationsCount) {
-    debugPrint('saleh updateNotificationCount $notificationsCount');
-    _userInfo = _userInfo?.copyWith(unseenNotifications: notificationsCount);
-    notifyListeners();
-  }
+  // void updateNotificationCount(int notificationsCount) {
+  //   debugPrint('saleh updateNotificationCount $notificationsCount');
+  //   _userInfo = _userInfo?.copyWith(unseenNotifications: notificationsCount);
+  //   notifyListeners();
+  // }
 
-  int getMissedNotifications() {
-    if (seenMissedNotifications) {
-      return 0;
-    } else {
-      return _userInfo?.unseenNotifications ?? 0;
-    }
-  }
+  // int getMissedNotifications() {
+  //   if (seenMissedNotifications) {
+  //     return 0;
+  //   } else {
+  //     return _userInfo?.unseenNotifications ?? 0;
+  //   }
+  // }
 
   void setEntityType(String entityType) {
     _entityType = entityType;

@@ -5,11 +5,19 @@ import 'package:x_calcu/global/networking/result_freezed.dart';
 
 class AuthRepository {
   /// **Login User**
-  Future<Result<AuthModel>> loginRepo({required String email,required String password,}) async {
+  Future<Result<AuthModel>> loginRepo({
+    required String email,
+    required String password,
+  }) async {
     return await DioHelper.postModel<AuthModel>(
       UrlApi.login,
-      AuthModel(username: email, password: password),
+      obj: {"email": email, "password": password},
       fromJson: AuthModel.fromJson,
     );
+  }
+
+  /// **Log Out User**
+  Future<Result<bool>> logoutRepo() async {
+    return await DioHelper.postModel<bool>(UrlApi.logout);
   }
 }

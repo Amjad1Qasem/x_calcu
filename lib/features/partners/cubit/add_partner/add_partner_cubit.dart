@@ -20,7 +20,7 @@ class AddPartnerCubit extends Cubit<AddPartnerState> {
     emit(state.copyWith(isLoading: true, isError: false));
     final data = PartnerModel(
       name: companyNameController.text,
-      number: companyNumberController.text,
+      phone: companyNumberController.text,
       email: companyEmailController.text,
     );
     final response = await _partnerRepo.addPartner(data: data);

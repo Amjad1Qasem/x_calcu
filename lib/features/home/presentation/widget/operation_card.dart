@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:x_calcu/features/operations/data/operations_model.dart';
 import 'package:x_calcu/global/components/x_calc/x_cal_card.dart';
 import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/x_calc/operation_type.dart';
@@ -9,8 +10,9 @@ import 'package:x_calcu/global/design/themes/themes.dart';
 
 // Operation Card Widget
 class OperationCard extends StatelessWidget {
-  const OperationCard({super.key,required this.onTap});
+  const OperationCard({super.key, required this.onTap, this.operation});
   final Function()? onTap;
+  final OperationModel? operation;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,8 @@ class OperationCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'A mediation was conducted between our company and a client to sell a residential property, and an agreed-upon financial amount of 5,000 Saudi Riyals was due as a commission for this transaction...',
+              operation?.notes ??
+                  'A mediation was conducted between our company and a client to sell a residential property, and an agreed-upon financial amount of 5,000 Saudi Riyals was due as a commission for this transaction...',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: Utils(
@@ -52,10 +55,16 @@ class OperationCard extends StatelessWidget {
   }
 
   Row typeAndAmount(BuildContext context) {
+    final isInput = operation?.operationType?.toLowerCase() == 'input';
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        OperationType(type: OperationTypeEnum.inputOperation),
+        OperationType(
+          type:
+              isInput
+                  ? OperationTypeEnum.inputOperation
+                  : OperationTypeEnum.outputOperation,
+        ),
         CommonSizes.hSmallestSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -63,7 +72,7 @@ class OperationCard extends StatelessWidget {
           children: [
             Text('Amount due: ', style: Utils(context).normalText),
             Text(
-              '8,000,000',
+              operation?.totalDue?.toStringAsFixed(0) ?? '8,000,000',
               style: Utils(
                 context,
               ).normalText.copyWith(fontWeight: FontWeight.bold),
@@ -81,7 +90,7 @@ class OperationCard extends StatelessWidget {
         Icon(CupertinoIcons.person, size: 20.sp, color: Utils(context).primary),
         CommonSizes.hTheSmallestSpace,
         Text(
-          'فاروق الحالي',
+          operation?.clientName ?? 'فاروق الحالي',
           style: Utils(
             context,
           ).normalText.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600),
@@ -94,7 +103,7 @@ class OperationCard extends StatelessWidget {
         ),
         CommonSizes.hTheSmallestSpace,
         Text(
-          '1/1/2025',
+          operation?.operationDate ?? '1/1/2025',
           style: Utils(
             context,
           ).normalText.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600),

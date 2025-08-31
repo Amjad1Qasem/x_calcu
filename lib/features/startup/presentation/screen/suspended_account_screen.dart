@@ -47,15 +47,15 @@ class SuspendedAccountScreen extends StatelessWidget {
           ),
           child: _buildUserInfo(),
         ),
-        Positioned(
-          bottom: -80,
-          child: ImageUtils(
-            imageUrl: accountInfo.userImage ?? '',
-            height: 150.sp,
-            width: 150.sp,
-            isCircular: true,
-          ),
-        ),
+        // Positioned(
+        //   bottom: -80,
+        //   child: ImageUtils(
+        //     imageUrl: accountInfo.userImage ?? '',
+        //     height: 150.sp,
+        //     width: 150.sp,
+        //     isCircular: true,
+        //   ),
+        // ),
       ],
     );
   }

@@ -11,7 +11,7 @@ class SettingCubit extends Cubit<SettingState> {
 
   void checkIfUserLogin() async {
     final String? token = await LocalStorageHelper.getToken();
-    printWarning('tokentoken ${token.runtimeType}');
+    printWarning('** Tokentoken $token');
     if (token != null) {
       printWarning('userIslogin ');
       emit(const SettingState.userIslogin());

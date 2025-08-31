@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
-import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/router/router_path.dart';
 
 Widget homeAppBar(BuildContext context) {
-  int notificationsCount = getIt<AppStateModel>().getMissedNotifications();
+  // int notificationsCount = getIt<AppStateModel>().getMissedNotifications();
 
   return SliverAppBar(
     pinned: true,
@@ -26,7 +24,8 @@ Widget homeAppBar(BuildContext context) {
     leading: Padding(
       padding: const EdgeInsets.only(right: 16),
       child: Badge(
-        isLabelVisible: notificationsCount == 0,
+        // isLabelVisible: notificationsCount == 0,
+        isLabelVisible: false,
         backgroundColor: Utils(context).secondary,
         label: Container(
           width: 1.w,

@@ -129,8 +129,8 @@ class DioHelper {
   }
 
   static Future<Result<T>> postModel<T>(
-    String url,
-    dynamic obj, {
+    String url, {
+    dynamic obj,
     JsonDecoder<T>? fromJson,
     String? token,
     Map<String, dynamic>? customHeaders,
@@ -271,7 +271,17 @@ class DioHelper {
           return Result.success(response.data['data']);
         }
 
-        if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.statusCode == 200 ||
+            response.statusCode == 201 ||
+            response.statusCode == 204) {
+          // Handle 204 No Content responses (like logout)
+          if (response.statusCode == 204) {
+            if (T == bool) {
+              return Result.success(true as T);
+            }
+            return Result.success("Operation successful".tr() as T);
+          }
+
           // if (fromJson != null && response.data is Map<String, dynamic>) {
           //   return Result.success(fromJson(response.data["data"]));
           // }
@@ -296,12 +306,16 @@ class DioHelper {
           if (T == bool) {
             return Result.success(true as T);
           }
-          return Result.success(
-            response.data["message"] ?? "Operation successful".tr(),
-          );
+          // Handle cases where response.data might be null (like 204 responses)
+          if (response.data != null && response.data is Map<String, dynamic>) {
+            return Result.success(
+              response.data["message"] ?? "Operation successful".tr(),
+            );
+          }
+          return Result.success("Operation successful".tr() as T);
         }
 
-        if (response.data != null) {
+        if (response.data != null && response.data is Map<String, dynamic>) {
           if (response.data["code"] == 403) {
             return Result.failure(SessionExpired());
           }
@@ -386,7 +400,7 @@ class DioHelper {
       case 400:
         return BadRequest(
           errors: _extractValidationErrors(data),
-          message: data['message'],
+          message: data is Map<String, dynamic> ? data['message'] : null,
         );
       // errors: _extractValidationErrors(data), message: data['message']);
       case 401:
@@ -400,20 +414,26 @@ class DioHelper {
       case 422:
         return ValidationInputError(
           errors: _extractValidationErrors(data),
-          message: data['message'],
+          message: data is Map<String, dynamic> ? data['message'] : null,
         );
       case 403:
-        return Forbidden(message: data['message']);
+        return Forbidden(
+          message: data is Map<String, dynamic> ? data['message'] : null,
+        );
       case 404:
         return NotFound();
 
       case 409:
-        final dynamic conflictData = data?['data'];
+        final dynamic conflictData =
+            data is Map<String, dynamic> ? data['data'] : null;
         String? phone;
         if (conflictData is Map<String, dynamic>) {
           phone = conflictData['phone_number'];
         }
-        return Conflict(message: data?['message'], phoneNumber: phone);
+        return Conflict(
+          message: data is Map<String, dynamic> ? data['message'] : null,
+          phoneNumber: phone,
+        );
       case 429:
         return TooManyRequests();
       case 500:
@@ -425,8 +445,8 @@ class DioHelper {
       case 504:
         return GatewayTimeout();
       default:
-        final message = data?['message'] ?? "something_went_wrong".tr();
-        return ServerError(message);
+        final message = data is Map<String, dynamic> ? data['message'] : null;
+        return ServerError(message ?? "something_went_wrong".tr());
       // data != null ? data.toString() : "Unexpected error occurred.".tr());
     }
   }
@@ -434,7 +454,10 @@ class DioHelper {
   static Map<String, dynamic>? _extractValidationErrors(dynamic data) {
     try {
       if (data is Map<String, dynamic> && data.containsKey('errors')) {
-        return data['errors'] as Map<String, dynamic>;
+        final errors = data['errors'];
+        if (errors is Map<String, dynamic>) {
+          return errors;
+        }
       }
     } catch (e) {
       printError("Error extracting validation errors: ".tr() + e.toString());

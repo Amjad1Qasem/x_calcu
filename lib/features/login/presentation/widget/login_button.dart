@@ -61,7 +61,11 @@ class _LoginButtonState extends State<LoginButton> {
           );
         }
         if (state is Success) {
-          context.goNamed('mainLayout');
+          context.go(RouterPath.mainLayout);
+          snackBar(
+            context: context,
+            title: 'you_have_successfully_logged_in'.tr(),
+          );
         }
       },
       builder: (context, state) {

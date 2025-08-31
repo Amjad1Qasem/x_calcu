@@ -121,9 +121,7 @@ class _MainLayoutState extends State<MainLayout> {
 
 List<Widget> _buildScreens() {
   return [
-    CustomTabScreenWrapper(
-      child: Padding(padding: EdgeInsets.only(bottom: 90), child: HomeScreen()),
-    ),
+    CustomTabScreenWrapper(child: HomeScreen()),
     CustomTabScreenWrapper(child: NotificationScreen()),
     CustomTabScreenWrapper(child: AddOperationsScreen(isFromPartner: false)),
     CustomTabScreenWrapper(child: PartnersScreen()),
@@ -134,7 +132,7 @@ List<Widget> _buildScreens() {
 List<PersistentBottomNavBarItem> _navBarsItems({
   required BuildContext context,
 }) {
-  int notificationsCount = getIt<AppStateModel>().getMissedNotifications();
+  // int notificationsCount = getIt<AppStateModel>().getMissedNotifications();
   return [
     PersistentBottomNavBarItem(
       icon: _buildIcon(context, AppImages.homeActiveIcon, 'home'.tr(), true),
@@ -149,20 +147,21 @@ List<PersistentBottomNavBarItem> _navBarsItems({
       icon: _buildNotificationIcon(
         context,
         AppImages.notificationActiveIcon,
-        notificationsCount,
+        // notificationsCount,
+        0,
         true,
       ),
       inactiveIcon: _buildNotificationIcon(
         context,
         AppImages.notificationUnActiveIcon,
-        notificationsCount,
+        // notificationsCount,
+        0,
         false,
       ),
     ),
     PersistentBottomNavBarItem(
       icon: _buildAddIcon(context, true),
       inactiveIcon: _buildAddIcon(context, false),
-
     ),
     PersistentBottomNavBarItem(
       icon: _buildIcon(

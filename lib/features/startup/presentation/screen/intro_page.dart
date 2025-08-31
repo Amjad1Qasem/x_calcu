@@ -62,7 +62,6 @@ class _IntroScreenState extends State<IntroScreen> {
             state.maybeWhen(
               unauthenticated: () async => context.go(RouterPath.loginScreen),
               success: (_) async {
-                printWarning('unauthenticated');
                 final isBioEnabled =
                     await LocalStorageHelper.isBiometricEnabled();
                 if (isBioEnabled) {
@@ -71,22 +70,12 @@ class _IntroScreenState extends State<IntroScreen> {
                   context.go(RouterPath.mainLayout);
                 }
               },
-
               onboardingRequired: () => context.go(RouterPath.onBoardingScreen),
-              suspended:
-                  (info) => context.go(
-                    RouterPath.suspendedAccountScreen,
-                    extra: info,
-                  ),
-              banned:
-                  (info) =>
-                      context.go(RouterPath.bannedAccountScreen, extra: info),
               orElse: () {},
             );
           },
           builder: (context, state) {
-            printError(' state # state $state');
-
+            printWarning('** StartupCubit state is $state');
             return state.maybeWhen(
               error: () => _error(),
               onboardingRequired: () => _buildAnimationUI(),

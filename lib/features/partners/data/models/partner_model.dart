@@ -7,8 +7,11 @@ class PartnerModel with _$PartnerModel {
   const factory PartnerModel({
     int? id,
     String? name,
-    String? number,
+    String? phone,
     String? email,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'total_percentage_value') String? totalPercentageValue,
   }) = _PartnerModel;
 
   factory PartnerModel.fromJson(Map<String, dynamic> json) =>
