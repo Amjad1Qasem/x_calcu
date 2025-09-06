@@ -5,8 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'statistic_partner_model.freezed.dart';
 part 'statistic_partner_model.g.dart';
 
-
-
 @freezed
 class StatisticPartnerModel with _$StatisticPartnerModel {
   const factory StatisticPartnerModel({

@@ -36,7 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeState>(
+    return 
+    BlocConsumer<HomeCubit, HomeState>(
       bloc: getIt<HomeCubit>(),
       listener: (context, state) {
         _controller.handleStateChange(state);
@@ -95,5 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
+
   }
 }

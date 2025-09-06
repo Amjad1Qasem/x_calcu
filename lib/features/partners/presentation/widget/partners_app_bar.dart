@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
+import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 
 Widget partnersAppBar(BuildContext context, {bool? isBack = false}) {
   return SliverAppBar(
     pinned: true,
-    
     leading:
         isBack == true
             ? GestureDetector(
@@ -18,6 +20,17 @@ Widget partnersAppBar(BuildContext context, {bool? isBack = false}) {
               ),
             )
             : SizedBox(),
+    actions: [
+      GestureDetector(
+        onTap: () {
+          // Toggle between asc and desc based on current value
+          final newOrderBy =
+              getIt<PartnerCubit>().orderBy == 'asc' ? 'desc' : 'asc';
+          getIt<PartnerCubit>().setOrderBy(newOrderBy);
+        },
+        child: Icon(Iconsax.sort_copy, size: 21.sp),
+      ),
+    ],
     floating: true,
     snap: true,
     elevation: 0,

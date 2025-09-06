@@ -17,9 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AddPartnerState {
-  bool? get isLoading => throw _privateConstructorUsedError;
-  bool? get isSuccess => throw _privateConstructorUsedError;
-  bool? get isError => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isSuccess => throw _privateConstructorUsedError;
+  bool get isError => throw _privateConstructorUsedError;
   PartnerModel? get data => throw _privateConstructorUsedError;
 
   /// Create a copy of AddPartnerState
@@ -36,12 +36,7 @@ abstract class $AddPartnerStateCopyWith<$Res> {
     $Res Function(AddPartnerState) then,
   ) = _$AddPartnerStateCopyWithImpl<$Res, AddPartnerState>;
   @useResult
-  $Res call({
-    bool? isLoading,
-    bool? isSuccess,
-    bool? isError,
-    PartnerModel? data,
-  });
+  $Res call({bool isLoading, bool isSuccess, bool isError, PartnerModel? data});
 
   $PartnerModelCopyWith<$Res>? get data;
 }
@@ -61,28 +56,28 @@ class _$AddPartnerStateCopyWithImpl<$Res, $Val extends AddPartnerState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? isSuccess = freezed,
-    Object? isError = freezed,
+    Object? isLoading = null,
+    Object? isSuccess = null,
+    Object? isError = null,
     Object? data = freezed,
   }) {
     return _then(
       _value.copyWith(
             isLoading:
-                freezed == isLoading
+                null == isLoading
                     ? _value.isLoading
                     : isLoading // ignore: cast_nullable_to_non_nullable
-                        as bool?,
+                        as bool,
             isSuccess:
-                freezed == isSuccess
+                null == isSuccess
                     ? _value.isSuccess
                     : isSuccess // ignore: cast_nullable_to_non_nullable
-                        as bool?,
+                        as bool,
             isError:
-                freezed == isError
+                null == isError
                     ? _value.isError
                     : isError // ignore: cast_nullable_to_non_nullable
-                        as bool?,
+                        as bool,
             data:
                 freezed == data
                     ? _value.data
@@ -117,12 +112,7 @@ abstract class _$$AddPartnerStateImplCopyWith<$Res>
   ) = __$$AddPartnerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    bool? isLoading,
-    bool? isSuccess,
-    bool? isError,
-    PartnerModel? data,
-  });
+  $Res call({bool isLoading, bool isSuccess, bool isError, PartnerModel? data});
 
   @override
   $PartnerModelCopyWith<$Res>? get data;
@@ -142,28 +132,28 @@ class __$$AddPartnerStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? isSuccess = freezed,
-    Object? isError = freezed,
+    Object? isLoading = null,
+    Object? isSuccess = null,
+    Object? isError = null,
     Object? data = freezed,
   }) {
     return _then(
       _$AddPartnerStateImpl(
         isLoading:
-            freezed == isLoading
+            null == isLoading
                 ? _value.isLoading
                 : isLoading // ignore: cast_nullable_to_non_nullable
-                    as bool?,
+                    as bool,
         isSuccess:
-            freezed == isSuccess
+            null == isSuccess
                 ? _value.isSuccess
                 : isSuccess // ignore: cast_nullable_to_non_nullable
-                    as bool?,
+                    as bool,
         isError:
-            freezed == isError
+            null == isError
                 ? _value.isError
                 : isError // ignore: cast_nullable_to_non_nullable
-                    as bool?,
+                    as bool,
         data:
             freezed == data
                 ? _value.data
@@ -186,13 +176,13 @@ class _$AddPartnerStateImpl implements _AddPartnerState {
 
   @override
   @JsonKey()
-  final bool? isLoading;
+  final bool isLoading;
   @override
   @JsonKey()
-  final bool? isSuccess;
+  final bool isSuccess;
   @override
   @JsonKey()
-  final bool? isError;
+  final bool isError;
   @override
   final PartnerModel? data;
 
@@ -232,18 +222,18 @@ class _$AddPartnerStateImpl implements _AddPartnerState {
 
 abstract class _AddPartnerState implements AddPartnerState {
   const factory _AddPartnerState({
-    final bool? isLoading,
-    final bool? isSuccess,
-    final bool? isError,
+    final bool isLoading,
+    final bool isSuccess,
+    final bool isError,
     final PartnerModel? data,
   }) = _$AddPartnerStateImpl;
 
   @override
-  bool? get isLoading;
+  bool get isLoading;
   @override
-  bool? get isSuccess;
+  bool get isSuccess;
   @override
-  bool? get isError;
+  bool get isError;
   @override
   PartnerModel? get data;
 

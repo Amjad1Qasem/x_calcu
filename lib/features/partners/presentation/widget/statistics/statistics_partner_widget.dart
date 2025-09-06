@@ -5,6 +5,7 @@ import 'package:x_calcu/features/partners/presentation/widget/statistics/statist
 import 'package:x_calcu/features/partners/presentation/widget/statistics/statistics_partner_loading_widget.dart';
 import 'package:x_calcu/global/components/utils/error_widget_screen.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 class StatisticsPartnerWidget extends StatefulWidget {
   const StatisticsPartnerWidget({super.key});
@@ -26,16 +27,25 @@ class _StatisticsPartnerWidgetState extends State<StatisticsPartnerWidget> {
     final cubit = getIt<PartnerCubit>();
     return BlocBuilder<PartnerCubit, PartnerState>(
       bloc: cubit,
+      buildWhen:
+          (previous, current) =>
+              current is Loaded || current is Loading || current is Error,
       builder: (context, state) {
+        printSuccess('*** state $state');
         return state.maybeWhen(
           loading: () => const StatisticsPartnerLoadingWidget(),
           loaded: (data) => StatisticsLoadedWidget(apiStatistics: data),
           error:
               (message) => ErrorWidgetScreen(
+                isIcon: false,
                 onRetry: () => cubit.getStatistics(),
                 message: message,
               ),
-          orElse: () => ErrorWidgetScreen(onRetry: () => cubit.getStatistics()),
+          orElse:
+              () => ErrorWidgetScreen(
+                isIcon: false,
+                onRetry: () => cubit.getStatistics(),
+              ),
         );
       },
     );

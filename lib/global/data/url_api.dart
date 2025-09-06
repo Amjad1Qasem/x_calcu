@@ -8,15 +8,18 @@ class UrlApi {
 
   static String systemSetting = '/system-setting';
   static String infoUser = '/auth/user';
-  static String getPartnerts = '/getPartnerts';
   static String getPartner(id) => '/getPartner/$id';
 
   /// Operations
-  static String addOperation = '/operation';
+  static String addOperation = '/operations';
+  static String operationsDetails(operationId) => '/operations/$operationId';
+  static String editOperations(operationId) => '/operations/$operationId';
 
   static String allOperations = '/operations';
 
   /// Partner
-  static String addPartner = '/partner';
+  static String getPartnerts = '/partners';
+  static String addPartner = '/partners';
   static String partnersFilter = '/partners?operationType=input&page=1';
+  static String statistic = '/statistic';
 }

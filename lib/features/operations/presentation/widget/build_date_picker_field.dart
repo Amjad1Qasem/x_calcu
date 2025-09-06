@@ -7,6 +7,8 @@ Widget buildDatePickerField({
   required BuildContext context,
   required TextEditingController controller,
   bool isReadOnly = false,
+  String? errorText,
+  String? errorDateText,
 }) {
   return GestureDetector(
     onTap:
@@ -31,6 +33,7 @@ Widget buildDatePickerField({
         controller: controller,
         readOnly: true,
         enable: false,
+        errorText: errorDateText,
         prefixIcon: Icon(
           Iconsax.calendar_1_copy,
           color: Utils(context).secondTextColor,

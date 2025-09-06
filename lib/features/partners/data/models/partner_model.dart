@@ -11,7 +11,7 @@ class PartnerModel with _$PartnerModel {
     String? email,
     @JsonKey(name: 'updated_at') String? updatedAt,
     @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'total_percentage_value') String? totalPercentageValue,
+    @JsonKey(name: 'total_percentage_value') double? totalPercentageValue,
   }) = _PartnerModel;
 
   factory PartnerModel.fromJson(Map<String, dynamic> json) =>

@@ -19,7 +19,7 @@ abstract class AppImages {
   static const secondBoarding = '$_svgImagePath/second_boarding.svg';
   static const thirdBoarding = '$_svgImagePath/third_boarding.svg';
   static const emptyDataImage = '$_svgImagePath/no_data.svg';
-  static const networkErrorImage = '$_svgImagePath/error_network.svg';
+  static const networkErrorImage = '$_svgImagePath/error_image.svg';
   static const notFoundErrorImage = '$_svgImagePath/error_not_found.svg';
   static const packageImage = '$_svgImagePath/package_image.svg';
   static const earnedPointImage = '$_svgImagePath/points_added.svg';

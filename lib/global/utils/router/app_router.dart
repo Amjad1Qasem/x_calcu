@@ -4,6 +4,7 @@ import 'package:x_calcu/features/companies/presentation/screen/companies_screen.
 import 'package:x_calcu/features/layout/main_layout.dart';
 import 'package:x_calcu/features/login/presentation/screen/login_screen.dart';
 import 'package:x_calcu/features/notification/presentation/screen/notification_screen.dart';
+import 'package:x_calcu/features/operations/data/operations_model.dart';
 import 'package:x_calcu/features/operations/presentation/screen/add_operations_screen.dart';
 import 'package:x_calcu/features/operations/presentation/screen/edit_operations_screen.dart';
 import 'package:x_calcu/features/operations/presentation/screen/show_operations_details_screen.dart';
@@ -109,14 +110,16 @@ final GoRouter router = GoRouter(
       path: RouterPath.showOperationsDetailsScreen,
       name: RouterPath.showOperationsDetailsScreen,
       builder: (context, state) {
-        return ShowOperationsDetailsScreen();
+        final operationId = state.extra as int;
+        return ShowOperationsDetailsScreen(operationId: operationId);
       },
     ),
     GoRoute(
       path: RouterPath.editOperationsScreen,
       name: RouterPath.editOperationsScreen,
       builder: (context, state) {
-        return EditOperationsScreen();
+        final operation = state.extra as OperationModel;
+        return EditOperationsScreen(operation: operation);
       },
     ),
     GoRoute(

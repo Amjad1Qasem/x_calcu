@@ -7,6 +7,7 @@ class OperationsState with _$OperationsState {
     @Default(false) bool? isSuccess,
     @Default(false) bool? isError,
     @Default(false) bool? isOutputOperation,
+    @Default('') String? errorMessage,
     OperationModel? operation,
     @Default([]) List<OperationModel> operations,
   }) = _OperationsState;

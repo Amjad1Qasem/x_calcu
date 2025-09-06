@@ -27,7 +27,12 @@ mixin _$PartnerState {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,7 +45,12 @@ mixin _$PartnerState {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -53,7 +63,12 @@ mixin _$PartnerState {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -172,7 +187,12 @@ class _$InitialImpl implements _Initial {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return initial();
@@ -189,7 +209,12 @@ class _$InitialImpl implements _Initial {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return initial?.call();
@@ -206,7 +231,12 @@ class _$InitialImpl implements _Initial {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -327,7 +357,12 @@ class _$LoadingImpl implements Loading {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return loading();
@@ -344,7 +379,12 @@ class _$LoadingImpl implements Loading {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return loading?.call();
@@ -361,7 +401,12 @@ class _$LoadingImpl implements Loading {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -517,7 +562,12 @@ class _$LoadedImpl implements Loaded {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return loaded(data);
@@ -534,7 +584,12 @@ class _$LoadedImpl implements Loaded {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return loaded?.call(data);
@@ -551,7 +606,12 @@ class _$LoadedImpl implements Loaded {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -709,7 +769,12 @@ class _$ErrorImpl implements Error {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return error(message);
@@ -726,7 +791,12 @@ class _$ErrorImpl implements Error {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return error?.call(message);
@@ -743,7 +813,12 @@ class _$ErrorImpl implements Error {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -872,7 +947,12 @@ class _$PartnerLoadingImpl implements PartnerLoading {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return partnerloading();
@@ -889,7 +969,12 @@ class _$PartnerLoadingImpl implements PartnerLoading {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return partnerloading?.call();
@@ -906,7 +991,12 @@ class _$PartnerLoadingImpl implements PartnerLoading {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -1067,7 +1157,12 @@ class _$PartnerLoadedImpl implements PartnerLoaded {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return partnerloaded(data);
@@ -1084,7 +1179,12 @@ class _$PartnerLoadedImpl implements PartnerLoaded {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return partnerloaded?.call(data);
@@ -1101,7 +1201,12 @@ class _$PartnerLoadedImpl implements PartnerLoaded {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -1259,7 +1364,12 @@ class _$PartnerErrorImpl implements PartnerError {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return partnererror(message);
@@ -1276,7 +1386,12 @@ class _$PartnerErrorImpl implements PartnerError {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return partnererror?.call(message);
@@ -1293,7 +1408,12 @@ class _$PartnerErrorImpl implements PartnerError {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -1423,7 +1543,12 @@ class _$PartnersLoadingImpl implements PartnersLoading {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return partnersloading();
@@ -1440,7 +1565,12 @@ class _$PartnersLoadingImpl implements PartnersLoading {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return partnersloading?.call();
@@ -1457,7 +1587,12 @@ class _$PartnersLoadingImpl implements PartnersLoading {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
@@ -1534,7 +1669,7 @@ abstract class _$$PartnersLoadedImplCopyWith<$Res> {
     $Res Function(_$PartnersLoadedImpl) then,
   ) = __$$PartnersLoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<PartnerModel> data});
+  $Res call({List<PartnerModel> data, bool hasReachedMax, int currentPage});
 }
 
 /// @nodoc
@@ -1550,7 +1685,11 @@ class __$$PartnersLoadedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? data = null}) {
+  $Res call({
+    Object? data = null,
+    Object? hasReachedMax = null,
+    Object? currentPage = null,
+  }) {
     return _then(
       _$PartnersLoadedImpl(
         data:
@@ -1558,6 +1697,16 @@ class __$$PartnersLoadedImplCopyWithImpl<$Res>
                 ? _value._data
                 : data // ignore: cast_nullable_to_non_nullable
                     as List<PartnerModel>,
+        hasReachedMax:
+            null == hasReachedMax
+                ? _value.hasReachedMax
+                : hasReachedMax // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        currentPage:
+            null == currentPage
+                ? _value.currentPage
+                : currentPage // ignore: cast_nullable_to_non_nullable
+                    as int,
       ),
     );
   }
@@ -1566,8 +1715,11 @@ class __$$PartnersLoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PartnersLoadedImpl implements PartnersLoaded {
-  const _$PartnersLoadedImpl({required final List<PartnerModel> data})
-    : _data = data;
+  const _$PartnersLoadedImpl({
+    required final List<PartnerModel> data,
+    this.hasReachedMax = false,
+    this.currentPage = 1,
+  }) : _data = data;
 
   final List<PartnerModel> _data;
   @override
@@ -1578,8 +1730,15 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
   }
 
   @override
+  @JsonKey()
+  final bool hasReachedMax;
+  @override
+  @JsonKey()
+  final int currentPage;
+
+  @override
   String toString() {
-    return 'PartnerState.partnersloaded(data: $data)';
+    return 'PartnerState.partnersloaded(data: $data, hasReachedMax: $hasReachedMax, currentPage: $currentPage)';
   }
 
   @override
@@ -1587,12 +1746,20 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PartnersLoadedImpl &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.hasReachedMax, hasReachedMax) ||
+                other.hasReachedMax == hasReachedMax) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_data),
+    hasReachedMax,
+    currentPage,
+  );
 
   /// Create a copy of PartnerState
   /// with the given fields replaced by the non-null parameter values.
@@ -1616,10 +1783,15 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
-    return partnersloaded(data);
+    return partnersloaded(data, hasReachedMax, currentPage);
   }
 
   @override
@@ -1633,10 +1805,15 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
-    return partnersloaded?.call(data);
+    return partnersloaded?.call(data, hasReachedMax, currentPage);
   }
 
   @override
@@ -1650,12 +1827,17 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {
     if (partnersloaded != null) {
-      return partnersloaded(data);
+      return partnersloaded(data, hasReachedMax, currentPage);
     }
     return orElse();
   }
@@ -1717,10 +1899,15 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
 }
 
 abstract class PartnersLoaded implements PartnerState {
-  const factory PartnersLoaded({required final List<PartnerModel> data}) =
-      _$PartnersLoadedImpl;
+  const factory PartnersLoaded({
+    required final List<PartnerModel> data,
+    final bool hasReachedMax,
+    final int currentPage,
+  }) = _$PartnersLoadedImpl;
 
   List<PartnerModel> get data;
+  bool get hasReachedMax;
+  int get currentPage;
 
   /// Create a copy of PartnerState
   /// with the given fields replaced by the non-null parameter values.
@@ -1808,7 +1995,12 @@ class _$PartnersErrorImpl implements PartnersError {
     required TResult Function(PartnerModel data) partnerloaded,
     required TResult Function(String message) partnererror,
     required TResult Function() partnersloading,
-    required TResult Function(List<PartnerModel> data) partnersloaded,
+    required TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )
+    partnersloaded,
     required TResult Function(String message) partnerserror,
   }) {
     return partnerserror(message);
@@ -1825,7 +2017,12 @@ class _$PartnersErrorImpl implements PartnersError {
     TResult? Function(PartnerModel data)? partnerloaded,
     TResult? Function(String message)? partnererror,
     TResult? Function()? partnersloading,
-    TResult? Function(List<PartnerModel> data)? partnersloaded,
+    TResult? Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult? Function(String message)? partnerserror,
   }) {
     return partnerserror?.call(message);
@@ -1842,7 +2039,12 @@ class _$PartnersErrorImpl implements PartnersError {
     TResult Function(PartnerModel data)? partnerloaded,
     TResult Function(String message)? partnererror,
     TResult Function()? partnersloading,
-    TResult Function(List<PartnerModel> data)? partnersloaded,
+    TResult Function(
+      List<PartnerModel> data,
+      bool hasReachedMax,
+      int currentPage,
+    )?
+    partnersloaded,
     TResult Function(String message)? partnerserror,
     required TResult orElse(),
   }) {

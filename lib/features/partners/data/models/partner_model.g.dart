@@ -14,7 +14,8 @@ _$PartnerModelImpl _$$PartnerModelImplFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       updatedAt: json['updated_at'] as String?,
       createdAt: json['created_at'] as String?,
-      totalPercentageValue: json['total_percentage_value'] as String?,
+      totalPercentageValue:
+          (json['total_percentage_value'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$PartnerModelImplToJson(_$PartnerModelImpl instance) =>

@@ -1,32 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
-import 'package:x_calcu/features/partners/data/models/partner_model.dart';
+import 'package:x_calcu/features/partners/presentation/controller/partners_screen_controller.dart';
 import 'package:x_calcu/features/partners/presentation/widget/filter_header_partners_widget.dart';
 import 'package:x_calcu/features/partners/presentation/widget/partners_app_bar.dart';
-import 'package:x_calcu/features/partners/presentation/widget/partners_card.dart';
+import 'package:x_calcu/features/partners/presentation/widget/partners_list_widget.dart';
 import 'package:x_calcu/features/partners/presentation/widget/sort_and_oreder_operations_partners_widget.dart';
 import 'package:x_calcu/features/partners/presentation/widget/statistics/statistics_partner_widget.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
-import 'package:x_calcu/global/utils/helper/console_logger.dart';
-import 'package:x_calcu/global/utils/router/router_path.dart';
 
-class PartnersScreen extends StatelessWidget {
+class PartnersScreen extends StatefulWidget {
   const PartnersScreen({super.key});
 
   @override
+  State<PartnersScreen> createState() => _PartnersScreenState();
+}
+
+class _PartnersScreenState extends State<PartnersScreen> {
+  late final PartnersScreenController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PartnersScreenController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Skaffold(
-      isAppBarNull: true,
-      body: Stack(
-        children: [
-          RefreshIndicator(
-            onRefresh: () async {
-              getIt<PartnerCubit>().getStatistics();
-              printSuccess('RefreshIndicator PartnersScreen');
-            },
+    return BlocConsumer<PartnerCubit, PartnerState>(
+      bloc: getIt<PartnerCubit>(),
+      listener: (context, state) {
+        _controller.handleStateChange(state);
+
+        // Refresh statistics when loading starts (filter change)
+        if (state is PartnersLoading) {
+          getIt<PartnerCubit>().getStatistics();
+        }
+      },
+      builder: (context, state) {
+        return Skaffold(
+          isAppBarNull: true,
+
+          body: RefreshIndicator(
+            onRefresh: _controller.handleRefresh,
             child: CustomScrollView(
               slivers: [
                 // AppBar
@@ -43,27 +69,17 @@ class PartnersScreen extends StatelessWidget {
                 SliverToBoxAdapter(child: StatisticsPartnerWidget()),
                 //  Space
                 SliverToBoxAdapter(child: CommonSizes.vSmallestSpace),
-                // Cards List
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => PartnersCard(
-                      onTap:
-                          () => context.push(
-                            RouterPath.partnerDetailsScreen,
-                            extra: PartnerModel(id: 1, name: 'Partnert 1'),
-                          ),
-                    ),
-                    childCount: 10,
-                  ),
+                // Partners List with Pagination
+                PartnersListWidget(
+                  pagingController: _controller.pagingController,
                 ),
                 //  Space
                 SliverToBoxAdapter(child: CommonSizes.vBiggerSpace),
               ],
             ),
           ),
-          SortAndOrederPartnersWidget(),
-        ],
-      ),
+        );
+      },
     );
   }
 }

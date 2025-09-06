@@ -4,16 +4,16 @@ import 'package:x_calcu/global/networking/dio_helper.dart';
 import 'package:x_calcu/global/networking/result_freezed.dart';
 
 class HomeRepo {
-  Future<Result<List<OperationModel>>> getOperationsData({
-    String operationType = 'input',
-    String orderBy = 'asc',
-  }) async {
-    return await DioHelper.getAllModel<OperationModel>(
-      url: UrlApi.allOperations,
-      fromJson: OperationModel.fromJson,
-      query: {'operationType': operationType, 'orderBy': orderBy},
-    );
-  }
+  // Future<Result<List<OperationModel>>> getOperationsData({
+  //   String operationType = 'input',
+  //   String orderBy = 'asc',
+  // }) async {
+  //   return await DioHelper.getAllModel<OperationModel>(
+  //     url: UrlApi.allOperations,
+  //     fromJson: OperationModel.fromJson,
+  //     query: {'operationType': operationType, 'orderBy': orderBy},
+  //   );
+  // }
 
   Future<Result<List<OperationModel>>> getOperationsDataWithFilter({
     String? operationType,

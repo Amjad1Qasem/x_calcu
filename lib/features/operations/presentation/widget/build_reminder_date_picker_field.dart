@@ -6,6 +6,7 @@ import 'package:x_calcu/global/components/text_field_app.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
+import 'package:x_calcu/global/utils/functions/format_time.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import 'package:x_calcu/notification_service.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -16,6 +17,7 @@ Widget buildReminderDatePickerField({
   required TextEditingController reminderController,
   required TextEditingController customerController,
   bool isReadOnly = false,
+  String? errorDateText,
 }) {
   return GestureDetector(
     onTap:
@@ -70,8 +72,11 @@ Widget buildReminderDatePickerField({
                 }
 
                 // 4. تحديث النص في الحقل
+                final formattedDate = FormatTime.formatDateFromDateTime(
+                  pickedDate,
+                );
                 reminderController.text =
-                    "${pickedDate.year}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.day.toString().padLeft(2, '0')} - ${pickedTime.format(context)}";
+                    "$formattedDate - ${pickedTime.format(context)}";
 
                 // 5. اسم العميل
                 final String clientName =
@@ -116,6 +121,7 @@ Widget buildReminderDatePickerField({
         controller: reminderController,
         readOnly: true,
         enable: false,
+        errorText: errorDateText,
         prefixIcon: Icon(
           Iconsax.calendar_1_copy,
           color: Utils(context).secondTextColor,

@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +14,7 @@ class ErrorWidgetScreen extends StatelessWidget {
   final String? buttonLabel;
   final double? height;
   final bool closeAfterLoading;
+  final bool isIcon;
 
   const ErrorWidgetScreen({
     this.message,
@@ -23,6 +23,7 @@ class ErrorWidgetScreen extends StatelessWidget {
     this.buttonLabel,
     this.height,
     this.closeAfterLoading = false,
+    this.isIcon = true,
     super.key,
   });
 
@@ -36,9 +37,9 @@ class ErrorWidgetScreen extends StatelessWidget {
     return Center(
       child: Container(
         width: 500.w,
-        height: containerHeight,
+        // height: containerHeight,
         margin: EdgeInsets.symmetric(horizontal: 20.w),
-        padding: EdgeInsets.symmetric(horizontal: 10.sp),
+        padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 12.w),
         decoration: BoxDecoration(
           // color: Colors.red,
           borderRadius: BorderRadius.circular(20.r),
@@ -47,7 +48,7 @@ class ErrorWidgetScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildWarningIcon(containerHeight),
+            isIcon ? _buildWarningIcon(containerHeight) : SizedBox.shrink(),
             _buildMessageText(context, containerHeight),
             CommonSizes.vSmallestSpace,
             _buildRetryButton(context, containerHeight),
@@ -78,11 +79,12 @@ class ErrorWidgetScreen extends StatelessWidget {
         children: [
           Text(
             message ?? 'something_wrong_happened'.tr(),
-            style: Utils(context)
-                .blackBigText
-                .copyWith(fontWeight: FontWeight.w600),
+            style: Utils(
+              context,
+            ).blackBigText.copyWith(fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
+
           CommonSizes.vSmallestSpace,
           Text(
             subMessage ?? 'we_faces_some_issues'.tr(),

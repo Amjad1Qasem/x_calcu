@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_calcu/features/home/cubit/home_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
 import 'package:x_calcu/global/components/x_calc/animated_toggle_button.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
@@ -11,8 +11,8 @@ import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 class FilterHeaderPartnersWidget extends SliverPersistentHeaderDelegate {
   @override
   Widget build(context, double shrinkOffset, bool overlapsContent) {
-    final cubit = getIt<HomeCubit>();
-    return BlocBuilder<HomeCubit, HomeState>(
+    final cubit = getIt<PartnerCubit>();
+    return BlocBuilder<PartnerCubit, PartnerState>(
       bloc: cubit,
       builder: (context, state) {
         return Container(

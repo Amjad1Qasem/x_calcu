@@ -148,19 +148,74 @@
   "are_you_sure_you_want_to_logout": "Are you sure you want to logout?",
   "you_have_successfully_logged_in":"You have successfully logged in",
   "try_switching_to_output_operations_or_add_a_new_operation": "Try switching to output operations or add a new operation.",
-  "try_switching_to_input_operations_or_add_a_new_operation": "Try switching to input operations or add a new operation."
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
+  "try_switching_to_input_operations_or_add_a_new_operation": "Try switching to input operations or add a new operation.",
+  "connection_timeout":"Connection timed out",
+  "send_timeout":"Send timeout",
+  "unexpected_network_error":"Unexpected network error",
+  "ssl_error":"SSL error",
+  "connection_error":"Connection error",
+  "unknown_error":"Unknown error",
+  "loading_operation_details": "Loading operation details...",
+  "error_loading_operation": "Error loading operation details",
+  "no_operation_found": "No operation found",
+  "operation_details": "Operation Details",
+  "edit": "Edit",
+  "edit_operation": "Edit Operation",
+  "please_select": "Please select",
+  "value": "Value",
+  "date": "Date",
+  "total_paid_value": "Total Paid Value",
+  "total_received_value": "Total Received Value",
+  "retry": "Retry",
+  "operation_updated_successfully": "Operation updated successfully",
+  "error_updating_operation": "Error updating operation",
+  "error_updating_operation_please_check_your_input": "Error updating operation, please check your input",
+  "field_required": "This field is required",
+  "only_numbers_allowed": "Only numbers and decimal points are allowed",
+  "invalid_number": "Invalid number format",
+  "only_integers_allowed": "Only whole numbers are allowed",
+  "invalid_integer": "Invalid integer format",
+  "percentage_range_error": "Percentage must be between 0 and 100",
+  "field_name_required": "{0} is required",
+  "select_date_and_time": "Select date and time",
+  "error_past_time": "Cannot select a time in the past",
+  "alert_title": "Alert",
+  "error_reminder_setup": "Error setting up reminder",
+  "notification_title": "Payment Reminder",
+  "notification_body": "Payment reminder for client: {0}",
+  "unknown_client": "Unknown Client",
+  "reminder_date_before_invoice": "Reminder date cannot be before invoice date",
+  "operation_created_successfully": "Operation created successfully!",
+  "failed_to_create_operation": "Failed to create operation",
+  "creating_operation": "Creating operation...",
+  "please_fill_all_required_fields": "Please fill all required fields",
+  "partner_name_required": "Partner name is required",
+  "partner_created_successfully": "Partner created successfully!",
+  "partner_added_to_list": "Partner has been added to your list",
+  "failed_to_create_partner": "Failed to create partner",
+  "creating_partner": "Creating partner...",
+  "please_check_input_and_try_again": "Please check your input and try again",
+  "partner_name_is_required": "Partner name is required",
+  "enter_partner_name": "Enter partner name",
+  "enter_partner_phone": "Enter partner phone number",
+  "enter_partner_email": "Enter partner email address",
+  "total": "Total: {count}",
+  "no_email": "No email",
+  "no_phone": "No phone",
+  "no_partners_found": "No partners found",
+  "no_partners_found_message": "No partners found. Try switching to input operations or add a new partner.",
+  "total_invoice_values": "Total Invoice Values",
+  "total_paid_invoices": "Total Paid Invoices",
+  "remaining_invoices": "Remaining Invoices",
+  "due_amount": "Due Amount",
+  "received_amount": "Received Amount",
+  "remaining_amount": "Remaining Amount",
+  "profits": "Profits",
+  "total_invoice_values_value": "Total Invoice Values",
+  "total_paid_invoices_value": "Total Paid Invoices",
+  "remaining_invoices_value": "Remaining Invoices",
+  "due_amount_value": "Due Amount",
+  "received_amount_value": "Received Amount",
+  "remaining_amount_value": "Remaining Amount",
+  "profits_value": "Profits"
 }

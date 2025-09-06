@@ -110,7 +110,7 @@ class _MainLayoutState extends State<MainLayout> {
             ),
           ),
           confineToSafeArea: false,
-          navBarHeight: kBottomNavigationBarHeight + 12,
+          navBarHeight: kBottomNavigationBarHeight + 0,
           navBarStyle: NavBarStyle.style12,
           // navBarStyle: NavBarStyle.style16,
         );

@@ -3,19 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/global/components/text_field_app.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
-
 class PercentageCalculationField extends StatefulWidget {
   final TextEditingController valueController; // لعرض القيمة المحسوبة
   final TextEditingController percentageController; // لإدخال النسبة
   final double baseValue; // المبلغ الأساسي يلي نحسب منه
   final bool isReadOnly;
-
+  final String? errorText;
   const PercentageCalculationField({
     super.key,
     required this.valueController,
     required this.percentageController,
     required this.baseValue,
     required this.isReadOnly,
+    this.errorText,
   });
 
   @override
@@ -34,14 +34,25 @@ class _PercentageCalculationFieldState
           width: 100.w,
           child: GestureDetector(
             child: TextFieldApp(
+              errorText: widget.errorText,
               controller: widget.percentageController,
-              hintText: '',
+              readOnly: widget.isReadOnly,
+              
+              hintText: '%',
               style: Utils(context).normalText.copyWith(
                 fontWeight: FontWeight.w700,
                 fontSize: 18.sp,
               ),
-              keyboardType: TextInputType.number,
-
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              // validation:
+              // widget.isReadOnly
+              //     ? null
+              //     : (value) => InputValidators.validatePercentage(
+              //       value,
+              //       isRequired: true,
+              //     ),
               onChanged: (value) {
                 final percent = double.tryParse(value) ?? 0;
                 final calculated = (widget.baseValue * percent) / 100;

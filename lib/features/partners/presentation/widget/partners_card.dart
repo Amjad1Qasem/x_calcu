@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 
 // Partners Card Widget
 class PartnersCard extends StatelessWidget {
-  const PartnersCard({super.key, this.onTap});
+  const PartnersCard({super.key, required this.partner, this.onTap});
+  final PartnerModel partner;
   final Function()? onTap;
 
   @override
@@ -38,7 +40,7 @@ class PartnersCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Partner1',
+                      partner.name ?? 'Unknown Partner',
                       overflow: TextOverflow.ellipsis,
                       style: Utils(
                         context,
@@ -53,7 +55,12 @@ class PartnersCard extends StatelessWidget {
               // CommonSizes.vPluSmallerSpace,
               AppButton(
                 onTap: () {},
-                label: 'Total: 10 million',
+                label: "total".tr(
+                  namedArgs: {
+                    "count":
+                        partner.totalPercentageValue?.toStringAsFixed(2) ?? '0',
+                  },
+                ),
                 icon: Iconsax.money_recive_copy,
                 padding: EdgeInsets.zero,
                 isCustomRadius: true,
@@ -87,7 +94,7 @@ class PartnersCard extends StatelessWidget {
               CommonSizes.hTheSmallestSpace,
               Expanded(
                 child: Text(
-                  'email1@gmail.com',
+                  partner.email ?? 'no_email'.tr(),
                   overflow: TextOverflow.ellipsis,
                   style: Utils(context).normalText.copyWith(
                     fontSize: 16.sp,
@@ -107,7 +114,7 @@ class PartnersCard extends StatelessWidget {
             Icon(Iconsax.call_copy, size: 20.sp, color: Utils(context).primary),
             CommonSizes.hTheSmallestSpace,
             Text(
-              '963 994744907',
+              partner.phone ?? 'no_phone'.tr(),
               overflow: TextOverflow.ellipsis,
               style: Utils(context).normalText.copyWith(
                 fontSize: 16.sp,

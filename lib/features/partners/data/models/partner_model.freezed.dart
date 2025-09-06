@@ -30,7 +30,7 @@ mixin _$PartnerModel {
   @JsonKey(name: 'created_at')
   String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_percentage_value')
-  String? get totalPercentageValue => throw _privateConstructorUsedError;
+  double? get totalPercentageValue => throw _privateConstructorUsedError;
 
   /// Serializes this PartnerModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,7 +56,7 @@ abstract class $PartnerModelCopyWith<$Res> {
     String? email,
     @JsonKey(name: 'updated_at') String? updatedAt,
     @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'total_percentage_value') String? totalPercentageValue,
+    @JsonKey(name: 'total_percentage_value') double? totalPercentageValue,
   });
 }
 
@@ -119,7 +119,7 @@ class _$PartnerModelCopyWithImpl<$Res, $Val extends PartnerModel>
                 freezed == totalPercentageValue
                     ? _value.totalPercentageValue
                     : totalPercentageValue // ignore: cast_nullable_to_non_nullable
-                        as String?,
+                        as double?,
           )
           as $Val,
     );
@@ -142,7 +142,7 @@ abstract class _$$PartnerModelImplCopyWith<$Res>
     String? email,
     @JsonKey(name: 'updated_at') String? updatedAt,
     @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'total_percentage_value') String? totalPercentageValue,
+    @JsonKey(name: 'total_percentage_value') double? totalPercentageValue,
   });
 }
 
@@ -204,7 +204,7 @@ class __$$PartnerModelImplCopyWithImpl<$Res>
             freezed == totalPercentageValue
                 ? _value.totalPercentageValue
                 : totalPercentageValue // ignore: cast_nullable_to_non_nullable
-                    as String?,
+                    as double?,
       ),
     );
   }
@@ -242,7 +242,7 @@ class _$PartnerModelImpl implements _PartnerModel {
   final String? createdAt;
   @override
   @JsonKey(name: 'total_percentage_value')
-  final String? totalPercentageValue;
+  final double? totalPercentageValue;
 
   @override
   String toString() {
@@ -301,7 +301,7 @@ abstract class _PartnerModel implements PartnerModel {
     final String? email,
     @JsonKey(name: 'updated_at') final String? updatedAt,
     @JsonKey(name: 'created_at') final String? createdAt,
-    @JsonKey(name: 'total_percentage_value') final String? totalPercentageValue,
+    @JsonKey(name: 'total_percentage_value') final double? totalPercentageValue,
   }) = _$PartnerModelImpl;
 
   factory _PartnerModel.fromJson(Map<String, dynamic> json) =
@@ -323,7 +323,7 @@ abstract class _PartnerModel implements PartnerModel {
   String? get createdAt;
   @override
   @JsonKey(name: 'total_percentage_value')
-  String? get totalPercentageValue;
+  double? get totalPercentageValue;
 
   /// Create a copy of PartnerModel
   /// with the given fields replaced by the non-null parameter values.

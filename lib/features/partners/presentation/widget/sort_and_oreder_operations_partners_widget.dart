@@ -1,95 +1,10 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:iconsax_flutter/iconsax_flutter.dart';
-// import 'package:x_calcu/features/home/cubit/home_cubit.dart';
-// import 'package:x_calcu/global/components/bottom_dialog/show_filter_bottom_sheet.dart';
-// import 'package:x_calcu/global/design/themes/themes.dart';
-// import 'package:x_calcu/global/utils/di/dependency_injection.dart';
-
-// class SortAndOrederPartnersWidget extends StatelessWidget {
-//   const SortAndOrederPartnersWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     List<String> sortOptions = [
-//       // 'price_low_to_high',
-//       // 'price_high_to_low',
-//       'name_a_to_z',
-//       'name_z_to_a',
-//     ];
-//     return BlocBuilder<HomeCubit, HomeState>(
-//       bloc: getIt<HomeCubit>(),
-//       buildWhen: (_, __) => true,
-//       builder: (context, state) {
-//         String selectedSortOption = sortOptions.first;
-//         // getIt<HomeCubit>().sortBy != ''
-//         //     ? getIt<HomeCubit>().sortBy
-//         //     : sortOptions.first;
-//         return Positioned(
-//           bottom: 20.sp,
-//           // --- Changes here for centering ---
-//           // left: 60,
-//           // right: 60,
-//           // Visibility:
-//           // getIt<HomeCubit>().jobsPagingController.items?.isNotEmpty ??
-//           //         false,
-//           // bottom: 20.sp,
-//           // left: MediaQuery.of(context).size.width * 0.34,
-//           child: Container(
-//             padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 6.sp),
-//             decoration: BoxDecoration(
-//               color: Utils(context).darkCardColor,
-//               borderRadius: BorderRadius.circular(20),
-//               boxShadow: [
-//                 BoxShadow(
-//                   color: Colors.black87.withValues(alpha: 0.3),
-//                   spreadRadius: 2,
-//                   blurRadius: 1,
-//                   offset: const Offset(1, 1),
-//                 ),
-//               ],
-//             ),
-//             child: Row(
-//               mainAxisSize: MainAxisSize.min,
-//               children: [
-//                 Icon(Iconsax.gps_copy, size: 21.sp),
-//                 Container(
-//                   margin: EdgeInsets.symmetric(horizontal: 10.sp),
-//                   width: 1,
-//                   color: Colors.grey[800],
-//                   height: 20.sp,
-//                 ),
-//                 GestureDetector(
-//                   onTap: () {
-//                     showFilterBottomSheet(
-//                       height: 200,
-//                       context,
-//                       sortOptions,
-//                       selectedSortOption,
-//                       (value) {
-//                         debugPrint('sort by $value');
-//                         // getIt<HomeCubit>().setSortBy(value);
-//                       },
-//                     );
-//                   },
-//                   child: Icon(Iconsax.sort_copy, size: 21.sp),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:x_calcu/features/home/cubit/home_cubit.dart';
-import 'package:x_calcu/global/components/bottom_dialog/show_filter_bottom_sheet.dart';
+import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
+import 'package:x_calcu/global/components/bottom_dialog/show_advanced_filter_bottom_sheet.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 
@@ -98,67 +13,91 @@ class SortAndOrederPartnersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> sortOptions = [
-      'from_newest_to_oldest'.tr(),
-      'from_oldest_to_newest'.tr(),
-    ];
-    return BlocBuilder<HomeCubit, HomeState>(
-      bloc: getIt<HomeCubit>(),
+    return BlocBuilder<PartnerCubit, PartnerState>(
+      bloc: getIt<PartnerCubit>(),
       buildWhen: (_, __) => true,
       builder: (context, state) {
-        String selectedSortOption = sortOptions.first;
+        final cubit = getIt<PartnerCubit>();
+
+        // Calculate the bottom position dynamically
+        final bottomPadding = MediaQuery.of(context).padding.bottom;
+        final bottomNavBarHeight = kBottomNavigationBarHeight;
+
+        // For positioning relative to screen edge
+        final additionalSpacing = 20.sp;
+
         return Positioned(
-          bottom: 20.sp,
-          left: 0, // Set left to 0
-          right: 0, // Set right to 0, which makes the child fill the width
-          child: Center(
-            // Wrap the Container with Center to truly center it horizontally
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 6.sp),
-              decoration: BoxDecoration(
-                color: Utils(context).darkCardColor,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black87.withValues(alpha: 0.3),
-                    spreadRadius: 2,
-                    blurRadius: 1,
-                    offset: const Offset(1, 1),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Iconsax.sort_copy, size: 21.sp),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10.sp),
-                    width: 1,
-                    color: Colors.grey[800],
-                    height: 20.sp,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      showFilterBottomSheet(
-                        height: 800,
-                        context,
-                        sortOptions,
-                        selectedSortOption,
-                        (value) {
-                          debugPrint('sort by $value');
-                          // getIt<HomeCubit>().setSortBy(value);
-                        },
-                      );
-                    },
-                    child: Icon(Iconsax.calendar_1_copy, size: 21.sp),
-                  ),
-                ],
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            margin: EdgeInsets.only(
+              bottom: bottomPadding + bottomNavBarHeight + additionalSpacing,
+            ),
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 15.sp,
+                  vertical: 6.sp,
+                ),
+                decoration: BoxDecoration(
+                  color: Utils(context).darkCardColor,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black87.withValues(alpha: 0.3),
+                      spreadRadius: 2,
+                      blurRadius: 1,
+                      offset: const Offset(1, 1),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Toggle between asc and desc based on current value
+                        final newOrderBy =
+                            cubit.orderBy == 'asc' ? 'desc' : 'asc';
+                        cubit.setOrderBy(newOrderBy);
+                      },
+                      child: Icon(Iconsax.calendar_1_copy, size: 21.sp),
+                    ),
+                
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10.sp),
+                      width: 1,
+                      color: Colors.grey[800],
+                      height: 20.sp,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        final currentFilter = FilterData(
+                          orderBy: cubit.orderBy,
+                          startDate: null,
+                          endDate: null,
+                        );
+
+                        showAdvancedFilterBottomSheet(context, currentFilter, (
+                          filterData,
+                        ) {
+                          cubit.setOrderBy(filterData.orderBy);
+                          // cubit.setDateRange(
+                          //   filterData.startDate,
+                          //   filterData.endDate,
+                          // );
+                        });
+                      },
+                      child: Icon(Iconsax.sort_copy, size: 21.sp),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         );
       },
     );
- 
   }
 }

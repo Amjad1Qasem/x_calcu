@@ -5,12 +5,15 @@ import 'package:x_calcu/global/components/form_label_widget.dart';
 import 'package:x_calcu/global/components/text_field_app.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
+import 'package:x_calcu/global/utils/validation/input_validators.dart';
 
 Widget buildPaymentField({
   required BuildContext context,
   required TextEditingController paidAmountController,
   required TextEditingController paidDateController,
   bool isReadOnly = false,
+  String? errorText,
+  String? errorDateText,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 1.sp),
@@ -34,9 +37,17 @@ Widget buildPaymentField({
           TextFieldApp(
             controller: paidAmountController,
             hintText: '',
-            keyboardType: TextInputType.number,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             readOnly: isReadOnly,
             enable: !isReadOnly,
+            errorText: errorText,
+            validation:
+                isReadOnly
+                    ? null
+                    : (value) => InputValidators.validateNumeric(
+                      value,
+                      isRequired: false,
+                    ),
           ),
           CommonSizes.vSmallestSpace,
           FormLabelWidget(label: "date", required: false),
@@ -44,6 +55,8 @@ Widget buildPaymentField({
             context: context,
             controller: paidDateController,
             isReadOnly: isReadOnly,
+            errorDateText: errorDateText,
+            errorText: errorText,
           ),
         ],
       ),
@@ -56,6 +69,8 @@ Widget buildReceivedField({
   required TextEditingController receivedAmountController,
   required TextEditingController receivedDateController,
   bool isReadOnly = false,
+  String? errorText,
+  String? errorDateText,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 1.sp),
@@ -79,9 +94,17 @@ Widget buildReceivedField({
           TextFieldApp(
             controller: receivedAmountController,
             hintText: '',
-            keyboardType: TextInputType.number,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             readOnly: isReadOnly,
             enable: !isReadOnly,
+            errorText: errorText,
+            validation:
+                isReadOnly
+                    ? null
+                    : (value) => InputValidators.validateNumeric(
+                      value,
+                      isRequired: false,
+                    ),
           ),
           CommonSizes.vSmallestSpace,
           FormLabelWidget(label: "date"),
@@ -89,6 +112,8 @@ Widget buildReceivedField({
             context: context,
             controller: receivedDateController,
             isReadOnly: isReadOnly,
+            errorText: errorText,
+            errorDateText: errorDateText,
           ),
         ],
       ),

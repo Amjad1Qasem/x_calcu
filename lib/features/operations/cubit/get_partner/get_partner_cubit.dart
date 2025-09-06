@@ -11,9 +11,9 @@ class GetPartnerCubit extends Cubit<GetPartnerState> {
 
   GetPartnerCubit(this._operationsRepo) : super(const GetPartnerState());
 
-  Future<void> getOperationsDropdown() async {
+  Future<void> getPartnersDropdown() async {
     emit(state.copyWith(isLoading: true, isError: false));
-    final response = await _operationsRepo.getCvFieldssData();
+    final response = await _operationsRepo.getPartnersDropdown();
 
     response.when(
       success: (data) {

@@ -21,6 +21,7 @@ mixin _$OperationsState {
   bool? get isSuccess => throw _privateConstructorUsedError;
   bool? get isError => throw _privateConstructorUsedError;
   bool? get isOutputOperation => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
   OperationModel? get operation => throw _privateConstructorUsedError;
   List<OperationModel> get operations => throw _privateConstructorUsedError;
 
@@ -43,6 +44,7 @@ abstract class $OperationsStateCopyWith<$Res> {
     bool? isSuccess,
     bool? isError,
     bool? isOutputOperation,
+    String? errorMessage,
     OperationModel? operation,
     List<OperationModel> operations,
   });
@@ -69,6 +71,7 @@ class _$OperationsStateCopyWithImpl<$Res, $Val extends OperationsState>
     Object? isSuccess = freezed,
     Object? isError = freezed,
     Object? isOutputOperation = freezed,
+    Object? errorMessage = freezed,
     Object? operation = freezed,
     Object? operations = null,
   }) {
@@ -94,6 +97,11 @@ class _$OperationsStateCopyWithImpl<$Res, $Val extends OperationsState>
                     ? _value.isOutputOperation
                     : isOutputOperation // ignore: cast_nullable_to_non_nullable
                         as bool?,
+            errorMessage:
+                freezed == errorMessage
+                    ? _value.errorMessage
+                    : errorMessage // ignore: cast_nullable_to_non_nullable
+                        as String?,
             operation:
                 freezed == operation
                     ? _value.operation
@@ -138,6 +146,7 @@ abstract class _$$OperationsStateImplCopyWith<$Res>
     bool? isSuccess,
     bool? isError,
     bool? isOutputOperation,
+    String? errorMessage,
     OperationModel? operation,
     List<OperationModel> operations,
   });
@@ -164,6 +173,7 @@ class __$$OperationsStateImplCopyWithImpl<$Res>
     Object? isSuccess = freezed,
     Object? isError = freezed,
     Object? isOutputOperation = freezed,
+    Object? errorMessage = freezed,
     Object? operation = freezed,
     Object? operations = null,
   }) {
@@ -189,6 +199,11 @@ class __$$OperationsStateImplCopyWithImpl<$Res>
                 ? _value.isOutputOperation
                 : isOutputOperation // ignore: cast_nullable_to_non_nullable
                     as bool?,
+        errorMessage:
+            freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                    as String?,
         operation:
             freezed == operation
                 ? _value.operation
@@ -212,6 +227,7 @@ class _$OperationsStateImpl implements _OperationsState {
     this.isSuccess = false,
     this.isError = false,
     this.isOutputOperation = false,
+    this.errorMessage = '',
     this.operation,
     final List<OperationModel> operations = const [],
   }) : _operations = operations;
@@ -229,6 +245,9 @@ class _$OperationsStateImpl implements _OperationsState {
   @JsonKey()
   final bool? isOutputOperation;
   @override
+  @JsonKey()
+  final String? errorMessage;
+  @override
   final OperationModel? operation;
   final List<OperationModel> _operations;
   @override
@@ -241,7 +260,7 @@ class _$OperationsStateImpl implements _OperationsState {
 
   @override
   String toString() {
-    return 'OperationsState(isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isOutputOperation: $isOutputOperation, operation: $operation, operations: $operations)';
+    return 'OperationsState(isLoading: $isLoading, isSuccess: $isSuccess, isError: $isError, isOutputOperation: $isOutputOperation, errorMessage: $errorMessage, operation: $operation, operations: $operations)';
   }
 
   @override
@@ -256,6 +275,8 @@ class _$OperationsStateImpl implements _OperationsState {
             (identical(other.isError, isError) || other.isError == isError) &&
             (identical(other.isOutputOperation, isOutputOperation) ||
                 other.isOutputOperation == isOutputOperation) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
             (identical(other.operation, operation) ||
                 other.operation == operation) &&
             const DeepCollectionEquality().equals(
@@ -271,6 +292,7 @@ class _$OperationsStateImpl implements _OperationsState {
     isSuccess,
     isError,
     isOutputOperation,
+    errorMessage,
     operation,
     const DeepCollectionEquality().hash(_operations),
   );
@@ -293,6 +315,7 @@ abstract class _OperationsState implements OperationsState {
     final bool? isSuccess,
     final bool? isError,
     final bool? isOutputOperation,
+    final String? errorMessage,
     final OperationModel? operation,
     final List<OperationModel> operations,
   }) = _$OperationsStateImpl;
@@ -305,6 +328,8 @@ abstract class _OperationsState implements OperationsState {
   bool? get isError;
   @override
   bool? get isOutputOperation;
+  @override
+  String? get errorMessage;
   @override
   OperationModel? get operation;
   @override

@@ -27,7 +27,7 @@ class HomeOperationsList extends StatelessWidget {
               onTap:
                   () => context.push(
                     RouterPath.showOperationsDetailsScreen,
-                    extra: operation,
+                    extra: operation.id,
                   ),
             ),
         firstPageProgressIndicatorBuilder: (context) => _buildShimmerList(),

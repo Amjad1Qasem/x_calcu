@@ -31,7 +31,7 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
   @override
   void initState() {
     getIt<PartnerCubit>().getStatistics();
-    getIt<PartnerCubit>().getPartnerDetails(id: widget.partner.id!);
+    getIt<PartnerCubit>().getPartner(id: widget.partner.id!);
     super.initState();
   }
 
@@ -72,6 +72,7 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
                       onTap:
                           () => context.push(
                             RouterPath.showOperationsDetailsScreen,
+                            extra: 1,
                           ),
                     ),
                     childCount: 10,

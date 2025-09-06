@@ -20,9 +20,7 @@ class Validation {
     return msg;
   }
 
-  String? validatePassword(
-    String value,
-  ) {
+  String? validatePassword(String value) {
     if (value.isEmpty) {
       return "empty_password".tr();
     }
@@ -46,8 +44,9 @@ class Validation {
       return "empty_password".tr();
     }
     if (value.length < desirableLength) {
-      return "password_length"
-          .tr(namedArgs: {"count": desirableLength.toString()});
+      return "password_length".tr(
+        namedArgs: {"count": desirableLength.toString()},
+      );
     }
     return null;
   }
@@ -84,29 +83,32 @@ class Validation {
       return "required_field".tr();
     }
     if (value.length < desirableLength) {
-      return "must_be_at_least"
-          .tr(namedArgs: {"count": desirableLength.toString()});
+      return "must_be_at_least".tr(
+        namedArgs: {"count": desirableLength.toString()},
+      );
     }
     return null;
   }
 
   String? validatePhoneNumber({required String value}) {
-    // التعبير المنظم: أول رقم من 1-9، ثم 8 أرقام من 0-9
-    // String pattern = r'^[1-9]\d{8}$';
-    String pattern = r'^[1-9]\d{8,}$';
+    // Standard international phone number pattern: allows optional +, country code, and 9-15 digits
+    String pattern = r'^\+?[1-9]\d{8,14}$';
     RegExp regex = RegExp(pattern);
 
     if (value.isEmpty) {
       return "empty_phone".tr();
     }
     if (!regex.hasMatch(value)) {
-      return "phone_length".tr(namedArgs: {"count": "9"});
+      return "invalid_phone".tr();
     }
     return null;
   }
 
   String? validateReEnteredPassword(
-      String newPassword, String confirmedPassword, BuildContext context) {
+    String newPassword,
+    String confirmedPassword,
+    BuildContext context,
+  ) {
     if (confirmedPassword.isEmpty) {
       return "confirm_password".tr();
     }
@@ -116,9 +118,7 @@ class Validation {
     return null;
   }
 
-  String? validateEmail(
-    String email,
-  ) {
+  String? validateEmail(String email) {
     // if (email.isEmpty) {
     //   return "email_required".tr(); // البريد الإلكتروني مطلوب
     // }
@@ -141,9 +141,7 @@ class Validation {
     return null;
   }
 
-  String? validateEmpty(
-    String value,
-  ) {
+  String? validateEmpty(String value) {
     if (value.isEmpty) {
       return "field_should_not_empty".tr();
     }
@@ -175,8 +173,9 @@ class Validation {
       return "empty_location".tr();
     }
     if (value.length < desirableLength) {
-      return "location_length"
-          .tr(namedArgs: {"count": desirableLength.toString()});
+      return "location_length".tr(
+        namedArgs: {"count": desirableLength.toString()},
+      );
     }
     return null;
   }

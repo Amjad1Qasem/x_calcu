@@ -7,6 +7,7 @@ import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/x_calc/operation_type.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
+import 'package:x_calcu/global/utils/functions/format_time.dart';
 
 // Operation Card Widget
 class OperationCard extends StatelessWidget {
@@ -23,16 +24,22 @@ class OperationCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              operation?.notes ??
-                  'A mediation was conducted between our company and a client to sell a residential property, and an agreed-upon financial amount of 5,000 Saudi Riyals was due as a commission for this transaction...',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Utils(
-                context,
-              ).normalText.copyWith(fontWeight: FontWeight.w500),
+            Visibility(
+              visible: operation!.notes != null,
+              child: Column(
+                children: [
+                  Text(
+                    operation?.notes ?? '',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Utils(
+                      context,
+                    ).normalText.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  CommonSizes.vSmallestSpace,
+                ],
+              ),
             ),
-            CommonSizes.vSmallestSpace,
             typeAndAmount(context),
             CommonSizes.vSmallestSpace,
             nameAnDate(context),
@@ -72,7 +79,7 @@ class OperationCard extends StatelessWidget {
           children: [
             Text('Amount due: ', style: Utils(context).normalText),
             Text(
-              operation?.totalDue?.toStringAsFixed(0) ?? '8,000,000',
+              operation?.totalDue?.toStringAsFixed(0) ?? 'لا يوجد',
               style: Utils(
                 context,
               ).normalText.copyWith(fontWeight: FontWeight.bold),
@@ -84,29 +91,38 @@ class OperationCard extends StatelessWidget {
   }
 
   Row nameAnDate(BuildContext context) {
+    final formattedDate = FormatTime.formatDateFromDateTime(
+      DateTime.parse(operation?.operationDate ?? ''),
+    );
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(CupertinoIcons.person, size: 20.sp, color: Utils(context).primary),
         CommonSizes.hTheSmallestSpace,
         Text(
-          operation?.clientName ?? 'فاروق الحالي',
+          operation?.clientName ?? 'لا يوجد',
           style: Utils(
             context,
           ).normalText.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600),
         ),
         Spacer(),
-        Icon(
-          Iconsax.calendar_edit_copy,
-          size: 20.sp,
-          color: Utils(context).primary,
+        Visibility(
+          visible: operation!.operationDate != null,
+          child: Icon(
+            Iconsax.calendar_edit_copy,
+            size: 20.sp,
+            color: Utils(context).primary,
+          ),
         ),
         CommonSizes.hTheSmallestSpace,
-        Text(
-          operation?.operationDate ?? '1/1/2025',
-          style: Utils(
-            context,
-          ).normalText.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600),
+        Visibility(
+          visible: operation!.operationDate != null,
+          child: Text(
+            formattedDate,
+            style: Utils(
+              context,
+            ).normalText.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          ),
         ),
       ],
     );

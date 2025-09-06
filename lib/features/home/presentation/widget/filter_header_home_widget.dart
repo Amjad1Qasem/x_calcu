@@ -22,7 +22,7 @@ class FilterHeaderHomeWidget extends SliverPersistentHeaderDelegate {
             child: AnimatedToggleButton(
               values: ["input".tr(), "output".tr()],
               state: cubit.isInput,
-              onTap: () => cubit.operationFilter(),
+              onTap: () => state is Loading ? null : cubit.operationFilter(),
               //  cubit.toggleHideCompanyName(),
             ),
           ),

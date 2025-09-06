@@ -2,7 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:x_calcu/features/operations/data/operations_model.dart';
+import 'package:x_calcu/features/operations/data/operation_request_model.dart';
 import 'package:x_calcu/features/operations/data/operations_repo.dart';
+import 'package:x_calcu/global/utils/functions/format_time.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 part 'operations_state.dart';
@@ -14,6 +16,7 @@ class OperationsCubit extends Cubit<OperationsState> {
 
   final GlobalKey<FormState> addOperationsKey = GlobalKey();
   bool isOutput = false;
+  int? selectedPartnerId; // Add this field to store selected partner ID
 
   // Controllers
   final TextEditingController partnerNameController = TextEditingController();
@@ -37,42 +40,98 @@ class OperationsCubit extends Cubit<OperationsState> {
       TextEditingController();
   final TextEditingController receivedDateController = TextEditingController();
   final TextEditingController operationTypeController = TextEditingController();
+  final TextEditingController totalPaidValueController =
+      TextEditingController();
+  final TextEditingController totalReceivedValueController =
+      TextEditingController();
 
   void toggleOperationType() {
     isOutput = !isOutput;
     emit(state.copyWith(isOutputOperation: isOutput));
   }
 
+  void resetState() {
+    selectedPartnerId = null; // Reset partner ID
+    emit(const OperationsState());
+  }
+
+  void setSelectedPartner(int partnerId, String partnerName) {
+    selectedPartnerId = partnerId;
+    partnerNameController.text = partnerName;
+  }
+
   void initializeWithModel(OperationModel model) {
-    partnerNameController.text = model.clientName ?? '';
-    customerController.text = model.partnerName ?? '';
+    // Basic fields
+    partnerNameController.text = model.partnerName ?? '';
+    customerController.text = model.clientName ?? '';
+    operationTypeController.text = model.operationType ?? '';
     invoiceNumberController.text = model.invoiceNumber ?? '';
     invoiceValueController.text = model.invoiceValue?.toString() ?? '';
     remainingInvoiceController.text = model.remainingInvoice?.toString() ?? '';
     totalDueController.text = model.totalDue?.toString() ?? '';
     remainingAmountController.text = model.remainingAmount?.toString() ?? '';
-    operationDateController.text = model.operationDate ?? '';
-    reminderDateController.text = model.reminderDate ?? '';
+    // Format operation date
+    operationDateController.text = FormatTime.formatDate(model.operationDate);
+
+    // Format reminder date
+    reminderDateController.text = FormatTime.formatDate(model.reminderDate);
     notesController.text = model.notes ?? '';
 
-    // Handle nested objects
+    // Handle nested objects - Paid Invoice
     if (model.paidInvoice != null) {
       paidAmountController.text =
           model.paidInvoice!.totalPaidValue?.toString() ?? '';
-      // You might want to handle the paid details list here
+
+      // Set total paid value
+      totalPaidValueController.text =
+          model.paidInvoice!.totalPaidValue?.toString() ?? '';
+
+      // Get the first paid detail for the date
+      if (model.paidInvoice!.paidDetails != null &&
+          model.paidInvoice!.paidDetails!.isNotEmpty) {
+        final firstPaidDetail = model.paidInvoice!.paidDetails!.first;
+        paidDateController.text = FormatTime.formatDate(
+          firstPaidDetail.invoiceDate,
+        );
+      }
     }
 
+    // Handle nested objects - Percentage Details
     if (model.percentageDetails != null) {
-      percentageController.text =
-          model.percentageDetails!.percentageValue?.toString() ?? '';
+      // Extract percentage value from the percentage string (e.g., "10%" -> "10")
+      final percentageStr = model.percentageDetails!.percentage ?? '';
+      final percentageValue = percentageStr.replaceAll('%', '');
+      percentageController.text = percentageValue;
+
+      // Set the calculated amount
       percentageAmountController.text =
           model.percentageDetails!.percentageValue?.toString() ?? '';
     }
 
+    // Handle nested objects - Received Amount
     if (model.receivedAmount != null) {
       receivedAmountController.text =
           model.receivedAmount!.totalReceivedValue?.toString() ?? '';
-      // You might want to handle the received details list here
+
+      // Set total received value
+      totalReceivedValueController.text =
+          model.receivedAmount!.totalReceivedValue?.toString() ?? '';
+
+      // Get the first received detail for the date
+      if (model.receivedAmount!.receivedDetails != null &&
+          model.receivedAmount!.receivedDetails!.isNotEmpty) {
+        final firstReceivedDetail =
+            model.receivedAmount!.receivedDetails!.first;
+        receivedDateController.text = FormatTime.formatDate(
+          firstReceivedDetail.invoiceDate,
+        );
+      }
+    }
+
+    // Set operation type toggle based on the model
+    if (model.operationType != null) {
+      isOutput = model.operationType!.toLowerCase() == 'output';
+      emit(state.copyWith(isOutputOperation: isOutput));
     }
 
     emit(state.copyWith(operation: model));
@@ -81,50 +140,32 @@ class OperationsCubit extends Cubit<OperationsState> {
   Future<void> createOperation() async {
     emit(state.copyWith(isLoading: true, isError: false));
 
-    // Create nested objects for the new model structure
-    final paidInvoice = PaidInvoiceSummary(
-      totalPaidValue: double.tryParse(paidAmountController.text) ?? 0,
-      paidDetails: [
-        PaidInvoiceDetail(
-          invoiceValue: double.tryParse(paidAmountController.text) ?? 0,
+    // Create request model for API
+    final requestModel = OperationRequestModel(
+      partnerId: selectedPartnerId, // Use selected partner ID
+      customerName: customerController.text,
+      operationType: isOutput ? 'Output' : 'Input',
+      invoiceNumber: invoiceNumberController.text,
+      invoiceValue: double.tryParse(invoiceValueController.text),
+      percentageOfBill: percentageController.text,
+      invoiceDate: operationDateController.text,
+      alertDate: reminderDateController.text,
+      comments: notesController.text,
+      paidBills: [
+        PaidBillRequest(
+          invoiceValue: paidAmountController.text,
           invoiceDate: paidDateController.text,
         ),
       ],
-    );
-
-    final percentageDetails = PercentageDetails(
-      percentage: '${percentageController.text}%',
-      percentageValue: double.tryParse(percentageController.text) ?? 0,
-    );
-
-    final receivedAmount = ReceivedAmountSummary(
-      totalReceivedValue: double.tryParse(receivedAmountController.text) ?? 0,
-      receivedDetails: [
-        ReceivedAmountDetail(
-          invoiceValue: double.tryParse(receivedAmountController.text) ?? 0,
+      receivedAmounts: [
+        ReceivedAmountRequest(
+          invoiceValue: receivedAmountController.text,
           invoiceDate: receivedDateController.text,
         ),
       ],
     );
 
-    final model = OperationModel(
-      partnerName: customerController.text,
-      clientName: partnerNameController.text,
-      operationType: isOutput ? 'Output' : 'Input',
-      invoiceNumber: invoiceNumberController.text,
-      invoiceValue: double.tryParse(invoiceValueController.text) ?? 0,
-      paidInvoice: paidInvoice,
-      remainingInvoice: double.tryParse(remainingInvoiceController.text) ?? 0,
-      percentageDetails: percentageDetails,
-      totalDue: double.tryParse(totalDueController.text) ?? 0,
-      receivedAmount: receivedAmount,
-      remainingAmount: double.tryParse(remainingAmountController.text) ?? 0,
-      operationDate: operationDateController.text,
-      reminderDate: reminderDateController.text,
-      notes: notesController.text,
-    );
-
-    final result = await _operationsRepo.createOperation(data: model);
+    final result = await _operationsRepo.createOperation(data: requestModel);
 
     result.when(
       success:
@@ -169,57 +210,79 @@ class OperationsCubit extends Cubit<OperationsState> {
   Future<void> updateOperation({required int operationId}) async {
     emit(state.copyWith(isLoading: true, isError: false));
 
-    // Create nested objects for the new model structure
-    final paidInvoice = PaidInvoiceSummary(
-      totalPaidValue: double.tryParse(paidAmountController.text) ?? 0,
-      paidDetails: [
-        PaidInvoiceDetail(
-          invoiceValue: double.tryParse(paidAmountController.text) ?? 0,
-          invoiceDate: paidDateController.text,
+    // Validate required fields
+    // if (customerController.text.trim().isEmpty ||
+    //     invoiceNumberController.text.trim().isEmpty ||
+    //     invoiceValueController.text.trim().isEmpty ||
+    //     percentageController.text.trim().isEmpty ||
+    //     operationDateController.text.trim().isEmpty) {
+    //   printError('Please fill in all required fields');
+    //   emit(
+    //     state.copyWith(
+    //       isLoading: false,
+    //       isError: true,
+    //       errorMessage: 'Please fill in all required fields',
+    //     ),
+    //   );
+    //   return;
+    // }
+
+    // Check if partner is selected
+    if (selectedPartnerId == null) {
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isError: true,
+          errorMessage: 'Please select a partner',
         ),
-      ],
-    );
+      );
+      return;
+    }
 
-    final percentageDetails = PercentageDetails(
-      percentage: '${percentageController.text}%',
-      percentageValue: double.tryParse(percentageController.text) ?? 0,
-    );
-
-    final receivedAmount = ReceivedAmountSummary(
-      totalReceivedValue: double.tryParse(receivedAmountController.text) ?? 0,
-      receivedDetails: [
-        ReceivedAmountDetail(
-          invoiceValue: double.tryParse(receivedAmountController.text) ?? 0,
-          invoiceDate: receivedDateController.text,
-        ),
-      ],
-    );
-
-    final model = OperationModel(
-      partnerName: customerController.text,
-      clientName: partnerNameController.text,
+    // Create request model for API
+    final requestModel = OperationRequestModel(
+      partnerId:
+          selectedPartnerId, // Use selected partner ID instead of operationId
+      customerName: customerController.text.trim(),
       operationType: isOutput ? 'Output' : 'Input',
-      invoiceNumber: invoiceNumberController.text,
-      invoiceValue: double.tryParse(invoiceValueController.text) ?? 0,
-      paidInvoice: paidInvoice,
-      remainingInvoice: double.tryParse(remainingInvoiceController.text) ?? 0,
-      percentageDetails: percentageDetails,
-      totalDue: double.tryParse(totalDueController.text) ?? 0,
-      receivedAmount: receivedAmount,
-      remainingAmount: double.tryParse(remainingAmountController.text) ?? 0,
-      operationDate: operationDateController.text,
-      reminderDate: reminderDateController.text,
-      notes: notesController.text,
+      invoiceNumber: invoiceNumberController.text.trim(),
+      invoiceValue: double.tryParse(invoiceValueController.text),
+      percentageOfBill: percentageController.text.trim(),
+      invoiceDate: operationDateController.text.trim(),
+      alertDate: reminderDateController.text.trim(),
+      comments: notesController.text.trim(),
+      paidBills:
+          paidAmountController.text.trim().isNotEmpty &&
+                  paidDateController.text.trim().isNotEmpty
+              ? [
+                PaidBillRequest(
+                  invoiceValue: paidAmountController.text.trim(),
+                  invoiceDate: paidDateController.text.trim(),
+                ),
+              ]
+              : null, // Only include if both fields have values
+      receivedAmounts:
+          receivedAmountController.text.trim().isNotEmpty &&
+                  receivedDateController.text.trim().isNotEmpty
+              ? [
+                ReceivedAmountRequest(
+                  invoiceValue: receivedAmountController.text.trim(),
+                  invoiceDate: receivedDateController.text.trim(),
+                ),
+              ]
+              : null, // Only include if both fields have values
     );
 
     final result = await _operationsRepo.updateOperation(
       operationId: operationId,
-      data: model,
+      data: requestModel,
     );
 
     result.when(
-      success:
-          (data) => emit(state.copyWith(isSuccess: true, isLoading: false)),
+      success: (data) {
+        printSuccess('data updated successfully :: $data');
+        emit(state.copyWith(isSuccess: true, isLoading: false));
+      },
       failure: (_) => emit(state.copyWith(isError: true, isLoading: false)),
     );
   }
@@ -242,5 +305,7 @@ class OperationsCubit extends Cubit<OperationsState> {
     receivedAmountController.dispose();
     receivedDateController.dispose();
     operationTypeController.dispose();
+    totalPaidValueController.dispose();
+    totalReceivedValueController.dispose();
   }
 }
