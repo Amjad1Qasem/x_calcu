@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_calcu/features/operations/data/cubit_type.dart';
-import 'package:x_calcu/features/operations/presentation/widget/add_operations_btn_widget.dart';
+import 'package:x_calcu/features/operations/presentation/widget/create_operation_widgets/add_operations_btn_widget.dart';
 import 'package:x_calcu/features/operations/presentation/widget/operations_fields_widget.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';

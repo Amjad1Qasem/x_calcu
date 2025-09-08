@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:x_calcu/features/operations/data/operation_request_model.dart';
 import 'package:x_calcu/features/operations/data/operations_repo.dart';
+import 'package:x_calcu/features/notification/data/notification_model.dart';
 import 'package:x_calcu/global/networking/failure.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import 'package:x_calcu/global/utils/helper/date_time_helper.dart';
@@ -14,15 +15,20 @@ part 'create_operation_cubit.freezed.dart';
 
 class CreateOperationCubit extends Cubit<CreateOperationState> {
   final OperationsRepo _operationsRepo;
+
   CreateOperationCubit(this._operationsRepo)
     : super(const CreateOperationState());
 
+  // Form and validation
   final GlobalKey<FormState> createOperationKey = GlobalKey();
-  bool isOutput = false;
-  int? selectedPartnerId;
   Map<String, dynamic> validationErrors = {};
 
-  // Method to get error message for a specific field
+  // Operation state
+  bool isOutput = false;
+  int? selectedPartnerId;
+  DateTime? selectedReminderDateTime;
+
+  /// Gets error message for a specific field
   String? getFieldError(String fieldName) {
     final errors = validationErrors[fieldName];
     if (errors is List && errors.isNotEmpty) {
@@ -31,13 +37,13 @@ class CreateOperationCubit extends Cubit<CreateOperationState> {
     return null;
   }
 
-  // Method to clear validation errors
+  /// Clears all validation errors
   void clearValidationErrors() {
     validationErrors.clear();
     emit(state.copyWith(isError: false, errorMessage: ''));
   }
 
-  // Controllers
+  // Text Controllers
   final TextEditingController partnerNameController = TextEditingController();
   final TextEditingController customerController = TextEditingController();
   final TextEditingController invoiceNumberController = TextEditingController();
@@ -64,74 +70,202 @@ class CreateOperationCubit extends Cubit<CreateOperationState> {
   final TextEditingController totalReceivedValueController =
       TextEditingController();
 
-  // Store the actual DateTime for API calls
-  DateTime? selectedReminderDateTime;
+  // ==================== Operation Type Management ====================
 
+  /// Toggles between input and output operation types
   void toggleOperationType() {
     isOutput = !isOutput;
     emit(state.copyWith(isOutputOperation: isOutput));
   }
 
-  void resetState() {
-    selectedPartnerId = null;
-    isOutput = false;
-    validationErrors.clear();
+  // ==================== Partner Management ====================
 
-    // Clear all controllers
-    partnerNameController.clear();
-    customerController.clear();
-    invoiceNumberController.clear();
-    invoiceValueController.clear();
-    remainingInvoiceController.clear();
-    totalDueController.clear();
-    remainingAmountController.clear();
-    operationDateController.clear();
-    reminderDateController.clear();
-    notesController.clear();
-    percentageAmountController.clear();
-    percentageController.clear();
-    paidAmountController.clear();
-    paidDateController.clear();
-    receivedAmountController.clear();
-    receivedDateController.clear();
-    operationTypeController.clear();
-    totalPaidValueController.clear();
-    totalReceivedValueController.clear();
-    selectedReminderDateTime = null;
-
-    emit(const CreateOperationState());
-  }
-
+  /// Sets the selected partner
   void setSelectedPartner(int partnerId, String partnerName) {
     selectedPartnerId = partnerId;
     partnerNameController.text = partnerName;
   }
 
+  // ==================== State Management ====================
+
+  /// Resets the entire form and state
+  void resetState() {
+    _resetOperationState();
+    _clearAllControllers();
+    _emitResetState();
+  }
+
+  /// Resets operation-specific state
+  void _resetOperationState() {
+    selectedPartnerId = null;
+    isOutput = false;
+    selectedReminderDateTime = null;
+    validationErrors.clear();
+  }
+
+  /// Clears all text controllers
+  void _clearAllControllers() {
+    final controllers = [
+      partnerNameController,
+      customerController,
+      invoiceNumberController,
+      invoiceValueController,
+      remainingInvoiceController,
+      totalDueController,
+      remainingAmountController,
+      operationDateController,
+      reminderDateController,
+      notesController,
+      percentageAmountController,
+      percentageController,
+      paidAmountController,
+      paidDateController,
+      receivedAmountController,
+      receivedDateController,
+      operationTypeController,
+      totalPaidValueController,
+      totalReceivedValueController,
+    ];
+
+    for (final controller in controllers) {
+      controller.clear();
+    }
+  }
+
+  /// Emits the reset state
+  void _emitResetState() {
+    emit(
+      state.copyWith(
+        isSuccess: false,
+        isError: false,
+        errorMessage: '',
+        isOutputOperation: false,
+      ),
+    );
+  }
+
+  // ==================== Test Data Management ====================
+
+  /// Fills all fields with test data for development purposes
+  void fillTestData() {
+    _setTestPartner();
+    _setTestBasicFields();
+    _setTestDates();
+    _setTestAmounts();
+    _setTestNotes();
+    _setTestOperationType();
+    clearValidationErrors();
+  }
+
+  /// Sets test partner data
+  void _setTestPartner() {
+    selectedPartnerId = 1;
+    partnerNameController.text = 'Test Partner';
+  }
+
+  /// Sets test basic field data
+  void _setTestBasicFields() {
+    customerController.text = 'Test Customer';
+    invoiceNumberController.text = '12345';
+    invoiceValueController.text = '10000';
+    remainingInvoiceController.text = '5000';
+    totalDueController.text = '8000';
+    remainingAmountController.text = '3000';
+  }
+
+  /// Sets test date fields
+  void _setTestDates() {
+    final today = DateTime.now();
+    final tomorrow = today.add(const Duration(days: 1));
+
+    operationDateController.text = "${today.year}/${today.month}/${today.day}";
+    selectedReminderDateTime = tomorrow;
+    reminderDateController.text =
+        "${tomorrow.year}/${tomorrow.month}/${tomorrow.day} - 09:00";
+  }
+
+  /// Sets test amount fields
+  void _setTestAmounts() {
+    final today = DateTime.now();
+    final todayStr = "${today.year}/${today.month}/${today.day}";
+
+    // Percentage fields
+    percentageController.text = '10';
+    percentageAmountController.text = '1000';
+
+    // Paid amount fields
+    paidAmountController.text = '2000';
+    paidDateController.text = todayStr;
+    totalPaidValueController.text = '2000';
+
+    // Received amount fields
+    receivedAmountController.text = '1500';
+    receivedDateController.text = todayStr;
+    totalReceivedValueController.text = '1500';
+  }
+
+  /// Sets test notes
+  void _setTestNotes() {
+    notesController.text = 'This is a test operation for development purposes.';
+  }
+
+  /// Sets test operation type
+  void _setTestOperationType() {
+    isOutput = false;
+    emit(state.copyWith(isOutputOperation: false));
+  }
+
+  // ==================== Operation Creation ====================
+
+  /// Creates a new operation
   Future<void> createOperation() async {
-    // Clear previous validation errors
     clearValidationErrors();
     emit(state.copyWith(isLoading: true, isError: false, errorMessage: ''));
 
-    // Validate required fields
-    if (selectedPartnerId == null ||
-        customerController.text.trim().isEmpty ||
-        invoiceNumberController.text.trim().isEmpty ||
-        invoiceValueController.text.trim().isEmpty ||
-        percentageController.text.trim().isEmpty ||
-        operationDateController.text.trim().isEmpty) {
-      emit(
-        state.copyWith(
-          isLoading: false,
-          isError: true,
-          errorMessage:
-              'Please fill in all required fields and select a partner',
-        ),
-      );
+    if (!_validateRequiredFields()) {
+      _emitValidationError();
       return;
     }
 
-    // Create request model for API
-    final requestModel = OperationRequestModel(
+    final requestModel = _buildRequestModel();
+    final result = await _operationsRepo.createOperation(data: requestModel);
+
+    await result.when(
+      success: (data) async {
+        await _handleCreateSuccess(data);
+      },
+      failure: (error) {
+        _handleCreateFailure(error);
+      },
+    );
+  }
+
+  /// Validates all required fields
+  bool _validateRequiredFields() {
+    return selectedPartnerId != null &&
+        customerController.text.trim().isNotEmpty &&
+        invoiceNumberController.text.trim().isNotEmpty &&
+        invoiceValueController.text.trim().isNotEmpty &&
+        percentageController.text.trim().isNotEmpty &&
+        operationDateController.text.trim().isNotEmpty;
+  }
+
+  /// Emits validation error state
+  void _emitValidationError() {
+    emit(
+      state.copyWith(
+        isLoading: false,
+        isError: true,
+        isSuccess: false,
+        errorMessage:
+            'please_fill_in_all_required_fields_and_select_a_partner'.tr(),
+      ),
+    );
+  }
+
+  /// Builds the operation request model
+  OperationRequestModel _buildRequestModel() {
+    return OperationRequestModel(
       partnerId: selectedPartnerId,
       customerName: customerController.text.trim(),
       operationType: isOutput ? 'Output' : 'Input',
@@ -139,73 +273,114 @@ class CreateOperationCubit extends Cubit<CreateOperationState> {
       invoiceValue: double.tryParse(invoiceValueController.text),
       percentageOfBill: percentageController.text.trim(),
       invoiceDate: operationDateController.text.trim(),
-      alertDate:
-          selectedReminderDateTime != null
-              ? DateTimeHelper.formatDateTimeForAPI(selectedReminderDateTime!)
-              : null,
+      alertDate: _getFormattedAlertDate(),
       comments: notesController.text.trim(),
-      paidBills:
-          paidAmountController.text.trim().isNotEmpty &&
-                  paidDateController.text.trim().isNotEmpty
-              ? [
-                PaidBillRequest(
-                  invoiceValue: paidAmountController.text.trim(),
-                  invoiceDate: paidDateController.text.trim(),
-                ),
-              ]
-              : null,
-      receivedAmounts:
-          receivedAmountController.text.trim().isNotEmpty &&
-                  receivedDateController.text.trim().isNotEmpty
-              ? [
-                ReceivedAmountRequest(
-                  invoiceValue: receivedAmountController.text.trim(),
-                  invoiceDate: receivedDateController.text.trim(),
-                ),
-              ]
-              : null,
-    );
-
-    final result = await _operationsRepo.createOperation(data: requestModel);
-
-    result.when(
-      success: (data) {
-        printSuccess('Operation created successfully: $data');
-
-        // Schedule notification if reminder date is set
-        if (selectedReminderDateTime != null) {
-          _scheduleReminderNotification();
-        }
-
-        emit(state.copyWith(isSuccess: true, isLoading: false));
-        // Reset form after successful creation
-        resetState();
-      },
-      failure: (error) {
-        if (error is ValidationInputError) {
-          validationErrors = error.errors ?? {};
-          emit(
-            state.copyWith(
-              isError: true,
-              isLoading: false,
-              errorMessage: error.message,
-            ),
-          );
-        } else {
-          printError('Failed to create operation: $error');
-          emit(
-            state.copyWith(
-              isError: true,
-              isLoading: false,
-              errorMessage: 'Failed to create operation. Please try again.',
-            ),
-          );
-        }
-      },
+      paidBills: _buildPaidBills(),
+      receivedAmounts: _buildReceivedAmounts(),
     );
   }
 
-  // Method to set reminder date and time
+  /// Gets formatted alert date for API
+  String? _getFormattedAlertDate() {
+    return selectedReminderDateTime != null
+        ? DateTimeHelper.formatDateTimeForAPI(selectedReminderDateTime!)
+        : null;
+  }
+
+  /// Builds paid bills list
+  List<PaidBillRequest>? _buildPaidBills() {
+    if (paidAmountController.text.trim().isNotEmpty &&
+        paidDateController.text.trim().isNotEmpty) {
+      return [
+        PaidBillRequest(
+          invoiceValue: paidAmountController.text.trim(),
+          invoiceDate: paidDateController.text.trim(),
+        ),
+      ];
+    }
+    return null;
+  }
+
+  /// Builds received amounts list
+  List<ReceivedAmountRequest>? _buildReceivedAmounts() {
+    if (receivedAmountController.text.trim().isNotEmpty &&
+        receivedDateController.text.trim().isNotEmpty) {
+      return [
+        ReceivedAmountRequest(
+          invoiceValue: receivedAmountController.text.trim(),
+          invoiceDate: receivedDateController.text.trim(),
+        ),
+      ];
+    }
+    return null;
+  }
+
+  /// Handles successful operation creation
+  Future<void> _handleCreateSuccess(dynamic data) async {
+    printSuccess('Operation created successfully: $data');
+
+    if (selectedReminderDateTime != null) {
+      await _scheduleReminderNotificationSafely();
+    }
+
+    emit(
+      state.copyWith(
+        isSuccess: true,
+        isError: false,
+        errorMessage: '',
+        isLoading: false,
+      ),
+    );
+  }
+
+  /// Handles operation creation failure
+  void _handleCreateFailure(dynamic error) {
+    if (error is ValidationInputError) {
+      _handleValidationError(error);
+    } else {
+      _handleGenericError(error);
+    }
+  }
+
+  /// Handles validation errors
+  void _handleValidationError(ValidationInputError error) {
+    validationErrors = error.errors ?? {};
+    emit(
+      state.copyWith(
+        isError: true,
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: error.message,
+      ),
+    );
+  }
+
+  /// Handles generic errors
+  void _handleGenericError(dynamic error) {
+    printError('Failed to create operation: $error');
+    emit(
+      state.copyWith(
+        isError: true,
+        isSuccess: false,
+        isLoading: false,
+        errorMessage: 'failed_to_create_operation'.tr(),
+      ),
+    );
+  }
+
+  /// Schedules reminder notification safely
+  Future<void> _scheduleReminderNotificationSafely() async {
+    try {
+      await _scheduleReminderNotification();
+    } catch (e, s) {
+      printError('Failed to schedule notification: $s');
+      printError('Failed to schedule notification: $e');
+    }
+  }
+
+  // ==================== Reminder Management ====================
+
+  /// Sets reminder date and time
   void setReminderDateTime(DateTime dateTime) {
     selectedReminderDateTime = dateTime;
     reminderDateController.text = DateTimeHelper.formatDateTimeForDisplay(
@@ -213,54 +388,78 @@ class CreateOperationCubit extends Cubit<CreateOperationState> {
     );
   }
 
-  // Method to schedule reminder notification
+  ///(step_1) Schedules reminder notification)(Storage Operation)
   Future<void> _scheduleReminderNotification() async {
-    if (selectedReminderDateTime == null) return;
+    if (selectedReminderDateTime == null) {
+      printWarning('⚠️ No reminder date selected, skipping notification');
+      return;
+    }
 
     try {
-      final String clientName =
+      final clientName =
           customerController.text.trim().isEmpty
               ? 'unknown_client'.tr()
               : customerController.text.trim();
+      final notificationId = DateTime.now().millisecondsSinceEpoch.remainder(
+        100000,
+      );
+      final reminderTime = selectedReminderDateTime!;
 
-      // Generate unique notification ID
-      final int notificationId = DateTime.now().millisecondsSinceEpoch
-          .remainder(100000);
+      printInfo('🔔 Scheduling notification for: $reminderTime');
+      printInfo('👤 Client: $clientName');
+      printInfo('💰 Amount: ${invoiceValueController.text}');
 
-      // Schedule the notification
       await NotificationService.scheduleNotification(
         id: notificationId,
-        title: 'notification_title'.tr(),
+        title: 'payment_reminder'.tr(),
         body: 'notification_body'.tr(args: [clientName]),
         payload: 'go_to_notifications',
-        scheduledTime: selectedReminderDateTime!,
+        scheduledTime: reminderTime,
+        type: isOutput ? NotificationType.output : NotificationType.input,
+        operationId:
+            notificationId, // Using notificationId as operationId for now
+        partnerName:
+            partnerNameController.text.trim().isNotEmpty
+                ? partnerNameController.text.trim()
+                : null,
+        customerName: clientName,
+        amount: double.tryParse(invoiceValueController.text),
       );
 
-      printSuccess('✅ إشعار مجدول عند: $selectedReminderDateTime');
+      printSuccess('✅ إشعار مجدول عند: $reminderTime');
     } catch (e) {
       printError('⚠️ خطأ في جدولة الإشعار: $e');
     }
   }
 
+  // ==================== Resource Management ====================
+
+  /// Disposes all controllers
   void dispose() {
-    partnerNameController.dispose();
-    customerController.dispose();
-    invoiceNumberController.dispose();
-    invoiceValueController.dispose();
-    remainingInvoiceController.dispose();
-    totalDueController.dispose();
-    remainingAmountController.dispose();
-    operationDateController.dispose();
-    reminderDateController.dispose();
-    notesController.dispose();
-    percentageAmountController.dispose();
-    percentageController.dispose();
-    paidAmountController.dispose();
-    paidDateController.dispose();
-    receivedAmountController.dispose();
-    receivedDateController.dispose();
-    operationTypeController.dispose();
-    totalPaidValueController.dispose();
-    totalReceivedValueController.dispose();
+    final controllers = [
+      partnerNameController,
+      customerController,
+      invoiceNumberController,
+      invoiceValueController,
+      remainingInvoiceController,
+      totalDueController,
+      remainingAmountController,
+      operationDateController,
+      reminderDateController,
+      notesController,
+      percentageAmountController,
+      percentageController,
+      paidAmountController,
+      paidDateController,
+      receivedAmountController,
+      receivedDateController,
+      operationTypeController,
+      totalPaidValueController,
+      totalReceivedValueController,
+    ];
+
+    for (final controller in controllers) {
+      controller.dispose();
+    }
   }
 }

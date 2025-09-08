@@ -5,7 +5,9 @@ import 'package:x_calcu/features/home/cubit/home_cubit.dart';
 import 'package:x_calcu/features/home/data/home_repo.dart';
 import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
 import 'package:x_calcu/features/login/data/auth_repo.dart';
-import 'package:x_calcu/features/operations/cubit/get_partner/get_partner_cubit.dart';
+import 'package:x_calcu/features/notification/cubit/notification_cubit.dart';
+import 'package:x_calcu/features/notification/data/notification_repo.dart';
+import 'package:x_calcu/features/operations/cubit/get_partner/get_partner_drop_down_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/operations/operations_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/edit_operation/edit_operation_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/get_operations/get_operations_cubit.dart';
@@ -42,6 +44,7 @@ void dependencyInjectionSetup() {
   getIt.registerLazySingleton<PartnerRepo>(() => PartnerRepo());
   getIt.registerLazySingleton<OperationsRepo>(() => OperationsRepo());
   getIt.registerLazySingleton<CompaniesRepo>(() => CompaniesRepo());
+  getIt.registerLazySingleton<NotificationRepo>(() => NotificationRepo());
 
   /// Blocs
   getIt.registerLazySingleton<ThemeBloc>(() => ThemeBloc());
@@ -64,8 +67,8 @@ void dependencyInjectionSetup() {
   getIt.registerFactory<OperationsCubit>(
     () => OperationsCubit(getIt<OperationsRepo>()),
   );
-  getIt.registerLazySingleton<GetPartnerCubit>(
-    () => GetPartnerCubit(getIt<OperationsRepo>()),
+  getIt.registerLazySingleton<GetPartnerDropDownCubit>(
+    () => GetPartnerDropDownCubit(getIt<OperationsRepo>()),
   );
   getIt.registerLazySingleton<EditOperationCubit>(
     () => EditOperationCubit(getIt<OperationsRepo>()),
@@ -81,5 +84,8 @@ void dependencyInjectionSetup() {
   );
   getIt.registerLazySingleton<CompaniesCubit>(
     () => CompaniesCubit(getIt<CompaniesRepo>()),
+  );
+  getIt.registerLazySingleton<NotificationCubit>(
+    () => NotificationCubit(getIt<NotificationRepo>()),
   );
 }

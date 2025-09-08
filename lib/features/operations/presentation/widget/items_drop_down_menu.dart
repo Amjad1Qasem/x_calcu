@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_calcu/features/operations/cubit/get_partner/get_partner_cubit.dart';
+import 'package:x_calcu/features/operations/cubit/get_partner/get_partner_drop_down_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/edit_operation/edit_operation_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/create_operation/create_operation_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/operations/operations_cubit.dart';
@@ -31,7 +31,7 @@ class ItemsDropDownMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = getIt<GetPartnerCubit>();
+    final cubit = getIt<GetPartnerDropDownCubit>();
     final operationsCubit = _getOperationsCubit();
 
     return Padding(
@@ -41,7 +41,7 @@ class ItemsDropDownMenu extends StatelessWidget {
         children: [
           FormLabelWidget(label: label),
           CommonSizes.vSmallestSpace,
-          BlocBuilder<GetPartnerCubit, GetPartnerState>(
+          BlocBuilder<GetPartnerDropDownCubit, GetPartnerDropDownState>(
             bloc: cubit..getPartnersDropdown(),
             builder: (context, state) {
               // Loading state

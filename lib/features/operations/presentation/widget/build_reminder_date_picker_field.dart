@@ -27,12 +27,12 @@ Widget buildReminderDatePickerField({
               try {
                 final DateTime now = DateTime.now();
 
-                // 1. اختيار التاريخ
+                // 1. اختيار التاريخ (محدود بسنة واحدة من الآن)
                 final DateTime? pickedDate = await showDatePicker(
                   context: context,
                   initialDate: now,
                   firstDate: now,
-                  lastDate: DateTime(2100),
+                  lastDate: DateTime(now.year + 1, now.month, now.day),
                 );
 
                 if (pickedDate == null) return;

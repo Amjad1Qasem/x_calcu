@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
+import 'package:x_calcu/global/utils/navigation/navigation_helper.dart';
 
 class CustomTabScreenWrapper extends StatelessWidget {
   final Widget child;
@@ -27,7 +28,7 @@ class CustomTabScreenWrapper extends StatelessWidget {
         completer.complete(true);
       },
       onCancel: () async {
-        await Navigator.of(context, rootNavigator: true).maybePop();
+        NavigationHelper.safePop(context);
         completer.complete(false);
       },
     );

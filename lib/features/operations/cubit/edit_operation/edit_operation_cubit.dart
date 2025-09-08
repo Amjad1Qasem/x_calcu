@@ -262,13 +262,18 @@ class EditOperationCubit extends Cubit<EditOperationState> {
       data: requestModel,
     );
 
-    result.when(
+    await result.when(
       success: (data) async {
         printSuccess('Operation updated successfully: $data');
 
         // Schedule notification if reminder date is set
         if (selectedReminderDateTime != null) {
-          _scheduleReminderNotification();
+          try {
+            await _scheduleReminderNotification();
+          } catch (e) {
+            printError('Failed to schedule notification: $e');
+            // Don't fail the entire operation if notification scheduling fails
+          }
         }
 
         // Refresh the operation details after successful update

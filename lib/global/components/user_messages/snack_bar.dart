@@ -32,7 +32,7 @@ void snackBar({
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      duration: duration ?? const Duration(seconds: 3),
+      duration: duration ?? const Duration(seconds: 5),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       elevation: 0,

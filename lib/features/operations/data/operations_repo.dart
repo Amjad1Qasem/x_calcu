@@ -9,7 +9,7 @@ class OperationsRepo {
 
   Future<Result<List<DropDownModel>>> getPartnersDropdown() async {
     final response = await DioHelper.getAllModel(
-      url: UrlApi.partnersFilter,
+      url: UrlApi.getPartnersDropdown,
       fromJson: DropDownModel.fromJson,
     );
     return response;

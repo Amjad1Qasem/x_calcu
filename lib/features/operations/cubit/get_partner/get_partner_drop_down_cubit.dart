@@ -3,13 +3,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:x_calcu/features/operations/data/operations_model.dart';
 import 'package:x_calcu/features/operations/data/operations_repo.dart';
 
-part 'get_partner_state.dart';
-part 'get_partner_cubit.freezed.dart';
+part 'get_partner_drop_down_state.dart';
+part 'get_partner_drop_down_cubit.freezed.dart';
 
-class GetPartnerCubit extends Cubit<GetPartnerState> {
+class GetPartnerDropDownCubit extends Cubit<GetPartnerDropDownState> {
   final OperationsRepo _operationsRepo;
 
-  GetPartnerCubit(this._operationsRepo) : super(const GetPartnerState());
+  GetPartnerDropDownCubit(this._operationsRepo)
+    : super(const GetPartnerDropDownState());
 
   Future<void> getPartnersDropdown() async {
     emit(state.copyWith(isLoading: true, isError: false));
@@ -17,11 +18,7 @@ class GetPartnerCubit extends Cubit<GetPartnerState> {
 
     response.when(
       success: (data) {
-        emit(state.copyWith(
-          isLoading: false,
-          isError: false,
-          fielData: data,
-        ));
+        emit(state.copyWith(isLoading: false, isError: false, fielData: data));
       },
       failure: (_) => emit(state.copyWith(isLoading: false, isError: true)),
     );

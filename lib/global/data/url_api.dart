@@ -22,4 +22,5 @@ class UrlApi {
   static String addPartner = '/partners';
   static String partnersFilter = '/partners?operationType=input&page=1';
   static String statistic = '/statistic';
+  static String getPartnersDropdown = '/partners-select';
 }
