@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
 import 'package:x_calcu/features/partners/presentation/controller/partners_screen_controller.dart';
-import 'package:x_calcu/features/partners/presentation/widget/filter_header_partners_widget.dart';
+import 'package:x_calcu/features/partners/presentation/widget/filter_header_partners_screen_widget.dart';
 import 'package:x_calcu/features/partners/presentation/widget/partners_app_bar.dart';
 import 'package:x_calcu/features/partners/presentation/widget/partners_list_widget.dart';
-import 'package:x_calcu/features/partners/presentation/widget/sort_and_oreder_operations_partners_widget.dart';
-import 'package:x_calcu/features/partners/presentation/widget/statistics/statistics_partner_widget.dart';
+import 'package:x_calcu/features/partners/presentation/widget/statistics/statistics_loaded_widget.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
@@ -50,7 +47,6 @@ class _PartnersScreenState extends State<PartnersScreen> {
       builder: (context, state) {
         return Skaffold(
           isAppBarNull: true,
-
           body: RefreshIndicator(
             onRefresh: _controller.handleRefresh,
             child: CustomScrollView(
@@ -60,13 +56,30 @@ class _PartnersScreenState extends State<PartnersScreen> {
                 // Sticky Filter (Input/Output)
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: FilterHeaderPartnersWidget(),
+                  delegate: FilterHeaderPartnersScreenWidget(),
                 ),
 
                 //  Space
                 // SliverToBoxAdapter(child: CommonSizes.vSmallestSpace5v),
                 // Statistics
-                SliverToBoxAdapter(child: StatisticsPartnerWidget()),
+                SliverToBoxAdapter(
+                  child: state.when(
+                    initial: () => const SizedBox.shrink(),
+                    loading:
+                        () => const Center(child: CircularProgressIndicator()),
+                    loaded:
+                        (data) => StatisticsLoadedWidget(apiStatistics: data),
+                    error: (message) => Center(child: Text(message)),
+                    partnerloading: () => const SizedBox.shrink(),
+                    partnerloaded: (data) => const SizedBox.shrink(),
+                    partnererror: (message) => const SizedBox.shrink(),
+                    partnersloading: () => const SizedBox.shrink(),
+                    partnersloaded:
+                        (data, hasReachedMax, currentPage) =>
+                            const SizedBox.shrink(),
+                    partnerserror: (message) => const SizedBox.shrink(),
+                  ),
+                ),
                 //  Space
                 SliverToBoxAdapter(child: CommonSizes.vSmallestSpace),
                 // Partners List with Pagination

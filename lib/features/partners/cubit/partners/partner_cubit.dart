@@ -169,6 +169,18 @@ class PartnerCubit extends Cubit<PartnerState> {
     );
   }
 
+  // Remove partner from local list (used by DeletePartnerCubit)
+  void removePartnerFromList(int id) {
+    _allPartners.removeWhere((partner) => partner.id == id);
+    emit(
+      PartnerState.partnersloaded(
+        data: _allPartners,
+        hasReachedMax: _hasReachedMax,
+        currentPage: _currentPage,
+      ),
+    );
+  }
+
   // In Partners Screen
   Future<void> getStatistics({int? parentId}) async {
     emit(PartnerState.loading());

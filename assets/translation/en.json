@@ -217,6 +217,10 @@
   "no_notifications_description": "You don't have any notifications yet. Notifications will appear here when you set reminder dates for your operations.",
   "delete_notification": "Delete Notification",
   "delete_notification_confirmation": "Are you sure you want to delete this notification?",
-  "mark_as_read": "Mark as Read"
+  "mark_as_read": "Mark as Read",
+  "delete_partner": "Delete Partner",
+  "delete_partner_confirmation": "Are you sure you want to delete partner '{name}'? This action cannot be undone.",
+  "partner_deleted_successfully": "Partner deleted successfully",
+  "failed_to_delete_partner": "Failed to delete partner"
 
 }

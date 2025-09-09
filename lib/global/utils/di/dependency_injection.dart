@@ -15,6 +15,8 @@ import 'package:x_calcu/features/operations/cubit/create_operation/create_operat
 import 'package:x_calcu/features/operations/data/operations_repo.dart';
 import 'package:x_calcu/features/partners/cubit/add_partner/add_partner_cubit.dart';
 import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/partner_details/partner_details_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/delete_partner/delete_partner_cubit.dart';
 import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
 import 'package:x_calcu/features/setting/cubit/setting_cubit.dart';
 import 'package:x_calcu/features/startup/bloc/biometric_auth/biometric_auth_cubit.dart';
@@ -64,6 +66,9 @@ void dependencyInjectionSetup() {
   getIt.registerLazySingleton<PartnerCubit>(
     () => PartnerCubit(getIt<PartnerRepo>()),
   );
+  getIt.registerLazySingleton<PartnerDetailsCubit>(
+    () => PartnerDetailsCubit(getIt<PartnerRepo>()),
+  );
   getIt.registerFactory<OperationsCubit>(
     () => OperationsCubit(getIt<OperationsRepo>()),
   );
@@ -81,6 +86,9 @@ void dependencyInjectionSetup() {
   );
   getIt.registerLazySingleton<AddPartnerCubit>(
     () => AddPartnerCubit(getIt<PartnerRepo>()),
+  );
+  getIt.registerLazySingleton<DeletePartnerCubit>(
+    () => DeletePartnerCubit(getIt<PartnerRepo>()),
   );
   getIt.registerLazySingleton<CompaniesCubit>(
     () => CompaniesCubit(getIt<CompaniesRepo>()),

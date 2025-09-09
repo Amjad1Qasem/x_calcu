@@ -1,5 +1,6 @@
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/features/partners/data/models/statistics_model.dart';
+import 'package:x_calcu/features/partners/data/models/partner_details_model.dart';
 import 'package:x_calcu/global/data/url_api.dart';
 import 'package:x_calcu/global/networking/dio_helper.dart';
 import 'package:x_calcu/global/networking/result_freezed.dart';
@@ -56,6 +57,23 @@ class PartnerRepo {
       UrlApi.addPartner,
       obj: data.toJson(),
       fromJson: PartnerModel.fromJson,
+    );
+  }
+
+  Future<Result<bool>> deletePartner({required int id}) async {
+    return await DioHelper.deleteModel(
+      url: UrlApi.deletePartner(id),
+      body: {}, // Empty body for DELETE request
+    );
+  }
+
+  Future<Result<PartnerDetailsModel>> getPartnerDetailsWithOperations({
+    required int id,
+    required String operationType,
+  }) async {
+    return await DioHelper.getModel<PartnerDetailsModel>(
+      UrlApi.getPartnerDetails(id, operationType),
+      PartnerDetailsModel.fromJson,
     );
   }
 }

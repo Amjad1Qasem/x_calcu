@@ -20,7 +20,10 @@ class UrlApi {
   /// Partner
   static String getPartnerts = '/partners';
   static String addPartner = '/partners';
+  static String deletePartner(int id) => '/partners/$id';
   static String partnersFilter = '/partners?operationType=input&page=1';
   static String statistic = '/statistic';
   static String getPartnersDropdown = '/partners-select';
+  static String getPartnerDetails(int id, String operationType) =>
+      '/partners/$id/details?operationType=$operationType';
 }

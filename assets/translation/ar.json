@@ -217,5 +217,9 @@
   "no_notifications_description": "لا توجد لديك إشعارات بعد. ستظهر الإشعارات هنا عند تعيين تواريخ تذكير للعمليات الخاصة بك.",
   "delete_notification": "حذف الإشعار",
   "delete_notification_confirmation": "هل أنت متأكد من أنك تريد حذف هذا الإشعار؟",
-  "mark_as_read": "تعيين كمقروء"
+  "mark_as_read": "تعيين كمقروء",
+  "delete_partner": "حذف الشريك",
+  "delete_partner_confirmation": "هل أنت متأكد من أنك تريد حذف الشريك '{name}'؟ لا يمكن التراجع عن هذا الإجراء.",
+  "partner_deleted_successfully": "تم حذف الشريك بنجاح",
+  "failed_to_delete_partner": "فشل في حذف الشريك"
 }
