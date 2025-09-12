@@ -10,14 +10,6 @@ import 'package:x_calcu/global/networking/result_freezed.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import '../data/url_api.dart';
 import 'failure.dart';
-import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-
-import 'failure.dart';
 
 typedef JsonDecoder<T> = T Function(Map<String, dynamic> json);
 
@@ -295,6 +287,13 @@ class DioHelper {
             // ✅ إذا كانت قائمة فاضية نرسل object فارغ
             if (dataField is List && dataField.isEmpty) {
               return Result.success(fromJson({}));
+            }
+
+            // ✅ Handle non-empty list responses (for operations API)
+            if (dataField is List && dataField.isNotEmpty) {
+              // For list responses, we need to pass the entire response data
+              // so the model can handle both data and links fields
+              return Result.success(fromJson(response.data));
             }
 
             // ❌ غير متوقعة

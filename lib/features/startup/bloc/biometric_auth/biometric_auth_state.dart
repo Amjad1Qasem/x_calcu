@@ -1,4 +1,3 @@
-
 // biometric_auth_state.dart
 part of 'biometric_auth_cubit.dart';
 

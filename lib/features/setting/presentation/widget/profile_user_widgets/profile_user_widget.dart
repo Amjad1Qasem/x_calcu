@@ -13,7 +13,6 @@ import 'package:x_calcu/global/components/loaders/loading_overlay.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
-import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/router/router_path.dart';

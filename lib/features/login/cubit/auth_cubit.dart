@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -91,5 +89,77 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthState.error(error.message));
       },
     );
+  }
+
+  /// **Submit biometric login**
+  void submitBiometricLogin() async {
+    emit(const AuthState.loading());
+
+    try {
+      // Get saved user data
+      final userData = await LocalStorageHelper.getUserData();
+      if (userData == null) {
+        emit(AuthState.error('no_saved_user_data'.tr()));
+        return;
+      }
+
+      // Check if biometric is enabled
+      final isBiometricEnabled = await LocalStorageHelper.isBiometricEnabled();
+      if (!isBiometricEnabled) {
+        emit(AuthState.error('face_id_not_enabled'.tr()));
+        return;
+      }
+
+      // Simulate successful biometric authentication
+      // In a real app, this would be handled by the biometric authentication flow
+      printSuccess(
+        'Biometric authentication successful for user: ${userData.email}',
+      );
+
+      // Update app state with user data
+      getIt<AppStateModel>().updateUserPreferences(userData);
+      await LocalStorageHelper.setToken(userData.token ?? "");
+
+      emit(AuthState.success(userData));
+    } catch (e) {
+      printError('Biometric login error: $e');
+      emit(AuthState.error('face_id_authentication_failed'.tr()));
+    }
+  }
+
+  /// **Submit backup password login**
+  void submitBackupPasswordLogin(String password) async {
+    emit(const AuthState.loading());
+
+    try {
+      // Verify backup password
+      final isValidPassword = await LocalStorageHelper.verifyBackupPassword(
+        password,
+      );
+      if (!isValidPassword) {
+        emit(AuthState.error('backup_password_invalid'.tr()));
+        return;
+      }
+
+      // Get saved user data
+      final userData = await LocalStorageHelper.getUserData();
+      if (userData == null) {
+        emit(AuthState.error('no_saved_user_data'.tr()));
+        return;
+      }
+
+      printSuccess(
+        'Backup password authentication successful for user: ${userData.email}',
+      );
+
+      // Update app state with user data
+      getIt<AppStateModel>().updateUserPreferences(userData);
+      await LocalStorageHelper.setToken(userData.token ?? "");
+
+      emit(AuthState.success(userData));
+    } catch (e) {
+      printError('Backup password login error: $e');
+      emit(AuthState.error('backup_password_invalid'.tr()));
+    }
   }
 }

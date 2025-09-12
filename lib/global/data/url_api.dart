@@ -26,4 +26,6 @@ class UrlApi {
   static String getPartnersDropdown = '/partners-select';
   static String getPartnerDetails(int id, String operationType) =>
       '/partners/$id/details?operationType=$operationType';
+  static String getPartnerOperations(int id, String operationType, int page) =>
+      '/partners/$id/operations?operationType=$operationType&page=$page';
 }

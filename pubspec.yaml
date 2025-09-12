@@ -66,6 +66,7 @@ dependencies:
   local_auth: ^2.3.0
   flutter_local_notifications: ^19.3.0
   timezone: ^0.10.1
+  flutter_timezone: ^4.1.1
 
 flutter_native_splash:
   color: "#f3f4f6"

@@ -109,4 +109,35 @@ abstract class LocalStorageHelper {
     debugPrint('clearOnBoardingState');
     await Prefs.instance?.remove(MyKeys.firstOpenApp);
   }
+
+  // ==================== Backup Password Methods ====================
+
+  /// **Set Backup Password**
+  static Future<void> setBackupPassword(String password) async {
+    debugPrint('setBackupPassword');
+    await Prefs.instance?.setString(MyKeys.backupPassword, password);
+  }
+
+  /// **Get Backup Password**
+  static Future<String?> getBackupPassword() async {
+    return Prefs.instance?.getString(MyKeys.backupPassword);
+  }
+
+  /// **Check if Backup Password exists**
+  static Future<bool> hasBackupPassword() async {
+    final password = await getBackupPassword();
+    return password != null && password.isNotEmpty;
+  }
+
+  /// **Clear Backup Password**
+  static Future<void> clearBackupPassword() async {
+    debugPrint('clearBackupPassword');
+    await Prefs.instance?.remove(MyKeys.backupPassword);
+  }
+
+  /// **Verify Backup Password**
+  static Future<bool> verifyBackupPassword(String inputPassword) async {
+    final storedPassword = await getBackupPassword();
+    return storedPassword == inputPassword;
+  }
 }

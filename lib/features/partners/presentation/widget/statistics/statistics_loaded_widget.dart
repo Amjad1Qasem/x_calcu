@@ -30,26 +30,29 @@ class StatisticsLoadedWidget extends StatelessWidget {
     final statisticsList = [
       {
         'title': 'مجاميع قيم الفواتير',
-        'value': stats.totalInvoiceValues.toStringAsFixed(0),
+        'value': stats.totalInvoiceValues?.toStringAsFixed(0),
       },
       {
         'title': 'مجاميع سداد الفواتير',
-        'value': stats.totalInvoicePayments.toStringAsFixed(0),
+        'value': stats.totalInvoicePayments?.toStringAsFixed(0),
       },
       {
         'title': 'باقي الفواتير',
-        'value': stats.remainingInvoices.toStringAsFixed(0),
+        'value': stats.remainingInvoices?.toStringAsFixed(0),
       },
-      {'title': 'المبلغ المستحقة', 'value': stats.dueAmount.toStringAsFixed(0)},
+      {
+        'title': 'المبلغ المستحقة',
+        'value': stats.dueAmount?.toStringAsFixed(0),
+      },
       {
         'title': 'المبلغ المقبوضة',
-        'value': stats.receivedAmount.toStringAsFixed(0),
+        'value': stats.receivedAmount?.toStringAsFixed(0),
       },
       {
         'title': 'المبلغ المتبقية',
-        'value': stats.remainingAmount.toStringAsFixed(0),
+        'value': stats.remainingAmount?.toStringAsFixed(0),
       },
-      {'title': 'الارباح', 'value': stats.profits.toStringAsFixed(0)},
+      {'title': 'الارباح', 'value': stats.profits?.toStringAsFixed(0)},
     ];
 
     return Column(
@@ -73,8 +76,8 @@ class StatisticsLoadedWidget extends StatelessWidget {
               backgroundColor: color.backgroundColor,
               borderColor: color.borderColor,
               fontColor: color.fontColor,
-              title: stat['title']!,
-              value: stat['value']!,
+              title: stat['title'] ?? '',
+              value: stat['value'] ?? '0',
             );
           },
         ),
@@ -85,8 +88,8 @@ class StatisticsLoadedWidget extends StatelessWidget {
             backgroundColor: colorConfigs.last.backgroundColor,
             borderColor: colorConfigs.last.borderColor,
             fontColor: colorConfigs.last.fontColor,
-            title: statisticsList.last['title']!,
-            value: statisticsList.last['value']!,
+            title: statisticsList.last['title'] ?? '',
+            value: statisticsList.last['value'] ?? '0',
           ),
         ),
       ],

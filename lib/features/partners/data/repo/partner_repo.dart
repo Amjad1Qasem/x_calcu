@@ -1,21 +1,22 @@
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/features/partners/data/models/statistics_model.dart';
 import 'package:x_calcu/features/partners/data/models/partner_details_model.dart';
+import 'package:x_calcu/features/partners/data/models/partner_operations_model.dart';
 import 'package:x_calcu/global/data/url_api.dart';
 import 'package:x_calcu/global/networking/dio_helper.dart';
 import 'package:x_calcu/global/networking/result_freezed.dart';
 
 class PartnerRepo {
-  Future<Result<PartnerModel>> getPartnerDetailsData({required int id}) async {
-    return await DioHelper.getModel<PartnerModel>(
-      UrlApi.getPartner(id),
-      PartnerModel.fromJson,
-    );
-  }
+  // Future<Result<PartnerModel>> getPartnerDetailsData({required int id}) async {
+  //   return await DioHelper.getModel<PartnerModel>(
+  //     UrlApi.getPartner(id),
+  //     PartnerModel.fromJson,
+  //   );
+  // }
 
   Future<Result<StatisticModel>> getStatistic({
     required String operationType,
-    required int parentId,
+    // required int parentId,
   }) async {
     final queryParams = <String, dynamic>{'operationType': operationType};
 
@@ -67,13 +68,24 @@ class PartnerRepo {
     );
   }
 
-  Future<Result<PartnerDetailsModel>> getPartnerDetailsWithOperations({
+  Future<Result<PartnerDetailsData>> getPartnerDetailsWithOperations({
     required int id,
     required String operationType,
   }) async {
-    return await DioHelper.getModel<PartnerDetailsModel>(
+    return await DioHelper.getModel<PartnerDetailsData>(
       UrlApi.getPartnerDetails(id, operationType),
-      PartnerDetailsModel.fromJson,
+      PartnerDetailsData.fromJson,
+    );
+  }
+
+  Future<Result<PartnerOperationsModel>> getPartnerOperations({
+    required int id,
+    required String operationType,
+    required int page,
+  }) async {
+    return await DioHelper.getModel<PartnerOperationsModel>(
+      UrlApi.getPartnerOperations(id, operationType, page),
+      PartnerOperationsModel.fromJson,
     );
   }
 }

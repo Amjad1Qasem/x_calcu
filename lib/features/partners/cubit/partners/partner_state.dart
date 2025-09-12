@@ -8,12 +8,7 @@ class PartnerState with _$PartnerState {
     required List<StatisticPartnerModel> data,
   }) = Loaded;
   const factory PartnerState.error({required String message}) = Error;
-  //Get Partner Details
-  const factory PartnerState.partnerloading() = PartnerLoading;
-  const factory PartnerState.partnerloaded({required PartnerModel data}) =
-      PartnerLoaded;
-  const factory PartnerState.partnererror({required String message}) =
-      PartnerError;
+
   //Get Partners
   const factory PartnerState.partnersloading() = PartnersLoading;
   const factory PartnerState.partnersloaded({

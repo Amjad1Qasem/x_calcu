@@ -7,7 +7,6 @@ import 'package:x_calcu/global/design/color_app.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
-import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 class SectionComponentsWidget extends StatelessWidget {
   const SectionComponentsWidget({

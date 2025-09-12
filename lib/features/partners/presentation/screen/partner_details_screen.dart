@@ -141,7 +141,8 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
       initial: () => const SizedBox.shrink(),
       loading: () => const Center(child: CircularProgressIndicator()),
       loaded:
-          (data) => StatisticsPartnerWidget(statistics: data.data.statistic),
+          (data, operations) =>
+              StatisticsPartnerWidget(statistics: data.statistic!),
       error:
           (message) => ErrorWidgetScreen(
             isIcon: false,
@@ -161,8 +162,8 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
           () => const SliverToBoxAdapter(
             child: Center(child: CircularProgressIndicator()),
           ),
-      loaded: (data) {
-        if (data.data.operations.isEmpty) {
+      loaded: (data, operations) {
+        if (operations.data.isEmpty) {
           return SliverToBoxAdapter(
             child: Center(
               child: Text(
@@ -178,7 +179,15 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
 
         return SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
-            final operation = data.data.operations[index];
+            // Check if we need to load more operations
+            // Only load more if we have pagination links and haven't reached max
+            if (index == operations.data.length - 1 &&
+                operations.links != null &&
+                !_partnerDetailsCubit.hasReachedMax) {
+              _partnerDetailsCubit.loadMoreOperations();
+            }
+
+            final operation = operations.data[index];
             return OperationCard(
               partnerOperation: operation,
               onTap:
@@ -187,7 +196,7 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
                     extra: operation.id,
                   ),
             );
-          }, childCount: data.data.operations.length),
+          }, childCount: operations.data.length),
         );
       },
       error:

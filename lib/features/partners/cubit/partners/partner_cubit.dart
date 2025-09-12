@@ -4,7 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
 import 'package:x_calcu/features/partners/data/models/statistic_partner_model.dart';
-import 'package:x_calcu/global/networking/failure.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 part 'partner_state.dart';
@@ -16,6 +15,7 @@ class PartnerCubit extends Cubit<PartnerState> {
 
   // Filter variables
   bool isInput = true;
+  String _currentOperationType = 'input';
   String _orderBy = 'asc';
 
   // Pagination variables
@@ -33,6 +33,7 @@ class PartnerCubit extends Cubit<PartnerState> {
   /// **Filter Result by Input or Output**
   void operationFilter() {
     isInput = !isInput;
+    _currentOperationType = isInput ? 'input' : 'output';
     // Reset pagination state
     resetPagination();
     emit(PartnerState.partnersloading());
@@ -52,11 +53,11 @@ class PartnerCubit extends Cubit<PartnerState> {
     }
 
     print(
-      '📡 API Call - operationType: ${isInput ? 'input' : 'output'}, page: $_currentPage',
+      '📡 API Call - operationType: $_currentOperationType, page: $_currentPage',
     );
 
     final result = await _partnerRepo.getPartnersDataWithFilter(
-      operationType: isInput ? 'input' : 'output',
+      operationType: _currentOperationType,
       orderBy: _orderBy,
       page: _currentPage,
       limit: _pageSize,
@@ -96,7 +97,7 @@ class PartnerCubit extends Cubit<PartnerState> {
     print('📡 Load More API Call - page: $_currentPage');
 
     final result = await _partnerRepo.getPartnersDataWithFilter(
-      operationType: isInput ? 'input' : 'output',
+      operationType: _currentOperationType,
       orderBy: _orderBy,
       page: _currentPage,
       limit: _pageSize,
@@ -146,28 +147,28 @@ class PartnerCubit extends Cubit<PartnerState> {
     getPartners(refresh: true);
   }
 
-  // Get Partner Details
-  Future<void> getPartner({required int id}) async {
-    emit(PartnerState.partnerloading());
-    final response = await _partnerRepo.getPartnerDetailsData(id: id);
+  // // Get Partner Details
+  // Future<void> getPartner({required int id}) async {
+  //   emit(PartnerState.partnerloading());
+  //   final response = await _partnerRepo.getPartnerDetailsData(id: id);
 
-    response.when(
-      success: (data) {
-        emit(PartnerState.partnerloaded(data: data));
-      },
-      failure: (error) {
-        printError('Failed to get partner details: $error');
-        emit(
-          PartnerState.partnererror(
-            message:
-                error is ValidationInputError
-                    ? error.message
-                    : 'Failed to get partner',
-          ),
-        );
-      },
-    );
-  }
+  //   response.when(
+  //     success: (data) {
+  //       emit(PartnerState.partnerloaded(data: data));
+  //     },
+  //     failure: (error) {
+  //       printError('Failed to get partner details: $error');
+  //       emit(
+  //         PartnerState.partnererror(
+  //           message:
+  //               error is ValidationInputError
+  //                   ? error.message
+  //                   : 'Failed to get partner',
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   // Remove partner from local list (used by DeletePartnerCubit)
   void removePartnerFromList(int id) {
@@ -187,8 +188,8 @@ class PartnerCubit extends Cubit<PartnerState> {
 
     try {
       final result = await _partnerRepo.getStatistic(
-        operationType: isInput ? 'input' : 'output',
-        parentId: parentId ?? 1, // Default parentId if not provided
+        operationType: _currentOperationType,
+        // parentId: parentId ?? 1, // Default parentId if not provided
       );
 
       result.when(

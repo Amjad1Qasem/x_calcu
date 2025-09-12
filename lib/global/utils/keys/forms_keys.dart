@@ -1,6 +1,6 @@
 class MyKeys {
-
   static const String biometricEnabled = 'biometric_enabled';
+  static const String backupPassword = 'backup_password';
 
   static String get locale => 'locale';
 

@@ -6,9 +6,11 @@ import 'package:x_calcu/features/partners/presentation/widget/filter_header_part
 import 'package:x_calcu/features/partners/presentation/widget/partners_app_bar.dart';
 import 'package:x_calcu/features/partners/presentation/widget/partners_list_widget.dart';
 import 'package:x_calcu/features/partners/presentation/widget/statistics/statistics_loaded_widget.dart';
+import 'package:x_calcu/features/partners/presentation/widget/statistics/statistics_partner_loading_widget.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 class PartnersScreen extends StatefulWidget {
   const PartnersScreen({super.key});
@@ -45,6 +47,7 @@ class _PartnersScreenState extends State<PartnersScreen> {
         }
       },
       builder: (context, state) {
+        printSuccess('state: $state');
         return Skaffold(
           isAppBarNull: true,
           body: RefreshIndicator(
@@ -61,25 +64,9 @@ class _PartnersScreenState extends State<PartnersScreen> {
 
                 //  Space
                 // SliverToBoxAdapter(child: CommonSizes.vSmallestSpace5v),
+
                 // Statistics
-                SliverToBoxAdapter(
-                  child: state.when(
-                    initial: () => const SizedBox.shrink(),
-                    loading:
-                        () => const Center(child: CircularProgressIndicator()),
-                    loaded:
-                        (data) => StatisticsLoadedWidget(apiStatistics: data),
-                    error: (message) => Center(child: Text(message)),
-                    partnerloading: () => const SizedBox.shrink(),
-                    partnerloaded: (data) => const SizedBox.shrink(),
-                    partnererror: (message) => const SizedBox.shrink(),
-                    partnersloading: () => const SizedBox.shrink(),
-                    partnersloaded:
-                        (data, hasReachedMax, currentPage) =>
-                            const SizedBox.shrink(),
-                    partnerserror: (message) => const SizedBox.shrink(),
-                  ),
-                ),
+                SliverToBoxAdapter(child: StatisticsBlocBuilderWidget()),
                 //  Space
                 SliverToBoxAdapter(child: CommonSizes.vSmallestSpace),
                 // Partners List with Pagination
@@ -91,6 +78,33 @@ class _PartnersScreenState extends State<PartnersScreen> {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class StatisticsBlocBuilderWidget extends StatelessWidget {
+  const StatisticsBlocBuilderWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PartnerCubit, PartnerState>(
+      bloc: getIt<PartnerCubit>(),
+      buildWhen:
+          (cur, prev) =>
+              cur is Loaded ||
+              cur is Loading ||
+              cur is Error ||
+              cur is PartnersLoading,
+      builder: (context, state) {
+        printSuccess('StatisticsBlocBuilderWidget state : $state');
+        return state.maybeWhen(
+          loading: () => const StatisticsPartnerLoadingWidget(),
+          loaded: (data) => StatisticsLoadedWidget(apiStatistics: data),
+          error: (message) => Center(child: Text(message)),
+          partnersloading: () => const StatisticsPartnerLoadingWidget(),
+          orElse: () => const SizedBox.shrink(),
         );
       },
     );
