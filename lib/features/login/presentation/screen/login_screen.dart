@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/features/login/presentation/widget/biometric_login_button.dart';
 import 'package:x_calcu/features/login/presentation/widget/click_text_register.dart';
 import 'package:x_calcu/features/login/presentation/widget/login_button.dart';
@@ -7,6 +9,7 @@ import 'package:x_calcu/features/login/presentation/widget/logo_avatar.dart';
 import 'package:x_calcu/features/login/presentation/widget/skip_text.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
+import 'package:x_calcu/global/design/themes/themes.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,41 +38,75 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                /* Language Btn */
-                // GestureDetector(
-                //   onTap: () => showLanguageBottomSheet(context),
-                //   child: CircleAvatar(
-                //     backgroundColor: Utils(context).primary,
-                //     child: Icon(
-                //       Icons.translate,
-                //       color: Colors.white,
-                //       size: 14.sp,
-                //     ),
-                //   ),
-                // ),
-                const SkipText(),
-              ],
-            ),
-            CommonSizes.vSmallestSpace,
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     /* Language Btn */
+            //     // GestureDetector(
+            //     //   onTap: () => showLanguageBottomSheet(context),
+            //     //   child: CircleAvatar(
+            //     //     backgroundColor: Utils(context).primary,
+            //     //     child: Icon(
+            //     //       Icons.translate,
+            //     //       color: Colors.white,
+            //     //       size: 14.sp,
+            //     //     ),
+            //     //   ),
+            //     // ),
+            //   ],
+            // ),
+            // CommonSizes.vSmallestSpace,
             const LogoAvatar(),
-            CommonSizes.vBigSpace,
+            // CommonSizes.vBigSpaSce,
             LoginForm(formKey: loginForm, onFieldChanged: onFieldChanged),
-            CommonSizes.vBiggestSpace,
+            CommonSizes.vBigSpace,
             LoginButton(formKey: loginForm, isFormValid: isFormValid),
-            CommonSizes.vSmallSpace,
+            CommonSizes.vSmallestSpace,
+            _buildDividerWithOr(context),
+            CommonSizes.vSmallestSpace,
             const BiometricLoginButton(),
+
+            CommonSizes.vSmallestSpace5v,
+
+            const LoginAsGuest(),
             CommonSizes.vSmallSpace,
             const ClickTextRegister(),
             CommonSizes.vSmallSpace,
           ],
         ),
       ),
+    );
+  }
+
+  /// **Build Divider with "OR" Text**
+  Widget _buildDividerWithOr(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            color: Utils(context).secondTextColor.withValues(alpha: 0.3),
+            thickness: 1,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Text(
+            'or'.tr(),
+            style: Utils(context).normalText.copyWith(
+              color: Utils(context).secondTextColor,
+              fontSize: 14.sp,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Divider(
+            color: Utils(context).secondTextColor.withValues(alpha: 0.3),
+            thickness: 1,
+          ),
+        ),
+      ],
     );
   }
 }

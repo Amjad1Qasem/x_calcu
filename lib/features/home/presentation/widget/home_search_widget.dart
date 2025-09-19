@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:x_calcu/features/home/cubit/home_cubit.dart';
-import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/showcase_helper.dart';
 
 class HomeSearchWidget extends StatefulWidget {
   final bool isExpanded;
@@ -118,80 +119,93 @@ class _HomeSearchWidgetState extends State<HomeSearchWidget>
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Utils(context).primaryContainer,
-                          borderRadius: BorderRadius.circular(14.r),
+                      child: Showcase(
+                        key: ShowcaseHelper.getUniqueShowcaseKey(
+                          'home_search_widget',
                         ),
-                        child: TextField(
-                          controller: _searchController,
-                          focusNode: _searchFocusNode,
-                          onSubmitted: (_) => _performSearch(),
-                          onChanged: _onSearchChanged,
-                          style: Utils(
-                            context,
-                          ).normalText.copyWith(fontSize: 16.sp),
-                          decoration: InputDecoration(
-                            hintText: 'search_processes'.tr(),
-                            hintStyle: Utils(context).normalText.copyWith(
-                              fontSize: 16.sp,
-                              color: Utils(context).secondTextColor,
-                            ),
-                            prefixIcon: Icon(
-                              Iconsax.search_normal_1_copy,
-                              color: Utils(context).primTextColor,
-                              size: 20.sp,
-                            ),
-                            suffixIcon:
-                                _searchController.text.isNotEmpty
-                                    ? IconButton(
-                                      icon: Icon(
-                                        Iconsax.close_circle,
-                                        color: Utils(context).primTextColor,
-                                        size: 20.sp,
-                                      ),
-                                      onPressed: _clearSearch,
-                                    )
-                                    : state is Searching
-                                    ? SizedBox(
-                                      width: 20.sp,
-                                      height: 20.sp,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                              Utils(context).primary,
-                                            ),
-                                      ),
-                                    )
-                                    : null,
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                              vertical: 15.h,
+                        title:
+                            ShowcaseDataProvider.getData(
+                              ShowcaseKeys.homeSearch,
+                            ).title,
+                        description:
+                            ShowcaseDataProvider.getData(
+                              ShowcaseKeys.homeSearch,
+                            ).description,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Utils(context).primaryContainer,
+                            borderRadius: BorderRadius.circular(14.r),
+                          ),
+                          child: TextField(
+                            controller: _searchController,
+                            focusNode: _searchFocusNode,
+                            onSubmitted: (_) => _performSearch(),
+                            onChanged: _onSearchChanged,
+                            style: Utils(
+                              context,
+                            ).normalText.copyWith(fontSize: 16.sp),
+                            decoration: InputDecoration(
+                              hintText: 'search_processes'.tr(),
+                              hintStyle: Utils(context).normalText.copyWith(
+                                fontSize: 16.sp,
+                                color: Utils(context).secondTextColor,
+                              ),
+                              prefixIcon: Icon(
+                                Iconsax.search_normal_1_copy,
+                                color: Utils(context).primTextColor,
+                                size: 20.sp,
+                              ),
+                              suffixIcon:
+                                  _searchController.text.isNotEmpty
+                                      ? IconButton(
+                                        icon: Icon(
+                                          Iconsax.close_circle,
+                                          color: Utils(context).primTextColor,
+                                          size: 20.sp,
+                                        ),
+                                        onPressed: _clearSearch,
+                                      )
+                                      : state is Searching
+                                      ? SizedBox(
+                                        width: 20.sp,
+                                        height: 20.sp,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                Utils(context).primary,
+                                              ),
+                                        ),
+                                      )
+                                      : null,
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 15.h,
+                              ),
                             ),
                           ),
                         ),
                       ),
+                      // if (widget.isExpanded) ...[
+                      //   CommonSizes.hSmallestSpace,
+                      //   GestureDetector(
+                      //     onTap: widget.onToggle,
+                      //     child: Container(
+                      //       padding: EdgeInsets.all(12.sp),
+                      //       decoration: BoxDecoration(
+                      //         color: Utils(context).primaryContainer,
+                      //         borderRadius: BorderRadius.circular(14.r),
+                      //       ),
+                      //       child: Icon(
+                      //         Iconsax.close_circle,
+                      //         color: Utils(context).primTextColor,
+                      //         size: 20.sp,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ],
                     ),
-                    // if (widget.isExpanded) ...[
-                    //   CommonSizes.hSmallestSpace,
-                    //   GestureDetector(
-                    //     onTap: widget.onToggle,
-                    //     child: Container(
-                    //       padding: EdgeInsets.all(12.sp),
-                    //       decoration: BoxDecoration(
-                    //         color: Utils(context).primaryContainer,
-                    //         borderRadius: BorderRadius.circular(14.r),
-                    //       ),
-                    //       child: Icon(
-                    //         Iconsax.close_circle,
-                    //         color: Utils(context).primTextColor,
-                    //         size: 20.sp,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ],
                   ],
                 ),
               ),

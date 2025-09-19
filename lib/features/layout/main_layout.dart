@@ -12,8 +12,6 @@ import 'package:x_calcu/features/notification/presentation/screen/notification_s
 import 'package:x_calcu/features/operations/presentation/screen/add_operations_screen.dart';
 import 'package:x_calcu/features/partners/presentation/screen/partners_screen.dart';
 import 'package:x_calcu/features/setting/presentation/screen/setting_screen.dart';
-import 'package:x_calcu/global/components/bottom_dialog/bottom_dialog_manager.dart';
-import 'package:x_calcu/global/components/bottom_dialog/what_next_content.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
@@ -51,15 +49,6 @@ class _MainLayoutState extends State<MainLayout> {
     super.initState();
     controller = PersistentTabController(initialIndex: widget.initialIndex);
     _index = widget.initialIndex;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showDialog();
-    });
-  }
-
-  void _showDialog() {
-    if (widget.withWhatNextDialog) {
-      BottomDialogManager().showDialog(context, child: WhatNextContentDialog());
-    }
   }
 
   @override

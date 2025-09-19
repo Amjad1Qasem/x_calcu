@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/features/partners/data/models/statistic_partner_model.dart';
@@ -29,30 +30,33 @@ class StatisticsLoadedWidget extends StatelessWidget {
     final stats = partnerStatistics!;
     final statisticsList = [
       {
-        'title': 'مجاميع قيم الفواتير',
-        'value': stats.totalInvoiceValues?.toStringAsFixed(0),
+        'title': 'total_invoice_values'.tr(),
+        'value': stats.totalInvoiceValues?.toStringAsFixed(0) ?? '0',
       },
       {
-        'title': 'مجاميع سداد الفواتير',
-        'value': stats.totalInvoicePayments?.toStringAsFixed(0),
+        'title': 'total_invoice_payments'.tr(),
+        'value': stats.totalInvoicePayments?.toStringAsFixed(0) ?? '0',
       },
       {
-        'title': 'باقي الفواتير',
-        'value': stats.remainingInvoices?.toStringAsFixed(0),
+        'title': 'remaining_invoices'.tr(),
+        'value': stats.remainingInvoices?.toStringAsFixed(0) ?? '0',
       },
       {
-        'title': 'المبلغ المستحقة',
-        'value': stats.dueAmount?.toStringAsFixed(0),
+        'title': 'due_amount'.tr(),
+        'value': stats.dueAmount?.toStringAsFixed(0) ?? '0',
       },
       {
-        'title': 'المبلغ المقبوضة',
-        'value': stats.receivedAmount?.toStringAsFixed(0),
+        'title': 'received_amount'.tr(),
+        'value': stats.receivedAmount?.toStringAsFixed(0) ?? '0',
       },
       {
-        'title': 'المبلغ المتبقية',
-        'value': stats.remainingAmount?.toStringAsFixed(0),
+        'title': 'remaining_amount'.tr(),
+        'value': stats.remainingAmount?.toStringAsFixed(0) ?? '0',
       },
-      {'title': 'الارباح', 'value': stats.profits?.toStringAsFixed(0)},
+      {
+        'title': 'profits'.tr(),
+        'value': stats.profits?.toStringAsFixed(0) ?? '0',
+      },
     ];
 
     return Column(
@@ -83,7 +87,7 @@ class StatisticsLoadedWidget extends StatelessWidget {
         ),
 
         Padding(
-          padding: EdgeInsets.only(top: 12.h),
+          padding: EdgeInsets.only(top: 0.h),
           child: StatisticCardWidget(
             backgroundColor: colorConfigs.last.backgroundColor,
             borderColor: colorConfigs.last.borderColor,

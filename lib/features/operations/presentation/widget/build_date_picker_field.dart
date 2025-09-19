@@ -9,6 +9,8 @@ Widget buildDatePickerField({
   bool isReadOnly = false,
   String? errorText,
   String? errorDateText,
+  Function(String)? onDateChanged,
+  String? Function(String?)? validation,
 }) {
   return GestureDetector(
     onTap:
@@ -22,8 +24,10 @@ Widget buildDatePickerField({
                 lastDate: DateTime(2100),
               );
               if (picked != null) {
-                controller.text =
+                final dateString =
                     "${picked.year}/${picked.month}/${picked.day}";
+                controller.text = dateString;
+                onDateChanged?.call(dateString);
               }
             },
     child: AbsorbPointer(
@@ -34,6 +38,7 @@ Widget buildDatePickerField({
         readOnly: true,
         enable: false,
         errorText: errorDateText,
+        validation: validation,
         prefixIcon: Icon(
           Iconsax.calendar_1_copy,
           color: Utils(context).secondTextColor,

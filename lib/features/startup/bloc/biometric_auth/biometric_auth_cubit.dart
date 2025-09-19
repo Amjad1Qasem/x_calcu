@@ -39,11 +39,6 @@ class BiometricAuthCubit extends Cubit<BiometricAuthState> {
     return await LocalStorageHelper.isBiometricEnabled();
   }
 
-  /// Check if backup password exists
-  Future<bool> hasBackupPassword() async {
-    return await LocalStorageHelper.hasBackupPassword();
-  }
-
   /// Get available biometric types
   Future<List<BiometricType>> getAvailableBiometrics() async {
     try {

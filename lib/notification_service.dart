@@ -1,5 +1,6 @@
 // notification_service.dart
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart' show FlutterTimezone;
@@ -37,12 +38,34 @@ class NotificationService {
 
   /// Initializes the notification plugin
   static Future<void> _initializePlugin() async {
-    final initSettings = _buildInitializationSettings();
+    try {
+      final initSettings = _buildInitializationSettings();
 
-    await _plugin.initialize(
-      initSettings,
-      onDidReceiveNotificationResponse: _handleNotificationResponse,
-    );
+      final result = await _plugin.initialize(
+        initSettings,
+        onDidReceiveNotificationResponse: _handleNotificationResponse,
+      );
+
+      print('🔔 Plugin initialization result: $result');
+    } catch (e) {
+      print('❌ Error initializing notification plugin: $e');
+      // Try with default settings if custom icon fails
+      try {
+        final defaultSettings = InitializationSettings(
+          android: const AndroidInitializationSettings('@mipmap/ic_launcher'),
+          iOS: _buildIOSInitSettings(),
+        );
+
+        await _plugin.initialize(
+          defaultSettings,
+          onDidReceiveNotificationResponse: _handleNotificationResponse,
+        );
+        print('🔔 Plugin initialized with default settings');
+      } catch (e2) {
+        print('❌ Error with default settings: $e2');
+        rethrow;
+      }
+    }
   }
 
   /// Builds initialization settings for Android and iOS
@@ -232,6 +255,38 @@ class NotificationService {
 
   // ==================== Notification Scheduling ====================
 
+  /// Schedules a notification with custom content based on operation type
+  static Future<void> scheduleOperationNotification({
+    required int id,
+    required NotificationType type,
+    required String clientName,
+    required DateTime scheduledTime,
+    int? operationId,
+    String? partnerName,
+    String? customerName,
+    double? amount,
+    String? payload,
+  }) async {
+    // Create notification content based on operation type
+    final content = _createNotificationContent(
+      type: type,
+      clientName: clientName,
+    );
+
+    await scheduleNotification(
+      id: id,
+      title: content['title']!,
+      body: content['body']!,
+      scheduledTime: scheduledTime,
+      payload: payload,
+      type: type,
+      operationId: operationId,
+      partnerName: partnerName,
+      customerName: customerName,
+      amount: amount,
+    );
+  }
+
   /// Schedules a notification at the specified time
   static Future<void> scheduleNotification({
     required int id,
@@ -414,7 +469,13 @@ class NotificationService {
       // Ensure the plugin is initialized before scheduling
       if (!_isInitialized) {
         print('🔔 Plugin not initialized, initializing now...');
-        await init();
+        try {
+          await init();
+        } catch (e) {
+          print('❌ Failed to initialize plugin: $e');
+          // Continue with scheduling even if initialization fails
+          // The plugin might still work with default settings
+        }
       }
 
       // Try to schedule with exact alarm first, fallback to inexact if not permitted
@@ -446,6 +507,39 @@ class NotificationService {
             matchDateTimeComponents: DateTimeComponents.time,
           );
           print('✅ Notification scheduled with inexact alarm mode');
+        } else if (e.toString().contains('invalid_icon')) {
+          print('⚠️ Custom icon failed, trying with default icon');
+          try {
+            // Try with default icon - use simple notification details
+            final defaultNotificationDetails = AndroidNotificationDetails(
+              'reminder_channel',
+              'Reminders',
+              channelDescription: 'Reminder notifications for due payments',
+              importance: Importance.max,
+              priority: Priority.high,
+              icon: 'ic_stat_x',
+              enableVibration: true,
+              playSound: true,
+              showWhen: true,
+              autoCancel: false,
+              ongoing: false,
+            );
+
+            await _plugin.zonedSchedule(
+              id,
+              title,
+              body,
+              tzDateTime,
+              NotificationDetails(android: defaultNotificationDetails),
+              androidScheduleMode: AndroidScheduleMode.inexact,
+              payload: payload,
+              matchDateTimeComponents: DateTimeComponents.time,
+            );
+            print('✅ Notification scheduled with default icon');
+          } catch (e2) {
+            print('❌ Error scheduling notification with default icon: $e2');
+            rethrow;
+          }
         } else {
           rethrow; // Re-throw if it's a different error
         }
@@ -511,7 +605,7 @@ class NotificationService {
         channelDescription: 'Reminder notifications for due payments',
         importance: Importance.max,
         priority: Priority.high,
-        icon: '@mipmap/x_calcu',
+        icon: '@drawable/ic_notification',
         enableVibration: true,
         playSound: true,
         showWhen: true,
@@ -791,6 +885,135 @@ class NotificationService {
     }
   }
 
+  /// Tests the new operation notification system
+  static Future<void> testOperationNotifications() async {
+    try {
+      final now = DateTime.now();
+      final testTime1 = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        now.hour,
+        now.minute,
+        now.second + 5, // 5 seconds from now
+      );
+      final testTime2 = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        now.hour,
+        now.minute,
+        now.second + 10, // 10 seconds from now
+      );
+      final testId1 = DateTime.now().millisecondsSinceEpoch.remainder(100000);
+      final testId2 = testId1 + 1;
+
+      print('🔔 Testing operation notifications');
+      print('🆔 Test notification IDs: $testId1, $testId2');
+
+      // Test input operation notification
+      await scheduleOperationNotification(
+        id: testId1,
+        type: NotificationType.input,
+        clientName: 'أحمد محمد',
+        scheduledTime: testTime1,
+        operationId: 1001,
+        customerName: 'أحمد محمد',
+        amount: 50000.0,
+        payload: 'test_input_operation',
+      );
+
+      // Test output operation notification
+      await scheduleOperationNotification(
+        id: testId2,
+        type: NotificationType.output,
+        clientName: 'فاطمة علي',
+        scheduledTime: testTime2,
+        operationId: 1002,
+        customerName: 'فاطمة علي',
+        amount: 25000.0,
+        payload: 'test_output_operation',
+      );
+
+      print('✅ Operation notifications scheduled successfully');
+      print('📱 Input notification: $testTime1');
+      print('📱 Output notification: $testTime2');
+      print('💡 Check your notifications in 5-10 seconds');
+    } catch (e) {
+      print('❌ Error scheduling operation notifications: $e');
+      rethrow;
+    }
+  }
+
+  /// Tests notification system with error handling
+  static Future<void> testNotificationSystemWithErrorHandling() async {
+    try {
+      print('🔔 Testing notification system with error handling...');
+
+      // First, try to initialize the system
+      await init();
+      print('✅ Notification system initialized successfully');
+
+      // Test immediate notification
+      await showTestNotification();
+      print('✅ Immediate notification test passed');
+
+      // Test scheduled notification
+      await testOperationNotifications();
+      print('✅ Scheduled notification test passed');
+
+      print('🎉 All notification tests passed successfully!');
+    } catch (e) {
+      print('❌ Notification system test failed: $e');
+      print('💡 Try the following solutions:');
+      print('   1. Check if notification permissions are granted');
+      print('   2. Restart the app');
+      print('   3. Check Android manifest permissions');
+      rethrow;
+    }
+  }
+
+  /// Tests notification system with comprehensive error handling
+  static Future<void> testNotificationSystemComprehensive() async {
+    try {
+      print('🔔 Testing notification system comprehensively...');
+
+      // Test 1: Initialize system
+      print('📱 Test 1: Initializing notification system...');
+      await init();
+      print('✅ System initialized successfully');
+
+      // Test 2: Check permissions
+      print('📱 Test 2: Checking notification permissions...');
+      final hasPermission = await checkNotificationSystem();
+      if (hasPermission == false) {
+        print('⚠️ Notification permissions not granted');
+        return;
+      }
+      print('✅ Permissions granted');
+
+      // Test 3: Test immediate notification
+      print('📱 Test 3: Testing immediate notification...');
+      await showTestNotification();
+      print('✅ Immediate notification test passed');
+
+      // Test 4: Test scheduled notification
+      print('📱 Test 4: Testing scheduled notification...');
+      await testOperationNotifications();
+      print('✅ Scheduled notification test passed');
+
+      print('🎉 All comprehensive tests passed successfully!');
+    } catch (e) {
+      print('❌ Comprehensive test failed: $e');
+      print('💡 Debugging steps:');
+      print('   1. Check Android manifest permissions');
+      print('   2. Verify notification channels are created');
+      print('   3. Check if app has notification permissions');
+      print('   4. Try restarting the app');
+      rethrow;
+    }
+  }
+
   /// Cancels a notification by its ID
   static Future<void> cancelNotification(int id) async {
     await _plugin.cancel(id);
@@ -889,11 +1112,35 @@ class NotificationService {
       results['error'] = e.toString();
       print('🔍 Error checking notification system: $e');
     }
-
     return results;
   }
 
   // ====================(step_2) Database Operations ====================
+
+  /// Creates notification content based on operation type
+  static Map<String, String> _createNotificationContent({
+    required NotificationType type,
+    required String clientName,
+  }) {
+    switch (type) {
+      case NotificationType.input:
+        return {
+          'title': 'input_notification_title'.tr(),
+          'body': 'input_notification_body'.tr().replaceAll(
+            '{clientName}',
+            clientName,
+          ),
+        };
+      case NotificationType.output:
+        return {
+          'title': 'output_notification_title'.tr(),
+          'body': 'output_notification_body'.tr().replaceAll(
+            '{clientName}',
+            clientName,
+          ),
+        };
+    }
+  }
 
   /// Saves notification to database
   static Future<void> _saveNotificationToDatabase({
@@ -924,12 +1171,9 @@ class NotificationService {
         isRead: false,
         payload: payload,
       );
-
       await notificationRepo.saveNotification(notification);
-
       // التحقق من الحذف التلقائي
       await notificationRepo.autoDeleteOldNotifications();
-
       printSuccess('💾 Notification saved and auto-cleanup completed');
     } catch (e) {
       printError('Error saving notification to database: $e');

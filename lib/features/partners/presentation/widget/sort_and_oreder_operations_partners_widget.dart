@@ -1,23 +1,22 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
-import 'package:x_calcu/global/components/bottom_dialog/show_advanced_filter_bottom_sheet.dart';
+import 'package:x_calcu/features/partners/cubit/partner_details/partner_details_cubit.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/components/bottom_dialog/show_advanced_filter_bottom_sheet.dart';
 
 class SortAndOrederPartnersWidget extends StatelessWidget {
   const SortAndOrederPartnersWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PartnerCubit, PartnerState>(
-      bloc: getIt<PartnerCubit>(),
+    return BlocBuilder<PartnerDetailsCubit, PartnerDetailsState>(
+      bloc: getIt<PartnerDetailsCubit>(),
       buildWhen: (_, __) => true,
       builder: (context, state) {
-        final cubit = getIt<PartnerCubit>();
+        final cubit = getIt<PartnerDetailsCubit>();
 
         // Calculate the bottom position dynamically
         final bottomPadding = MediaQuery.of(context).padding.bottom;
@@ -55,41 +54,47 @@ class SortAndOrederPartnersWidget extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Toggle between asc and desc based on current value
-                        final newOrderBy =
-                            cubit.orderBy == 'asc' ? 'desc' : 'asc';
-                        cubit.setOrderBy(newOrderBy);
-                      },
-                      child: Icon(Iconsax.calendar_1_copy, size: 21.sp),
+                    Tooltip(
+                      message: 'Sort operations',
+                      child: GestureDetector(
+                        onTap: () {
+                          // Toggle between asc and desc based on current value
+                          final newOrderBy =
+                              cubit.orderBy == 'asc' ? 'desc' : 'asc';
+                          cubit.setOrderBy(newOrderBy);
+                        },
+                        child: Icon(Iconsax.sort_copy, size: 21.sp),
+                      ),
                     ),
-                
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10.sp),
                       width: 1,
                       color: Colors.grey[800],
                       height: 20.sp,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        final currentFilter = FilterData(
-                          orderBy: cubit.orderBy,
-                          startDate: null,
-                          endDate: null,
-                        );
-
-                        showAdvancedFilterBottomSheet(context, currentFilter, (
-                          filterData,
-                        ) {
-                          cubit.setOrderBy(filterData.orderBy);
-                          // cubit.setDateRange(
-                          //   filterData.startDate,
-                          //   filterData.endDate,
-                          // );
-                        });
-                      },
-                      child: Icon(Iconsax.sort_copy, size: 21.sp),
+                    Tooltip(
+                      message: 'Date filter',
+                      child: GestureDetector(
+                        onTap: () {
+                          final currentFilter = FilterData(
+                            orderBy: cubit.orderBy,
+                            startDate: cubit.startDate,
+                            endDate: cubit.endDate,
+                          );
+                          showAdvancedFilterBottomSheet(
+                            context,
+                            currentFilter,
+                            (filterData) {
+                              cubit.setOrderBy(filterData.orderBy);
+                              cubit.setDateRange(
+                                filterData.startDate,
+                                filterData.endDate,
+                              );
+                            },
+                          );
+                        },
+                        child: Icon(Iconsax.calendar_1_copy, size: 21.sp),
+                      ),
                     ),
                   ],
                 ),

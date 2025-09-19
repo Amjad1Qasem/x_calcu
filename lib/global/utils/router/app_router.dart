@@ -10,6 +10,7 @@ import 'package:x_calcu/features/operations/presentation/screen/edit_operations_
 import 'package:x_calcu/features/operations/presentation/screen/show_operations_details_screen.dart';
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/features/partners/presentation/screen/add_partner_screen.dart';
+import 'package:x_calcu/features/partners/presentation/screen/edit_partner_screen.dart';
 import 'package:x_calcu/features/partners/presentation/screen/partner_details_screen.dart';
 import 'package:x_calcu/features/partners/presentation/screen/partners_screen.dart';
 import 'package:x_calcu/features/privacy_policy/screens/privacy_policy_screen.dart';
@@ -107,6 +108,14 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const AddPartnerScreen(),
     ),
     GoRoute(
+      path: RouterPath.editPartnerScreen,
+      name: RouterPath.editPartnerScreen,
+      builder: (context, state) {
+        final partner = state.extra as PartnerModel;
+        return EditPartnerScreen(partner: partner);
+      },
+    ),
+    GoRoute(
       path: RouterPath.showOperationsDetailsScreen,
       name: RouterPath.showOperationsDetailsScreen,
       builder: (context, state) {
@@ -126,8 +135,16 @@ final GoRouter router = GoRouter(
       path: RouterPath.addOperationsScreen,
       name: RouterPath.addOperationsScreen,
       builder: (context, state) {
-        final isFromPartner = state.extra as bool;
-        return AddOperationsScreen(isFromPartner: isFromPartner);
+        if (state.extra is Map<String, dynamic>) {
+          final data = state.extra as Map<String, dynamic>;
+          return AddOperationsScreen(
+            isFromPartner: data['isFromPartner'] as bool?,
+            partner: data['partner'] as PartnerModel?,
+          );
+        } else {
+          final isFromPartner = state.extra as bool?;
+          return AddOperationsScreen(isFromPartner: isFromPartner);
+        }
       },
     ),
     GoRoute(

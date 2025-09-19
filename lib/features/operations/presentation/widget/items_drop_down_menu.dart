@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/features/operations/cubit/get_partner/get_partner_drop_down_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/edit_operation/edit_operation_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/create_operation/create_operation_cubit.dart';
-import 'package:x_calcu/features/operations/cubit/operations/operations_cubit.dart';
 import 'package:x_calcu/features/operations/data/operations_model.dart';
 import 'package:x_calcu/features/operations/data/cubit_type.dart';
 import 'package:x_calcu/global/components/form_label_widget.dart';
@@ -21,6 +20,7 @@ class ItemsDropDownMenu extends StatelessWidget {
     this.onChanged,
     this.readOnly = false,
     this.cubitType = CubitType.create,
+    this.operationsCubit,
   });
 
   final String label;
@@ -28,11 +28,12 @@ class ItemsDropDownMenu extends StatelessWidget {
   final Function(DropDownModel)? onChanged;
   final bool readOnly;
   final CubitType cubitType;
+  final dynamic operationsCubit;
 
   @override
   Widget build(BuildContext context) {
     final cubit = getIt<GetPartnerDropDownCubit>();
-    final operationsCubit = _getOperationsCubit();
+    final operationsCubit = this.operationsCubit ?? _getOperationsCubit();
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.sp),
@@ -119,10 +120,17 @@ class ItemsDropDownMenu extends StatelessWidget {
                           controller.text = model.name ?? '';
 
                           // Set the selected partner in the operations cubit
+                          print(
+                            'Setting partner: ID=${model.id}, Name=${model.name}',
+                          );
+                          print(
+                            'OperationsCubit type: ${operationsCubit.runtimeType}',
+                          );
                           operationsCubit.setSelectedPartner(
                             model.id ?? 0,
                             model.name ?? '',
                           );
+                          print('Partner set successfully');
 
                           onChanged?.call(model);
                         },

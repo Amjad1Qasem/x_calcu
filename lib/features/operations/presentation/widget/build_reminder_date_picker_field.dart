@@ -99,7 +99,9 @@ Widget buildReminderDatePickerField({
                 await NotificationService.scheduleNotification(
                   id: notificationId,
                   title: 'notification_title'.tr(),
-                  body: tr('notification_body', args: [clientName]),
+                  body: 'notification_body'.tr(
+                    namedArgs: {"clientName": clientName},
+                  ),
                   payload: 'go_to_notifications',
                   scheduledTime: tzScheduled,
                 );

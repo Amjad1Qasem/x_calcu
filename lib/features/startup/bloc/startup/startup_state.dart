@@ -11,5 +11,5 @@ class StartupState with _$StartupState {
 
   const factory StartupState.success(AuthModel accountDetails) = _Success;
   
-  const factory StartupState.error() = _Error;
+  const factory StartupState.error({required String message}) = _Error;
 }

@@ -77,8 +77,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           Padding(
             padding: EdgeInsetsDirectional.only(end: 14.sp),
             child: TextButton(
-              onPressed: () {},
-              //  context.push(RouterPath.mainLayoutPage),
+              onPressed: () => context.pushReplacement(RouterPath.loginScreen),
               child: Text(
                 'skip'.tr(),
                 style: Utils(

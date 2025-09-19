@@ -1,21 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_calcu/global/components/scaffold_page.dart';
-import 'package:x_calcu/global/design/color_app.dart';
-import 'package:x_calcu/global/design/themes/themes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:x_calcu/global/components/scaffold_page.dart';
-import 'package:x_calcu/global/design/color_app.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/color_app.dart';
 
@@ -64,12 +50,12 @@ class _AppSkeletonState extends State<AppSkeleton> {
                 .fadeIn(duration: const Duration(milliseconds: 800))
                 .slideY(begin: -0.3, end: 0),
             const SizedBox(height: 40),
-            const Text(
-              'Welcome to XCalcu',
+            Text(
+              'welcome_to_xcalcu'.tr(),
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey,
+                color: Color(0xff2b3d50),
               ),
             ).animate().fadeIn(
               duration: const Duration(milliseconds: 700),

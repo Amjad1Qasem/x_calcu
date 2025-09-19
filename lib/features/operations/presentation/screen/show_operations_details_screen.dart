@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_calcu/features/operations/cubit/operations/operations_cubit.dart';
 import 'package:x_calcu/features/operations/presentation/widget/view.dart';
+import 'package:x_calcu/global/components/auth_guard.dart';
 import 'package:x_calcu/global/components/loaders/loading_widget.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/components/utils/empty_list_widget.dart';
@@ -40,35 +41,37 @@ class _ShowOperationsDetailsScreenState
       isBack: true,
       title: 'operation_details'.tr(),
       actions: [_EditBtn(operationsCubit: _operationsCubit)],
-      body: BlocBuilder<OperationsCubit, OperationsState>(
-        bloc: _operationsCubit,
-        builder: (context, state) {
-          // Loading state
-          if (state.isLoading == true) {
-            return const LoadingWidget();
-          }
+      body: AuthGuard(
+        child: BlocBuilder<OperationsCubit, OperationsState>(
+          bloc: _operationsCubit,
+          builder: (context, state) {
+            // Loading state
+            if (state.isLoading == true) {
+              return const LoadingWidget();
+            }
 
-          // Error state
-          if (state.isError == true) {
-            return ErrorWidgetScreen(
-              message: 'error_loading_operation'.tr(),
-              subMessage: 'we_faces_some_issues'.tr(),
-              onRetry: () {
-                _operationsCubit.getOperationDetails(
-                  operationId: widget.operationId,
-                );
-              },
-            );
-          }
+            // Error state
+            if (state.isError == true) {
+              return ErrorWidgetScreen(
+                message: 'error_loading_operation'.tr(),
+                subMessage: 'we_faces_some_issues'.tr(),
+                onRetry: () {
+                  _operationsCubit.getOperationDetails(
+                    operationId: widget.operationId,
+                  );
+                },
+              );
+            }
 
-          // Success state with data
-          if (state.operation != null) {
-            return _buildSuccessState(state);
-          }
+            // Success state with data
+            if (state.operation != null) {
+              return _buildSuccessState(state);
+            }
 
-          // Empty state (no data)
-          return EmptyListWidget(message: 'no_operation_found'.tr());
-        },
+            // Empty state (no data)
+            return EmptyListWidget(message: 'no_operation_found'.tr());
+          },
+        ),
       ),
     );
   }

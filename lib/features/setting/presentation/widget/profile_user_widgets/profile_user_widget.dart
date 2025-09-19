@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
 import 'package:x_calcu/features/setting/presentation/widget/profile_user_widgets/face_id_widget.dart';
 import 'package:x_calcu/features/setting/presentation/widget/section_components_widget.dart';
@@ -11,6 +13,7 @@ import 'package:x_calcu/global/components/app_bar.dart';
 import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/loaders/loading_overlay.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
+import 'package:x_calcu/global/components/showcase/showcase_button.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
@@ -33,6 +36,7 @@ class ProfileUserWidget extends StatelessWidget {
             children: [
               _buildfaceIdSection(context),
               CommonSizes.vSmallerSpace,
+              // _buildTutorialSection(context),
               _buildPrivacySettingsSection(context),
               _buildLogoutSection(context),
               CommonSizes.vSmallerSpace,
@@ -45,6 +49,18 @@ class ProfileUserWidget extends StatelessWidget {
 
   Widget _buildfaceIdSection(BuildContext context) {
     return SectionComponentsWidget(lenght: 1, items: [faceIdWidget(context)]);
+  }
+
+  Widget _buildTutorialSection(BuildContext context) {
+    return SectionComponentsWidget(
+      lenght: 1,
+      items: [
+        ShowcaseButton(
+          title: 'start_tutorial'.tr(),
+          description: 'tutorial_description'.tr(),
+        ),
+      ],
+    );
   }
 
   Widget _buildPrivacySettingsSection(BuildContext context) {
@@ -64,7 +80,21 @@ class ProfileUserWidget extends StatelessWidget {
           isGlobalSection: true,
         ),
         SectionItemWidget(
-          onTap: () => context.push(RouterPath.privacyPolicyScreen),
+          onTap: () async {
+            const url = 'https://x-secure.gmbh/contacts';
+            if (await canLaunchUrl(Uri.parse(url))) {
+              await launchUrl(
+                Uri.parse(url),
+                mode: LaunchMode.externalApplication,
+              );
+            } else {
+              snackBar(
+                context: context,
+                title: 'could_not_open_the_contact_page'.tr(),
+                isErrorMessage: true,
+              );
+            }
+          },
           title: "contact_ust".tr(),
           iconPath: Iconsax.message_copy,
           isGlobalSection: true,

@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:x_calcu/features/startup/data/system_setting_model.dart';
@@ -16,9 +15,9 @@ class AppStateModel with ChangeNotifier {
 
   AuthModel? _userInfo;
   bool seenMissedNotifications = false;
-  String _currency = 'sp';
+  final String _currency = 'sp';
 
-  // AuthModel? get userInfo => _userInfo;
+  AuthModel? get userInfo => _userInfo;
 
   Locale get locale => _locale;
 
@@ -90,14 +89,14 @@ class AppStateModel with ChangeNotifier {
   }
 
   Future<void> _loadUserPreferences() async {
-    // final storedUser = await LocalStorageHelper.getUserData();
+    final storedUser = await LocalStorageHelper.getUserData();
     final storedToken = await LocalStorageHelper.getToken();
     final storedLocale = await LocalStorageHelper.getLocale();
 
-    // _userInfo = storedUser;
+    _userInfo = storedUser;
     _userToken = storedToken;
     _locale = storedLocale;
-    // _authenticated = _userInfo != null;
+    _authenticated = _userInfo != null;
     notifyListeners();
   }
 

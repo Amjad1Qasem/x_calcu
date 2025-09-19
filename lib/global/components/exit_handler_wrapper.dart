@@ -2,10 +2,8 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
-import 'package:x_calcu/global/utils/navigation/navigation_helper.dart';
 
 class CustomTabScreenWrapper extends StatelessWidget {
   final Widget child;
@@ -17,18 +15,18 @@ class CustomTabScreenWrapper extends StatelessWidget {
     await openDialog(
       context: context,
       title: "exit_app".tr(),
-      message: 'هل تريد الخروج من التطبيق؟',
+      message: 'exit_app_message'.tr(),
       icon: Icons.exit_to_app,
       iconColor: Utils(context).primary,
       iconBackgroundColor: Utils(context).primary.withValues(alpha: 0.1),
       confirmText: "yes".tr(),
       cancelText: "no".tr(),
       onConfirm: () async {
-        context.pop();
+        // Don't call context.pop() here as it's handled by the dialog itself
         completer.complete(true);
       },
       onCancel: () async {
-        NavigationHelper.safePop(context);
+        // Don't call NavigationHelper.safePop() here as it's handled by the dialog itself
         completer.complete(false);
       },
     );

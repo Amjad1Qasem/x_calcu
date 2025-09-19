@@ -8,6 +8,7 @@ import 'package:x_calcu/features/home/presentation/widget/home_app_bar.dart';
 import 'package:x_calcu/features/home/presentation/widget/home_operations_list.dart';
 import 'package:x_calcu/features/home/presentation/widget/home_search_section.dart';
 import 'package:x_calcu/features/home/presentation/widget/sort_and_oreder_pperations_widget.dart';
+import 'package:x_calcu/global/components/auth_guard.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
@@ -36,8 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    BlocConsumer<HomeCubit, HomeState>(
+    return BlocConsumer<HomeCubit, HomeState>(
       bloc: getIt<HomeCubit>(),
       listener: (context, state) {
         _controller.handleStateChange(state);
@@ -45,57 +45,58 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) {
         return Skaffold(
           isAppBarNull: true,
-          body: Stack(
-            children: [
-              RefreshIndicator(
-                onRefresh: _controller.handleRefresh,
-                child: CustomScrollView(
-                  slivers: [
-                    // AppBar
-                    homeAppBar(context),
+          body: AuthGuard(
+            child: Stack(
+              children: [
+                RefreshIndicator(
+                  onRefresh: _controller.handleRefresh,
+                  child: CustomScrollView(
+                    slivers: [
+                      // AppBar
+                      homeAppBar(context),
 
-                    // Search Section
-                    SliverToBoxAdapter(
-                      child: HomeSearchSection(
-                        isSearchExpanded: _controller.isSearchExpanded,
-                        onSearchToggle: () {
-                          setState(() {
-                            _controller.toggleSearchExpanded();
-                          });
-                        },
-                        onSearchCollapse: () {
-                          setState(() {
-                            _controller.collapseSearch();
-                          });
-                        },
+                      // Search Section
+                      SliverToBoxAdapter(
+                        child: HomeSearchSection(
+                          isSearchExpanded: _controller.isSearchExpanded,
+                          onSearchToggle: () {
+                            setState(() {
+                              _controller.toggleSearchExpanded();
+                            });
+                          },
+                          onSearchCollapse: () {
+                            setState(() {
+                              _controller.collapseSearch();
+                            });
+                          },
+                        ),
                       ),
-                    ),
 
-                    // Sticky Filter (Input/Output)
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: FilterHeaderHomeWidget(),
-                    ),
+                      // Sticky Filter (Input/Output)
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: FilterHeaderHomeWidget(),
+                      ),
 
-                    // Empty Space
-                    SliverToBoxAdapter(child: CommonSizes.vSmallestSpace5v),
+                      // Empty Space
+                      SliverToBoxAdapter(child: CommonSizes.vSmallestSpace5v),
 
-                    // Operations List with Pagination
-                    HomeOperationsList(
-                      pagingController: _controller.pagingController,
-                    ),
+                      // Operations List with Pagination
+                      HomeOperationsList(
+                        pagingController: _controller.pagingController,
+                      ),
 
-                    // Empty Space - Add extra space to avoid overlap with floating widget
-                    SliverToBoxAdapter(child: SizedBox(height: 100)),
-                  ],
+                      // Empty Space - Add extra space to avoid overlap with floating widget
+                      SliverToBoxAdapter(child: SizedBox(height: 100)),
+                    ],
+                  ),
                 ),
-              ),
-              SortAndOrederOperationsWidget(),
-            ],
+                SortAndOrederOperationsWidget(),
+              ],
+            ),
           ),
         );
       },
     );
-
   }
 }

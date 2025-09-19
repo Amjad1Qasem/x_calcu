@@ -23,7 +23,7 @@ mixin _$StartupState {
     required TResult Function() onboardingRequired,
     required TResult Function() unauthenticated,
     required TResult Function(AuthModel accountDetails) success,
-    required TResult Function() error,
+    required TResult Function(String message) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -31,7 +31,7 @@ mixin _$StartupState {
     TResult? Function()? onboardingRequired,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthModel accountDetails)? success,
-    TResult? Function()? error,
+    TResult? Function(String message)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -39,7 +39,7 @@ mixin _$StartupState {
     TResult Function()? onboardingRequired,
     TResult Function()? unauthenticated,
     TResult Function(AuthModel accountDetails)? success,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -138,7 +138,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() onboardingRequired,
     required TResult Function() unauthenticated,
     required TResult Function(AuthModel accountDetails) success,
-    required TResult Function() error,
+    required TResult Function(String message) error,
   }) {
     return loading();
   }
@@ -150,7 +150,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? onboardingRequired,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthModel accountDetails)? success,
-    TResult? Function()? error,
+    TResult? Function(String message)? error,
   }) {
     return loading?.call();
   }
@@ -162,7 +162,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? onboardingRequired,
     TResult Function()? unauthenticated,
     TResult Function(AuthModel accountDetails)? success,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -263,7 +263,7 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     required TResult Function() onboardingRequired,
     required TResult Function() unauthenticated,
     required TResult Function(AuthModel accountDetails) success,
-    required TResult Function() error,
+    required TResult Function(String message) error,
   }) {
     return onboardingRequired();
   }
@@ -275,7 +275,7 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     TResult? Function()? onboardingRequired,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthModel accountDetails)? success,
-    TResult? Function()? error,
+    TResult? Function(String message)? error,
   }) {
     return onboardingRequired?.call();
   }
@@ -287,7 +287,7 @@ class _$OnboardingRequiredImpl implements _OnboardingRequired {
     TResult Function()? onboardingRequired,
     TResult Function()? unauthenticated,
     TResult Function(AuthModel accountDetails)? success,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (onboardingRequired != null) {
@@ -388,7 +388,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     required TResult Function() onboardingRequired,
     required TResult Function() unauthenticated,
     required TResult Function(AuthModel accountDetails) success,
-    required TResult Function() error,
+    required TResult Function(String message) error,
   }) {
     return unauthenticated();
   }
@@ -400,7 +400,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult? Function()? onboardingRequired,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthModel accountDetails)? success,
-    TResult? Function()? error,
+    TResult? Function(String message)? error,
   }) {
     return unauthenticated?.call();
   }
@@ -412,7 +412,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
     TResult Function()? onboardingRequired,
     TResult Function()? unauthenticated,
     TResult Function(AuthModel accountDetails)? success,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -553,7 +553,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function() onboardingRequired,
     required TResult Function() unauthenticated,
     required TResult Function(AuthModel accountDetails) success,
-    required TResult Function() error,
+    required TResult Function(String message) error,
   }) {
     return success(accountDetails);
   }
@@ -565,7 +565,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function()? onboardingRequired,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthModel accountDetails)? success,
-    TResult? Function()? error,
+    TResult? Function(String message)? error,
   }) {
     return success?.call(accountDetails);
   }
@@ -577,7 +577,7 @@ class _$SuccessImpl implements _Success {
     TResult Function()? onboardingRequired,
     TResult Function()? unauthenticated,
     TResult Function(AuthModel accountDetails)? success,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -645,6 +645,8 @@ abstract class _$$ErrorImplCopyWith<$Res> {
     _$ErrorImpl value,
     $Res Function(_$ErrorImpl) then,
   ) = __$$ErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
 }
 
 /// @nodoc
@@ -658,26 +660,52 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
   /// Create a copy of StartupState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? message = null}) {
+    return _then(
+      _$ErrorImpl(
+        message:
+            null == message
+                ? _value.message
+                : message // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
 class _$ErrorImpl implements _Error {
-  const _$ErrorImpl();
+  const _$ErrorImpl({required this.message});
+
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'StartupState.error()';
+    return 'StartupState.error(message: $message)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ErrorImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$ErrorImpl &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of StartupState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -686,9 +714,9 @@ class _$ErrorImpl implements _Error {
     required TResult Function() onboardingRequired,
     required TResult Function() unauthenticated,
     required TResult Function(AuthModel accountDetails) success,
-    required TResult Function() error,
+    required TResult Function(String message) error,
   }) {
-    return error();
+    return error(message);
   }
 
   @override
@@ -698,9 +726,9 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? onboardingRequired,
     TResult? Function()? unauthenticated,
     TResult? Function(AuthModel accountDetails)? success,
-    TResult? Function()? error,
+    TResult? Function(String message)? error,
   }) {
-    return error?.call();
+    return error?.call(message);
   }
 
   @override
@@ -710,11 +738,11 @@ class _$ErrorImpl implements _Error {
     TResult Function()? onboardingRequired,
     TResult Function()? unauthenticated,
     TResult Function(AuthModel accountDetails)? success,
-    TResult Function()? error,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error();
+      return error(message);
     }
     return orElse();
   }
@@ -761,5 +789,13 @@ class _$ErrorImpl implements _Error {
 }
 
 abstract class _Error implements StartupState {
-  const factory _Error() = _$ErrorImpl;
+  const factory _Error({required final String message}) = _$ErrorImpl;
+
+  String get message;
+
+  /// Create a copy of StartupState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

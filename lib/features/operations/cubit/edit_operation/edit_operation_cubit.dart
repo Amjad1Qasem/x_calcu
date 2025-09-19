@@ -68,6 +68,10 @@ class EditOperationCubit extends Cubit<EditOperationState> {
   final TextEditingController totalReceivedValueController =
       TextEditingController();
 
+  // Dynamic payment lists
+  List<DynamicPaymentItem> paidBills = [];
+  List<DynamicPaymentItem> receivedAmounts = [];
+
   // Store the actual DateTime for API calls
   DateTime? selectedReminderDateTime;
 
@@ -110,6 +114,42 @@ class EditOperationCubit extends Cubit<EditOperationState> {
     selectedPartnerId = partnerId;
     partnerNameController.text = partnerName;
     printSuccess('Selected Partner ID: $selectedPartnerId, Name: $partnerName');
+  }
+
+  // ==================== Dynamic Payment Management ====================
+
+  /// Updates paid bills list
+  void updatePaidBills(List<DynamicPaymentItem> newPaidBills) {
+    paidBills = newPaidBills;
+    _updateTotalPaidAmount();
+    triggerAllCalculations();
+    printSuccess('Updated paid bills: ${paidBills.length} items');
+  }
+
+  /// Updates received amounts list
+  void updateReceivedAmounts(List<DynamicPaymentItem> newReceivedAmounts) {
+    receivedAmounts = newReceivedAmounts;
+    _updateTotalReceivedAmount();
+    triggerAllCalculations();
+    printSuccess('Updated received amounts: ${receivedAmounts.length} items');
+  }
+
+  /// Updates total paid amount from dynamic list
+  void _updateTotalPaidAmount() {
+    final total = paidBills.fold(0.0, (sum, item) {
+      return sum + (double.tryParse(item.invoiceValue) ?? 0);
+    });
+    paidAmountController.text = _formatNumber(total);
+    totalPaidValueController.text = _formatNumber(total);
+  }
+
+  /// Updates total received amount from dynamic list
+  void _updateTotalReceivedAmount() {
+    final total = receivedAmounts.fold(0.0, (sum, item) {
+      return sum + (double.tryParse(item.invoiceValue) ?? 0);
+    });
+    receivedAmountController.text = _formatNumber(total);
+    totalReceivedValueController.text = _formatNumber(total);
   }
 
   void initializeWithModel(OperationModel model) {
@@ -185,6 +225,9 @@ class EditOperationCubit extends Cubit<EditOperationState> {
     // Note: selectedPartnerId will be set when the partner dropdown is loaded
     // and matches the partner name from the model
 
+    // Trigger auto-calculations after initializing with model data
+    triggerAllCalculations();
+
     emit(state.copyWith(operation: model));
   }
 
@@ -193,7 +236,7 @@ class EditOperationCubit extends Cubit<EditOperationState> {
     clearValidationErrors();
     emit(state.copyWith(isLoading: true, isError: false, errorMessage: ''));
 
-    // Validate required fields
+    // Validate required fields only (notes, reminder date, paid amounts, received amounts are optional)
     if (customerController.text.trim().isEmpty ||
         invoiceNumberController.text.trim().isEmpty ||
         invoiceValueController.text.trim().isEmpty ||
@@ -235,26 +278,8 @@ class EditOperationCubit extends Cubit<EditOperationState> {
               ? DateTimeHelper.formatDateTimeForAPI(selectedReminderDateTime!)
               : null,
       comments: notesController.text.trim(),
-      paidBills:
-          paidAmountController.text.trim().isNotEmpty &&
-                  paidDateController.text.trim().isNotEmpty
-              ? [
-                PaidBillRequest(
-                  invoiceValue: paidAmountController.text.trim(),
-                  invoiceDate: paidDateController.text.trim(),
-                ),
-              ]
-              : null,
-      receivedAmounts:
-          receivedAmountController.text.trim().isNotEmpty &&
-                  receivedDateController.text.trim().isNotEmpty
-              ? [
-                ReceivedAmountRequest(
-                  invoiceValue: receivedAmountController.text.trim(),
-                  invoiceDate: receivedDateController.text.trim(),
-                ),
-              ]
-              : null,
+      paidBills: _buildPaidBills(),
+      receivedAmounts: _buildReceivedAmounts(),
     );
 
     final result = await _operationsRepo.updateOperation(
@@ -312,6 +337,97 @@ class EditOperationCubit extends Cubit<EditOperationState> {
     );
   }
 
+  // ==================== Auto Calculation Methods ====================
+
+  /// Auto-calculates percentage value = (paid_amount * percentage) / 100
+  void calculatePercentageValue() {
+    final paidAmount = double.tryParse(paidAmountController.text) ?? 0;
+    final percentage = double.tryParse(percentageController.text) ?? 0;
+    final percentageValue = (paidAmount * percentage) / 100;
+    percentageAmountController.text = _formatNumber(percentageValue);
+    printSuccess('Calculated percentage value: $percentageValue');
+  }
+
+  /// Auto-calculates remaining invoice = invoice_value - paid_amount
+  void calculateRemainingInvoice() {
+    final invoiceValue = double.tryParse(invoiceValueController.text) ?? 0;
+    final paidAmount = double.tryParse(paidAmountController.text) ?? 0;
+    final remaining = invoiceValue - paidAmount;
+    remainingInvoiceController.text = _formatNumber(remaining);
+    printSuccess('Calculated remaining invoice: $remaining');
+  }
+
+  /// Auto-calculates total due = paid_amount - percentage_value
+  void calculateTotalDue() {
+    final paidAmount = double.tryParse(paidAmountController.text) ?? 0;
+    final percentageValue =
+        double.tryParse(percentageAmountController.text) ?? 0;
+    final totalDue = paidAmount - percentageValue;
+    totalDueController.text = _formatNumber(totalDue);
+    printSuccess('Calculated total due: $totalDue');
+  }
+
+  /// Auto-calculates remaining amount = total_due - received_amount
+  void calculateRemainingAmount() {
+    final totalDue = double.tryParse(totalDueController.text) ?? 0;
+    final receivedAmount = double.tryParse(receivedAmountController.text) ?? 0;
+    final remaining = totalDue - receivedAmount;
+    remainingAmountController.text = _formatNumber(remaining);
+    printSuccess('Calculated remaining amount: $remaining');
+  }
+
+  /// Triggers all auto-calculations
+  void triggerAllCalculations() {
+    printSuccess('Triggering all auto-calculations...');
+    calculatePercentageValue();
+    calculateRemainingInvoice();
+    calculateTotalDue();
+    calculateRemainingAmount();
+    printSuccess('Auto-calculations completed');
+  }
+
+  /// Formats number to remove unnecessary decimal zeros
+  String _formatNumber(double value) {
+    if (value == value.toInt().toDouble()) {
+      return value.toInt().toString();
+    }
+    return value.toString();
+  }
+
+  /// Builds paid bills list from dynamic items
+  List<PaidBillRequest>? _buildPaidBills() {
+    if (paidBills.isEmpty) return null;
+
+    return paidBills
+        .where(
+          (item) => item.invoiceValue.isNotEmpty && item.invoiceDate.isNotEmpty,
+        )
+        .map(
+          (item) => PaidBillRequest(
+            invoiceValue: item.invoiceValue,
+            invoiceDate: item.invoiceDate,
+          ),
+        )
+        .toList();
+  }
+
+  /// Builds received amounts list from dynamic items
+  List<ReceivedAmountRequest>? _buildReceivedAmounts() {
+    if (receivedAmounts.isEmpty) return null;
+
+    return receivedAmounts
+        .where(
+          (item) => item.invoiceValue.isNotEmpty && item.invoiceDate.isNotEmpty,
+        )
+        .map(
+          (item) => ReceivedAmountRequest(
+            invoiceValue: item.invoiceValue,
+            invoiceDate: item.invoiceDate,
+          ),
+        )
+        .toList();
+  }
+
   // Method to schedule reminder notification
   Future<void> _scheduleReminderNotification() async {
     if (selectedReminderDateTime == null) return;
@@ -330,7 +446,7 @@ class EditOperationCubit extends Cubit<EditOperationState> {
       await NotificationService.scheduleNotification(
         id: notificationId,
         title: 'notification_title'.tr(),
-        body: 'notification_body'.tr(args: [clientName]),
+        body: 'notification_body'.tr(namedArgs: {"clientName": clientName}),
         payload: 'go_to_notifications',
         scheduledTime: selectedReminderDateTime!,
       );

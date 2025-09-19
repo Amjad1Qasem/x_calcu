@@ -94,6 +94,61 @@ abstract class LocalStorageHelper {
     await Prefs.instance?.remove(MyKeys.token);
   }
 
+  // ==================== Saved Login Credentials ====================
+
+  /// **Save Login Credentials (for Face ID)**
+  static Future<void> saveLoginCredentials({
+    required String username,
+    required String password,
+  }) async {
+    await Prefs.instance?.setString(MyKeys.savedUsername, username);
+    await Prefs.instance?.setString(MyKeys.savedPassword, password);
+    await Prefs.instance?.setBool(MyKeys.rememberLogin, true);
+  }
+
+  /// **Retrieve Saved Username**
+  static Future<String?> getSavedUsername() async {
+    final username = Prefs.instance?.getString(MyKeys.savedUsername);
+    printSuccess('LocalStorageHelper - Retrieved username: $username');
+    return username;
+  }
+
+  /// **Retrieve Saved Password**
+  static Future<String?> getSavedPassword() async {
+    final password = Prefs.instance?.getString(MyKeys.savedPassword);
+    printSuccess(
+      'LocalStorageHelper - Retrieved password: ${password != null ? '***' : 'null'}',
+    );
+    return password;
+  }
+
+  /// **Check if Remember Login is Enabled**
+  static Future<bool> isRememberLoginEnabled() async {
+    final isEnabled = Prefs.instance?.getBool(MyKeys.rememberLogin) ?? false;
+    return isEnabled;
+  }
+
+  /// **Clear Saved Login Credentials**
+  static Future<void> clearSavedLoginCredentials() async {
+    await Prefs.instance?.remove(MyKeys.savedUsername);
+    await Prefs.instance?.remove(MyKeys.savedPassword);
+    await Prefs.instance?.remove(MyKeys.rememberLogin);
+  }
+
+  /// **Set Remember Login Preference**
+  static Future<void> setRememberLogin(bool remember) async {
+    await Prefs.instance?.setBool(MyKeys.rememberLogin, remember);
+    if (!remember) {
+      await clearSavedLoginCredentials();
+    }
+  }
+
+  /// **Clear All Data Including Login Credentials**
+  static Future<void> clearAllData() async {
+    await clearUserData();
+    await clearSavedLoginCredentials();
+  }
+
   /// **Save OnBoarding State**
   static Future<void> setOnBoardingState(bool isFirstTimeOpen) async {
     await Prefs.instance?.setBool(MyKeys.firstOpenApp, isFirstTimeOpen);
@@ -108,36 +163,5 @@ abstract class LocalStorageHelper {
   static Future<void> clearOnBoardingState() async {
     debugPrint('clearOnBoardingState');
     await Prefs.instance?.remove(MyKeys.firstOpenApp);
-  }
-
-  // ==================== Backup Password Methods ====================
-
-  /// **Set Backup Password**
-  static Future<void> setBackupPassword(String password) async {
-    debugPrint('setBackupPassword');
-    await Prefs.instance?.setString(MyKeys.backupPassword, password);
-  }
-
-  /// **Get Backup Password**
-  static Future<String?> getBackupPassword() async {
-    return Prefs.instance?.getString(MyKeys.backupPassword);
-  }
-
-  /// **Check if Backup Password exists**
-  static Future<bool> hasBackupPassword() async {
-    final password = await getBackupPassword();
-    return password != null && password.isNotEmpty;
-  }
-
-  /// **Clear Backup Password**
-  static Future<void> clearBackupPassword() async {
-    debugPrint('clearBackupPassword');
-    await Prefs.instance?.remove(MyKeys.backupPassword);
-  }
-
-  /// **Verify Backup Password**
-  static Future<bool> verifyBackupPassword(String inputPassword) async {
-    final storedPassword = await getBackupPassword();
-    return storedPassword == inputPassword;
   }
 }

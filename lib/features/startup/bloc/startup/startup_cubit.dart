@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:x_calcu/features/startup/data/boarding_model.dart';
 import 'package:x_calcu/features/startup/data/startup_repo.dart';
 import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/data/auth_model.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import 'package:x_calcu/global/utils/helper/local_storage_helper.dart';
-
 part 'startup_cubit.freezed.dart';
 part 'startup_state.dart';
 
@@ -36,7 +35,7 @@ class StartupCubit extends Cubit<StartupState> {
       await fetchUserInfo();
     } catch (e) {
       printError(e.toString());
-      emit(const StartupState.error());
+      emit( StartupState.error(message: 'something_wrong_happened'.tr()));
     }
   }
 
@@ -51,11 +50,11 @@ class StartupCubit extends Cubit<StartupState> {
           emit(StartupState.success(data));
         },
         failure: (error) {
-          emit(const StartupState.error());
+          emit(StartupState.error(message: error.message));
         },
       );
     } catch (e) {
-      emit(const StartupState.error());
+      emit(StartupState.error(message: 'something_wrong_happened'.tr()));
     }
   }
 
@@ -70,11 +69,11 @@ class StartupCubit extends Cubit<StartupState> {
           emit(StartupState.success(data));
         },
         failure: (error) {
-          emit(const StartupState.error());
+          emit(StartupState.error(message: error.message));
         },
       );
     } catch (e) {
-      emit(const StartupState.error());
+      emit(StartupState.error(message: 'something_wrong_happened'.tr()));
     }
   }
 

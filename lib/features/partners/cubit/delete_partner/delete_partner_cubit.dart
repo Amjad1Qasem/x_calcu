@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
 import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
 import 'package:x_calcu/global/networking/failure.dart';
+import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 part 'delete_partner_state.dart';
@@ -22,6 +24,8 @@ class DeletePartnerCubit extends Cubit<DeletePartnerState> {
     response.when(
       success: (data) {
         printSuccess('Partner deleted successfully with ID: $id');
+        
+        getIt<PartnerCubit>().getPartners(refresh: true);
         emit(const DeletePartnerState.success());
       },
       failure: (error) {

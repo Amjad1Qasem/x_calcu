@@ -20,9 +20,6 @@ mixin _$PartnerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
     required TResult Function() partnersloading,
     required TResult Function(
       List<PartnerModel> data,
@@ -35,9 +32,6 @@ mixin _$PartnerState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
     TResult? Function()? partnersloading,
     TResult? Function(
       List<PartnerModel> data,
@@ -50,9 +44,6 @@ mixin _$PartnerState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
     TResult Function()? partnersloading,
     TResult Function(
       List<PartnerModel> data,
@@ -66,9 +57,6 @@ mixin _$PartnerState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
     required TResult Function(PartnersLoading value) partnersloading,
     required TResult Function(PartnersLoaded value) partnersloaded,
     required TResult Function(PartnersError value) partnerserror,
@@ -76,9 +64,6 @@ mixin _$PartnerState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
     TResult? Function(PartnersLoading value)? partnersloading,
     TResult? Function(PartnersLoaded value)? partnersloaded,
     TResult? Function(PartnersError value)? partnerserror,
@@ -86,9 +71,6 @@ mixin _$PartnerState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     TResult Function(PartnersLoading value)? partnersloading,
     TResult Function(PartnersLoaded value)? partnersloaded,
     TResult Function(PartnersError value)? partnerserror,
@@ -162,9 +144,6 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
     required TResult Function() partnersloading,
     required TResult Function(
       List<PartnerModel> data,
@@ -181,9 +160,6 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
     TResult? Function()? partnersloading,
     TResult? Function(
       List<PartnerModel> data,
@@ -200,9 +176,6 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
     TResult Function()? partnersloading,
     TResult Function(
       List<PartnerModel> data,
@@ -223,9 +196,6 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
     required TResult Function(PartnersLoading value) partnersloading,
     required TResult Function(PartnersLoaded value) partnersloaded,
     required TResult Function(PartnersError value) partnerserror,
@@ -237,9 +207,6 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
     TResult? Function(PartnersLoading value)? partnersloading,
     TResult? Function(PartnersLoaded value)? partnersloaded,
     TResult? Function(PartnersError value)? partnerserror,
@@ -251,9 +218,6 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     TResult Function(PartnersLoading value)? partnersloading,
     TResult Function(PartnersLoaded value)? partnersloaded,
     TResult Function(PartnersError value)? partnerserror,
@@ -268,542 +232,6 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements PartnerState {
   const factory _Initial() = _$InitialImpl;
-}
-
-/// @nodoc
-abstract class _$$LoadingImplCopyWith<$Res> {
-  factory _$$LoadingImplCopyWith(
-    _$LoadingImpl value,
-    $Res Function(_$LoadingImpl) then,
-  ) = __$$LoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$PartnerStateCopyWithImpl<$Res, _$LoadingImpl>
-    implements _$$LoadingImplCopyWith<$Res> {
-  __$$LoadingImplCopyWithImpl(
-    _$LoadingImpl _value,
-    $Res Function(_$LoadingImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of PartnerState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$LoadingImpl implements Loading {
-  const _$LoadingImpl();
-
-  @override
-  String toString() {
-    return 'PartnerState.loading()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
-    required TResult Function() partnersloading,
-    required TResult Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )
-    partnersloaded,
-    required TResult Function(String message) partnerserror,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
-    TResult? Function()? partnersloading,
-    TResult? Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )?
-    partnersloaded,
-    TResult? Function(String message)? partnerserror,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
-    TResult Function()? partnersloading,
-    TResult Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )?
-    partnersloaded,
-    TResult Function(String message)? partnerserror,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
-    required TResult Function(PartnersLoading value) partnersloading,
-    required TResult Function(PartnersLoaded value) partnersloaded,
-    required TResult Function(PartnersError value) partnerserror,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
-    TResult? Function(PartnersLoading value)? partnersloading,
-    TResult? Function(PartnersLoaded value)? partnersloaded,
-    TResult? Function(PartnersError value)? partnerserror,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
-    TResult Function(PartnersLoading value)? partnersloading,
-    TResult Function(PartnersLoaded value)? partnersloaded,
-    TResult Function(PartnersError value)? partnerserror,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Loading implements PartnerState {
-  const factory Loading() = _$LoadingImpl;
-}
-
-/// @nodoc
-abstract class _$$LoadedImplCopyWith<$Res> {
-  factory _$$LoadedImplCopyWith(
-    _$LoadedImpl value,
-    $Res Function(_$LoadedImpl) then,
-  ) = __$$LoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<StatisticPartnerModel> data});
-}
-
-/// @nodoc
-class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$PartnerStateCopyWithImpl<$Res, _$LoadedImpl>
-    implements _$$LoadedImplCopyWith<$Res> {
-  __$$LoadedImplCopyWithImpl(
-    _$LoadedImpl _value,
-    $Res Function(_$LoadedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of PartnerState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? data = null}) {
-    return _then(
-      _$LoadedImpl(
-        data:
-            null == data
-                ? _value._data
-                : data // ignore: cast_nullable_to_non_nullable
-                    as List<StatisticPartnerModel>,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$LoadedImpl implements Loaded {
-  const _$LoadedImpl({required final List<StatisticPartnerModel> data})
-    : _data = data;
-
-  final List<StatisticPartnerModel> _data;
-  @override
-  List<StatisticPartnerModel> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
-
-  @override
-  String toString() {
-    return 'PartnerState.loaded(data: $data)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LoadedImpl &&
-            const DeepCollectionEquality().equals(other._data, _data));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
-
-  /// Create a copy of PartnerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
-    required TResult Function() partnersloading,
-    required TResult Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )
-    partnersloaded,
-    required TResult Function(String message) partnerserror,
-  }) {
-    return loaded(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
-    TResult? Function()? partnersloading,
-    TResult? Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )?
-    partnersloaded,
-    TResult? Function(String message)? partnerserror,
-  }) {
-    return loaded?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
-    TResult Function()? partnersloading,
-    TResult Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )?
-    partnersloaded,
-    TResult Function(String message)? partnerserror,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
-    required TResult Function(PartnersLoading value) partnersloading,
-    required TResult Function(PartnersLoaded value) partnersloaded,
-    required TResult Function(PartnersError value) partnerserror,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
-    TResult? Function(PartnersLoading value)? partnersloading,
-    TResult? Function(PartnersLoaded value)? partnersloaded,
-    TResult? Function(PartnersError value)? partnerserror,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
-    TResult Function(PartnersLoading value)? partnersloading,
-    TResult Function(PartnersLoaded value)? partnersloaded,
-    TResult Function(PartnersError value)? partnerserror,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Loaded implements PartnerState {
-  const factory Loaded({required final List<StatisticPartnerModel> data}) =
-      _$LoadedImpl;
-
-  List<StatisticPartnerModel> get data;
-
-  /// Create a copy of PartnerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ErrorImplCopyWith<$Res> {
-  factory _$$ErrorImplCopyWith(
-    _$ErrorImpl value,
-    $Res Function(_$ErrorImpl) then,
-  ) = __$$ErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$PartnerStateCopyWithImpl<$Res, _$ErrorImpl>
-    implements _$$ErrorImplCopyWith<$Res> {
-  __$$ErrorImplCopyWithImpl(
-    _$ErrorImpl _value,
-    $Res Function(_$ErrorImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of PartnerState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? message = null}) {
-    return _then(
-      _$ErrorImpl(
-        message:
-            null == message
-                ? _value.message
-                : message // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$ErrorImpl implements Error {
-  const _$ErrorImpl({required this.message});
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'PartnerState.error(message: $message)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ErrorImpl &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  /// Create a copy of PartnerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
-    required TResult Function() partnersloading,
-    required TResult Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )
-    partnersloaded,
-    required TResult Function(String message) partnerserror,
-  }) {
-    return error(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
-    TResult? Function()? partnersloading,
-    TResult? Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )?
-    partnersloaded,
-    TResult? Function(String message)? partnerserror,
-  }) {
-    return error?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
-    TResult Function()? partnersloading,
-    TResult Function(
-      List<PartnerModel> data,
-      bool hasReachedMax,
-      int currentPage,
-    )?
-    partnersloaded,
-    TResult Function(String message)? partnerserror,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
-    required TResult Function(PartnersLoading value) partnersloading,
-    required TResult Function(PartnersLoaded value) partnersloaded,
-    required TResult Function(PartnersError value) partnerserror,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
-    TResult? Function(PartnersLoading value)? partnersloading,
-    TResult? Function(PartnersLoaded value)? partnersloaded,
-    TResult? Function(PartnersError value)? partnerserror,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
-    TResult Function(PartnersLoading value)? partnersloading,
-    TResult Function(PartnersLoaded value)? partnersloaded,
-    TResult Function(PartnersError value)? partnerserror,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Error implements PartnerState {
-  const factory Error({required final String message}) = _$ErrorImpl;
-
-  String get message;
-
-  /// Create a copy of PartnerState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -850,9 +278,6 @@ class _$PartnersLoadingImpl implements PartnersLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
     required TResult Function() partnersloading,
     required TResult Function(
       List<PartnerModel> data,
@@ -869,9 +294,6 @@ class _$PartnersLoadingImpl implements PartnersLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
     TResult? Function()? partnersloading,
     TResult? Function(
       List<PartnerModel> data,
@@ -888,9 +310,6 @@ class _$PartnersLoadingImpl implements PartnersLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
     TResult Function()? partnersloading,
     TResult Function(
       List<PartnerModel> data,
@@ -911,9 +330,6 @@ class _$PartnersLoadingImpl implements PartnersLoading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
     required TResult Function(PartnersLoading value) partnersloading,
     required TResult Function(PartnersLoaded value) partnersloaded,
     required TResult Function(PartnersError value) partnerserror,
@@ -925,9 +341,6 @@ class _$PartnersLoadingImpl implements PartnersLoading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
     TResult? Function(PartnersLoading value)? partnersloading,
     TResult? Function(PartnersLoaded value)? partnersloaded,
     TResult? Function(PartnersError value)? partnerserror,
@@ -939,9 +352,6 @@ class _$PartnersLoadingImpl implements PartnersLoading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     TResult Function(PartnersLoading value)? partnersloading,
     TResult Function(PartnersLoaded value)? partnersloaded,
     TResult Function(PartnersError value)? partnerserror,
@@ -1072,9 +482,6 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
     required TResult Function() partnersloading,
     required TResult Function(
       List<PartnerModel> data,
@@ -1091,9 +498,6 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
     TResult? Function()? partnersloading,
     TResult? Function(
       List<PartnerModel> data,
@@ -1110,9 +514,6 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
     TResult Function()? partnersloading,
     TResult Function(
       List<PartnerModel> data,
@@ -1133,9 +534,6 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
     required TResult Function(PartnersLoading value) partnersloading,
     required TResult Function(PartnersLoaded value) partnersloaded,
     required TResult Function(PartnersError value) partnerserror,
@@ -1147,9 +545,6 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
     TResult? Function(PartnersLoading value)? partnersloading,
     TResult? Function(PartnersLoaded value)? partnersloaded,
     TResult? Function(PartnersError value)? partnerserror,
@@ -1161,9 +556,6 @@ class _$PartnersLoadedImpl implements PartnersLoaded {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     TResult Function(PartnersLoading value)? partnersloading,
     TResult Function(PartnersLoaded value)? partnersloaded,
     TResult Function(PartnersError value)? partnerserror,
@@ -1266,9 +658,6 @@ class _$PartnersErrorImpl implements PartnersError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<StatisticPartnerModel> data) loaded,
-    required TResult Function(String message) error,
     required TResult Function() partnersloading,
     required TResult Function(
       List<PartnerModel> data,
@@ -1285,9 +674,6 @@ class _$PartnersErrorImpl implements PartnersError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<StatisticPartnerModel> data)? loaded,
-    TResult? Function(String message)? error,
     TResult? Function()? partnersloading,
     TResult? Function(
       List<PartnerModel> data,
@@ -1304,9 +690,6 @@ class _$PartnersErrorImpl implements PartnersError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<StatisticPartnerModel> data)? loaded,
-    TResult Function(String message)? error,
     TResult Function()? partnersloading,
     TResult Function(
       List<PartnerModel> data,
@@ -1327,9 +710,6 @@ class _$PartnersErrorImpl implements PartnersError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Loaded value) loaded,
-    required TResult Function(Error value) error,
     required TResult Function(PartnersLoading value) partnersloading,
     required TResult Function(PartnersLoaded value) partnersloaded,
     required TResult Function(PartnersError value) partnerserror,
@@ -1341,9 +721,6 @@ class _$PartnersErrorImpl implements PartnersError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Loaded value)? loaded,
-    TResult? Function(Error value)? error,
     TResult? Function(PartnersLoading value)? partnersloading,
     TResult? Function(PartnersLoaded value)? partnersloaded,
     TResult? Function(PartnersError value)? partnerserror,
@@ -1355,9 +732,6 @@ class _$PartnersErrorImpl implements PartnersError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Loaded value)? loaded,
-    TResult Function(Error value)? error,
     TResult Function(PartnersLoading value)? partnersloading,
     TResult Function(PartnersLoaded value)? partnersloaded,
     TResult Function(PartnersError value)? partnerserror,

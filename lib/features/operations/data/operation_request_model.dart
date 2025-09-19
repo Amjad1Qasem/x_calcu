@@ -48,3 +48,25 @@ class ReceivedAmountRequest with _$ReceivedAmountRequest {
   factory ReceivedAmountRequest.fromJson(Map<String, dynamic> json) =>
       _$ReceivedAmountRequestFromJson(json);
 }
+
+// Model for dynamic payment item
+class DynamicPaymentItem {
+  final String invoiceValue;
+  final String invoiceDate;
+
+  const DynamicPaymentItem({
+    required this.invoiceValue,
+    required this.invoiceDate,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'invoice_value': invoiceValue,
+    'invoice_date': invoiceDate,
+  };
+
+  factory DynamicPaymentItem.fromJson(Map<String, dynamic> json) =>
+      DynamicPaymentItem(
+        invoiceValue: json['invoice_value'] ?? '',
+        invoiceDate: json['invoice_date'] ?? '',
+      );
+}

@@ -14,9 +14,12 @@ import 'package:x_calcu/features/operations/cubit/get_operations/get_operations_
 import 'package:x_calcu/features/operations/cubit/create_operation/create_operation_cubit.dart';
 import 'package:x_calcu/features/operations/data/operations_repo.dart';
 import 'package:x_calcu/features/partners/cubit/add_partner/add_partner_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/edit_partner/edit_partner_cubit.dart';
 import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
 import 'package:x_calcu/features/partners/cubit/partner_details/partner_details_cubit.dart';
 import 'package:x_calcu/features/partners/cubit/delete_partner/delete_partner_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/statistics/statistics_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/selection/selection_cubit.dart';
 import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
 import 'package:x_calcu/features/setting/cubit/setting_cubit.dart';
 import 'package:x_calcu/features/startup/bloc/biometric_auth/biometric_auth_cubit.dart';
@@ -81,11 +84,14 @@ void dependencyInjectionSetup() {
   getIt.registerLazySingleton<GetOperationsCubit>(
     () => GetOperationsCubit(getIt<OperationsRepo>()),
   );
-  getIt.registerLazySingleton<CreateOperationCubit>(
+  getIt.registerFactory<CreateOperationCubit>(
     () => CreateOperationCubit(getIt<OperationsRepo>()),
   );
   getIt.registerLazySingleton<AddPartnerCubit>(
     () => AddPartnerCubit(getIt<PartnerRepo>()),
+  );
+  getIt.registerLazySingleton<EditPartnerCubit>(
+    () => EditPartnerCubit(getIt<PartnerRepo>()),
   );
   getIt.registerLazySingleton<DeletePartnerCubit>(
     () => DeletePartnerCubit(getIt<PartnerRepo>()),
@@ -96,4 +102,8 @@ void dependencyInjectionSetup() {
   getIt.registerLazySingleton<NotificationCubit>(
     () => NotificationCubit(getIt<NotificationRepo>()),
   );
+  getIt.registerLazySingleton<StatisticsCubit>(
+    () => StatisticsCubit(getIt<PartnerRepo>()),
+  );
+  getIt.registerLazySingleton<SelectionCubit>(() => SelectionCubit());
 }

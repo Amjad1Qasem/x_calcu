@@ -2,12 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_calcu/features/notification/cubit/notification_cubit.dart';
 import 'package:x_calcu/features/notification/data/notification_model.dart';
 import 'package:x_calcu/features/notification/presentation/widget/notification_card_widget.dart';
+import 'package:x_calcu/global/components/auth_guard.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/helper/console_logger.dart';
+import 'package:x_calcu/global/utils/router/router_path.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -36,20 +40,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _notificationCubit,
-      child: Skaffold(
-        isAppBarNull: false,
-        isBack: false,
-        title: 'notification'.tr(),
-        body: BlocBuilder<NotificationCubit, NotificationState>(
-          bloc: _notificationCubit,
-          builder: (context, state) {
-            return state.when(
-              initial: () => _buildLoadingWidget(),
-              loading: () => _buildLoadingWidget(),
-              loaded: (notifications) => _buildNotificationsList(notifications),
-              error: (message) => _buildErrorWidget(message),
-            );
-          },
+      child: AuthGuard(
+        child: Skaffold(
+          isAppBarNull: false,
+          isBack: false,
+          title: 'notification'.tr(),
+          body: BlocBuilder<NotificationCubit, NotificationState>(
+            bloc: _notificationCubit,
+            builder: (context, state) {
+              return state.when(
+                initial: () => _buildLoadingWidget(),
+                loading: () => _buildLoadingWidget(),
+                loaded:
+                    (notifications) => _buildNotificationsList(notifications),
+                error: (message) => _buildErrorWidget(message),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -95,11 +102,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
         separatorBuilder: (context, index) => CommonSizes.vSmallestSpace,
         itemBuilder: (context, index) {
           final notification = notifications[index];
-          return NotificationCardWidget(
-            notification: notification,
+          return GestureDetector(
             onTap: () => _onNotificationTap(notification),
-            onMarkAsRead: () => _onMarkAsRead(notification.id),
-            onDelete: () => _onDeleteNotification(notification.id),
+            child: NotificationCardWidget(
+              notification: notification,
+              onMarkAsRead: () => _onMarkAsRead(notification.id),
+              onDelete: () => _onDeleteNotification(notification.id),
+            ),
           );
         },
       ),
@@ -131,9 +140,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _onNotificationTap(NotificationModel notification) {
     // Mark as read when tapped
     _notificationCubit.markAsRead(notification.id);
+    printSuccess('notification $notification');
 
-    // TODO: Navigate to operation details
-    // NavigationHelper.goToOperationDetails(context, notification.operationId);
+    // Navigate to operation details using the operationId
+    context.push(
+      RouterPath.showOperationsDetailsScreen,
+      extra: notification.operationId,
+    );
   }
 
   void _onMarkAsRead(int notificationId) {

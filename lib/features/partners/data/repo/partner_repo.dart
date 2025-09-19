@@ -1,7 +1,6 @@
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/features/partners/data/models/statistics_model.dart';
 import 'package:x_calcu/features/partners/data/models/partner_details_model.dart';
-import 'package:x_calcu/features/partners/data/models/partner_operations_model.dart';
 import 'package:x_calcu/global/data/url_api.dart';
 import 'package:x_calcu/global/networking/dio_helper.dart';
 import 'package:x_calcu/global/networking/result_freezed.dart';
@@ -61,6 +60,17 @@ class PartnerRepo {
     );
   }
 
+  Future<Result<PartnerModel>> updatePartner({
+    required int id,
+    required PartnerModel data,
+  }) async {
+    return await DioHelper.postModel<PartnerModel>(
+      UrlApi.updatePartner(id),
+      obj: data.toJson(),
+      fromJson: PartnerModel.fromJson,
+    );
+  }
+
   Future<Result<bool>> deletePartner({required int id}) async {
     return await DioHelper.deleteModel(
       url: UrlApi.deletePartner(id),
@@ -71,21 +81,65 @@ class PartnerRepo {
   Future<Result<PartnerDetailsData>> getPartnerDetailsWithOperations({
     required int id,
     required String operationType,
+    String? orderBy,
+    DateTime? startDate,
+    DateTime? endDate,
   }) async {
+    final queryParams = <String, dynamic>{};
+
+    // Add optional parameters
+    if (orderBy != null) {
+      queryParams['orderBy'] = orderBy;
+    }
+    if (startDate != null) {
+      queryParams['start_date'] = startDate.toIso8601String().split('T')[0];
+    }
+    if (endDate != null) {
+      queryParams['end_date'] = endDate.toIso8601String().split('T')[0];
+    }
+
+    print(
+      '📡 PartnerRepo: getPartnerDetailsWithOperations called with queryParams: $queryParams',
+    );
+
     return await DioHelper.getModel<PartnerDetailsData>(
       UrlApi.getPartnerDetails(id, operationType),
       PartnerDetailsData.fromJson,
+      qurey: queryParams,
     );
   }
 
-  Future<Result<PartnerOperationsModel>> getPartnerOperations({
+  Future<Result<List<PartnerDetailsOperation>>> getPartnerOperations({
     required int id,
     required String operationType,
     required int page,
+    String orderBy = 'asc',
+    DateTime? startDate,
+    DateTime? endDate,
   }) async {
-    return await DioHelper.getModel<PartnerOperationsModel>(
-      UrlApi.getPartnerOperations(id, operationType, page),
-      PartnerOperationsModel.fromJson,
+    final queryParams = <String, dynamic>{
+      'operationType': operationType,
+      'page': page,
+      'perPage': 6,
+      'orderBy': orderBy,
+    };
+
+    // Add optional date parameters
+    if (startDate != null) {
+      queryParams['start_date'] = startDate.toIso8601String().split('T')[0];
+    }
+    if (endDate != null) {
+      queryParams['end_date'] = endDate.toIso8601String().split('T')[0];
+    }
+
+    print(
+      '📡 PartnerRepo: getPartnerOperations called with queryParams: $queryParams',
+    );
+
+    return await DioHelper.getAllModel<PartnerDetailsOperation>(
+      url: '/partners/$id/operations',
+      fromJson: PartnerDetailsOperation.fromJson,
+      query: queryParams,
     );
   }
 }

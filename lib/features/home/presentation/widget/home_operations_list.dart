@@ -44,6 +44,7 @@ class HomeOperationsList extends StatelessWidget {
             ),
         noItemsFoundIndicatorBuilder:
             (context) => EmptyListWidget(
+              
               message:
                   getIt<HomeCubit>().isSearching
                       ? 'No operations found for "${getIt<HomeCubit>().searchQuery}"'

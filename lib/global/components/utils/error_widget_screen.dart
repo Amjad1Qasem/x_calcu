@@ -45,10 +45,11 @@ class ErrorWidgetScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             isIcon ? _buildWarningIcon(containerHeight) : SizedBox.shrink(),
+            CommonSizes.vSmallestSpace,
             _buildMessageText(context, containerHeight),
             CommonSizes.vSmallestSpace,
             _buildRetryButton(context, containerHeight),

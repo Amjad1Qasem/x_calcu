@@ -77,7 +77,7 @@ class _IntroScreenState extends State<IntroScreen> {
           builder: (context, state) {
             printWarning('** StartupCubit state is $state');
             return state.maybeWhen(
-              error: () => _error(),
+              error: (msg) => _error(msg: msg),
               onboardingRequired: () => _buildAnimationUI(),
               loading: () => _buildAnimationUI(),
               unauthenticated: () => const SizedBox.shrink(),
@@ -90,9 +90,9 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  Widget _error() {
+  Widget _error({String? msg}) {
     return ErrorWidgetScreen(
-      message: 'something_wrong_happened'.tr(),
+      message: msg ?? 'something_wrong_happened'.tr(),
       onRetry: () => _bloc.checkAuthentication(),
     );
   }

@@ -20,12 +20,13 @@ class UrlApi {
   /// Partner
   static String getPartnerts = '/partners';
   static String addPartner = '/partners';
+  static String updatePartner(int id) => '/partners/$id';
   static String deletePartner(int id) => '/partners/$id';
-  static String partnersFilter = '/partners?operationType=input&page=1';
+  // static String partnersFilter = '/partners?operationType=input&page=1';
   static String statistic = '/statistic';
   static String getPartnersDropdown = '/partners-select';
   static String getPartnerDetails(int id, String operationType) =>
       '/partners/$id/details?operationType=$operationType';
   static String getPartnerOperations(int id, String operationType, int page) =>
-      '/partners/$id/operations?operationType=$operationType&page=$page';
+      '/partners/$id/operations?operationType=$operationType&page=$page&perPage=6';
 }

@@ -17,7 +17,7 @@ class FilterHeaderPartnersWidget extends SliverPersistentHeaderDelegate {
       builder: (context, state) {
         return Container(
           color: Utils(context).background,
-          padding: EdgeInsets.symmetric(horizontal: 2, vertical: 0.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
           child: Center(
             child: AnimatedToggleButton(
               values: ["input".tr(), "output".tr()],

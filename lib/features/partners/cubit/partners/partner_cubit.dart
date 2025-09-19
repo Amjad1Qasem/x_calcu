@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
-import 'package:x_calcu/features/partners/data/models/statistic_partner_model.dart';
-import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 part 'partner_state.dart';
 part 'partner_cubit.freezed.dart';
@@ -180,64 +177,5 @@ class PartnerCubit extends Cubit<PartnerState> {
         currentPage: _currentPage,
       ),
     );
-  }
-
-  // In Partners Screen
-  Future<void> getStatistics({int? parentId}) async {
-    emit(PartnerState.loading());
-
-    try {
-      final result = await _partnerRepo.getStatistic(
-        operationType: _currentOperationType,
-        // parentId: parentId ?? 1, // Default parentId if not provided
-      );
-
-      result.when(
-        success: (statisticsData) {
-          // Convert PartnerStatisticsModel to StatisticPartnerModel list
-          final data = [
-            StatisticPartnerModel(
-              title: "total_invoice_values".tr(),
-              value:
-                  statisticsData.totalInvoiceValues?.toStringAsFixed(2) ?? "0",
-            ),
-            StatisticPartnerModel(
-              title: "total_paid_invoices".tr(),
-              value:
-                  statisticsData.totalPaidInvoices?.toStringAsFixed(2) ?? "0",
-            ),
-            StatisticPartnerModel(
-              title: "remaining_invoices".tr(),
-              value:
-                  statisticsData.remainingInvoices?.toStringAsFixed(2) ?? "0",
-            ),
-            StatisticPartnerModel(
-              title: "due_amount".tr(),
-              value: statisticsData.dueAmount?.toStringAsFixed(2) ?? "0",
-            ),
-            StatisticPartnerModel(
-              title: "received_amount".tr(),
-              value: statisticsData.receivedAmount?.toStringAsFixed(2) ?? "0",
-            ),
-            StatisticPartnerModel(
-              title: "remaining_amount".tr(),
-              value: statisticsData.remainingAmount?.toStringAsFixed(2) ?? "0",
-            ),
-            StatisticPartnerModel(
-              title: "profits".tr(),
-              value: statisticsData.profits?.toStringAsFixed(2) ?? "0",
-            ),
-          ];
-          emit(PartnerState.loaded(data: data));
-        },
-        failure: (error) {
-          printError('Failed to get statistics: $error');
-          emit(PartnerState.error(message: error.message));
-        },
-      );
-    } catch (e) {
-      printError('Exception in getStatistics: $e');
-      emit(PartnerState.error(message: "failed_to_load_statistics".tr()));
-    }
   }
 }

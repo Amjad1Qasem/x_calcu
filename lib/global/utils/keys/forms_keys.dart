@@ -1,6 +1,5 @@
 class MyKeys {
   static const String biometricEnabled = 'biometric_enabled';
-  static const String backupPassword = 'backup_password';
 
   static String get locale => 'locale';
 
@@ -15,4 +14,10 @@ class MyKeys {
   static String get firstOpenApp => 'firstOpenApp';
 
   static String get searchHistory => 'searchHistory';
+
+  // Login Credentials Keys
+  static String get savedUsername => 'saved_username';
+  static String get savedPassword => 'saved_password';
+  static String get rememberLogin => 'remember_login';
+  static String get savedAccounts => 'saved_accounts';
 }

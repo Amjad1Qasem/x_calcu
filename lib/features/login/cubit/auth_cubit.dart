@@ -52,6 +52,10 @@ class AuthCubit extends Cubit<AuthState> {
         await LocalStorageHelper.setUserData(data);
         getIt<AppStateModel>().updateUserPreferences(data);
         await LocalStorageHelper.setToken(data.token ?? "");
+
+        // Save login credentials automatically (Face ID is the primary method)
+        await _saveLoginCredentials();
+
         emit(AuthState.success(data));
       },
       failure: (error) {
@@ -59,6 +63,9 @@ class AuthCubit extends Cubit<AuthState> {
         printError(error.toString());
         if (error is BadRequest) {
           validationErrors = error.errors ?? {};
+          if (validationErrors.isEmpty) {
+            emit(AuthState.error(error.message));
+          }
           printError('validationErrors $validationErrors');
         } else {
           emit(AuthState.error(error.message));
@@ -91,6 +98,19 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  /// **Save login credentials automatically (Face ID is the primary method)**
+  Future<void> _saveLoginCredentials() async {
+    try {
+      await LocalStorageHelper.saveLoginCredentials(
+        username: emailCont.text,
+        password: passwordCont.text,
+      );
+      printSuccess('Login credentials saved automatically for Face ID');
+    } catch (e) {
+      printError('Error saving login credentials: $e');
+    }
+  }
+
   /// **Submit biometric login**
   void submitBiometricLogin() async {
     emit(const AuthState.loading());
@@ -98,6 +118,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       // Get saved user data
       final userData = await LocalStorageHelper.getUserData();
+      printWarning('userData $userData');
       if (userData == null) {
         emit(AuthState.error('no_saved_user_data'.tr()));
         return;
@@ -115,7 +136,6 @@ class AuthCubit extends Cubit<AuthState> {
       printSuccess(
         'Biometric authentication successful for user: ${userData.email}',
       );
-
       // Update app state with user data
       getIt<AppStateModel>().updateUserPreferences(userData);
       await LocalStorageHelper.setToken(userData.token ?? "");
@@ -124,42 +144,6 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       printError('Biometric login error: $e');
       emit(AuthState.error('face_id_authentication_failed'.tr()));
-    }
-  }
-
-  /// **Submit backup password login**
-  void submitBackupPasswordLogin(String password) async {
-    emit(const AuthState.loading());
-
-    try {
-      // Verify backup password
-      final isValidPassword = await LocalStorageHelper.verifyBackupPassword(
-        password,
-      );
-      if (!isValidPassword) {
-        emit(AuthState.error('backup_password_invalid'.tr()));
-        return;
-      }
-
-      // Get saved user data
-      final userData = await LocalStorageHelper.getUserData();
-      if (userData == null) {
-        emit(AuthState.error('no_saved_user_data'.tr()));
-        return;
-      }
-
-      printSuccess(
-        'Backup password authentication successful for user: ${userData.email}',
-      );
-
-      // Update app state with user data
-      getIt<AppStateModel>().updateUserPreferences(userData);
-      await LocalStorageHelper.setToken(userData.token ?? "");
-
-      emit(AuthState.success(userData));
-    } catch (e) {
-      printError('Backup password login error: $e');
-      emit(AuthState.error('backup_password_invalid'.tr()));
     }
   }
 }

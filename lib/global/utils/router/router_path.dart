@@ -14,6 +14,7 @@ class RouterPath {
   static String termsAndConditionsScreen = '/termsAndConditionsScreen';
 
   static String addPartnerScreen = '/addPartnerScreen';
+  static String editPartnerScreen = '/editPartnerScreen';
   static String showOperationsDetailsScreen = '/showOperationsDetailsScreen';
   static String addOperationsScreen = '/addOperationsScreen';
   static String partnerDetailsScreen = '/partnerDetailsScreen';

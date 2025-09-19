@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:x_calcu/features/partners/data/models/partner_details_model.dart';
-import 'package:x_calcu/features/partners/data/models/partner_operations_model.dart';
 import 'package:x_calcu/features/partners/data/repo/partner_repo.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
@@ -15,7 +14,10 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
   // Filter variables
   bool isInput = true;
   String _currentOperationType = 'input';
+  String _orderBy = 'asc';
   int? _currentPartnerId;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   // Pagination variables for operations
   List<PartnerDetailsOperation> _allOperations = [];
@@ -27,6 +29,9 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
   int get currentPage => _currentPage;
   bool get hasReachedMax => _hasReachedMax;
   List<PartnerDetailsOperation> get allOperations => _allOperations;
+  String get orderBy => _orderBy;
+  DateTime? get startDate => _startDate;
+  DateTime? get endDate => _endDate;
 
   /// **Filter Result by Input or Output**
   void operationFilter() {
@@ -73,13 +78,17 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
     final detailsResult = await _partnerRepo.getPartnerDetailsWithOperations(
       id: partnerId,
       operationType: _currentOperationType,
+      orderBy: _orderBy,
+      startDate: _startDate,
+      endDate: _endDate,
     );
 
     detailsResult.when(
       success: (detailsData) async {
         printSuccess('✅ Partner details loaded successfully');
 
-        // Get first page of operations
+        // For now, we'll load operations separately since the API structure needs to be verified
+        // TODO: Use operations from detailsData.operations when API returns them properly
         await _loadOperationsPage(partnerId: partnerId, page: 1);
 
         // Emit loaded state with both details and operations
@@ -87,10 +96,7 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
         emit(
           PartnerDetailsState.loaded(
             data: detailsData,
-            operations: PartnerOperationsModel(
-              data: _allOperations,
-              links: null, // No pagination links from API
-            ),
+            operations: _allOperations.isNotEmpty ? _allOperations : [],
           ),
         );
       },
@@ -106,21 +112,28 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
     required int partnerId,
     required int page,
   }) async {
+    printSuccess(
+      '📡 PartnerDetailsCubit: _loadOperationsPage called for page: $page',
+    );
+
     final operationsResult = await _partnerRepo.getPartnerOperations(
       id: partnerId,
       operationType: _currentOperationType,
       page: page,
+      orderBy: _orderBy,
+      startDate: _startDate,
+      endDate: _endDate,
     );
 
     operationsResult.when(
       success: (operationsData) {
         if (page == 1) {
-          _allOperations = operationsData.data;
+          _allOperations = operationsData;
         } else {
-          _allOperations.addAll(operationsData.data);
+          _allOperations.addAll(operationsData);
         }
 
-        _hasReachedMax = operationsData.links?.hasNext != true;
+        _hasReachedMax = operationsData.length < 10; // Assuming page size is 10
         _currentPage = page;
 
         printSuccess('✅ Operations page $page loaded successfully');
@@ -146,10 +159,7 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
       emit(
         PartnerDetailsState.loaded(
           data: currentState.data,
-          operations: PartnerOperationsModel(
-            data: _allOperations,
-            links: null, // No pagination links from API
-          ),
+          operations: _allOperations.isNotEmpty ? _allOperations : [],
         ),
       );
     }
@@ -158,5 +168,42 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
   /// **Refresh Partner Details */
   Future<void> refreshPartnerDetails({required int partnerId}) async {
     await getPartnerDetails(partnerId: partnerId, refresh: true);
+  }
+
+  /// **Set Order By */
+  void setOrderBy(String orderBy) {
+    _orderBy = orderBy;
+    printSuccess('🔄 PartnerDetailsCubit: setOrderBy called with: $orderBy');
+    resetPagination();
+    emit(PartnerDetailsState.loading());
+    if (_currentPartnerId != null) {
+      getPartnerDetails(partnerId: _currentPartnerId!);
+    }
+  }
+
+  /// **Set Date Range */
+  void setDateRange(DateTime? startDate, DateTime? endDate) {
+    _startDate = startDate;
+    _endDate = endDate;
+    printSuccess(
+      '🔄 PartnerDetailsCubit: setDateRange called with startDate: $startDate, endDate: $endDate',
+    );
+    resetPagination();
+    emit(PartnerDetailsState.loading());
+    if (_currentPartnerId != null) {
+      getPartnerDetails(partnerId: _currentPartnerId!);
+    }
+  }
+
+  /// **Clear Date Range */
+  void clearDateRange() {
+    _startDate = null;
+    _endDate = null;
+    printSuccess('🔄 PartnerDetailsCubit: clearDateRange called');
+    resetPagination();
+    emit(PartnerDetailsState.loading());
+    if (_currentPartnerId != null) {
+      getPartnerDetails(partnerId: _currentPartnerId!);
+    }
   }
 }

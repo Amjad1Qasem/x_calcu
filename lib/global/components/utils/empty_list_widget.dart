@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,9 +33,7 @@ class EmptyListWidget extends StatelessWidget {
         height: containerHeight,
         margin: EdgeInsets.symmetric(horizontal: 20.w),
         padding: EdgeInsets.symmetric(horizontal: 10.sp),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.r),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,9 +70,9 @@ class EmptyListWidget extends StatelessWidget {
           Text(
             message ?? 'no_data_found'.tr(),
             style: Utils(context).blackBigText.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17.sp,
-                ),
+              fontWeight: FontWeight.w600,
+              fontSize: 17.sp,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

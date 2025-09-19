@@ -8,22 +8,20 @@ import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/navigation/navigation_helper.dart';
 
 class AddOperationsBtnWidget extends StatelessWidget {
-  const AddOperationsBtnWidget({super.key});
+  final CreateOperationCubit? createOperationCubit;
+
+  const AddOperationsBtnWidget({super.key, this.createOperationCubit});
 
   @override
   Widget build(BuildContext context) {
-    final createOperationCubit = getIt<CreateOperationCubit>();
+    final cubit = createOperationCubit ?? getIt<CreateOperationCubit>();
 
     return BlocConsumer<CreateOperationCubit, CreateOperationState>(
-      bloc: createOperationCubit,
+      bloc: cubit,
       listenWhen: _shouldListen,
       buildWhen: _shouldBuild,
-      listener:
-          (context, state) =>
-              _handleStateChanges(context, state, createOperationCubit),
-      builder:
-          (context, state) =>
-              _buildButtons(context, state, createOperationCubit),
+      listener: (context, state) => _handleStateChanges(context, state, cubit),
+      builder: (context, state) => _buildButtons(context, state, cubit),
     );
   }
 

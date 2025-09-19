@@ -8,6 +8,7 @@ import 'package:x_calcu/global/components/text_field_app.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/functions/validator.dart';
+
 class LoginForm extends StatefulWidget {
   const LoginForm({
     super.key,
@@ -24,6 +25,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final bloc = getIt<AuthCubit>();
+
   @override
   Widget build(BuildContext context) {
     return Form(

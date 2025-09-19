@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:x_calcu/features/home/cubit/home_cubit.dart';
 import 'package:x_calcu/global/components/bottom_dialog/show_advanced_filter_bottom_sheet.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/showcase_helper.dart';
 
 class SortAndOrederOperationsWidget extends StatelessWidget {
   const SortAndOrederOperationsWidget({super.key});
@@ -55,14 +56,27 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Toggle between asc and desc based on current value
-                        final newOrderBy =
-                            cubit.orderBy == 'asc' ? 'desc' : 'asc';
-                        cubit.setOrderBy(newOrderBy);
-                      },
-                      child: Icon(Iconsax.sort_copy, size: 21.sp),
+                    Showcase(
+                      key: ShowcaseHelper.getUniqueShowcaseKey(
+                        'home_sort_button_widget',
+                      ),
+                      title:
+                          ShowcaseDataProvider.getData(
+                            ShowcaseKeys.homeSortButton,
+                          ).title,
+                      description:
+                          ShowcaseDataProvider.getData(
+                            ShowcaseKeys.homeSortButton,
+                          ).description,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Toggle between asc and desc based on current value
+                          final newOrderBy =
+                              cubit.orderBy == 'asc' ? 'desc' : 'asc';
+                          cubit.setOrderBy(newOrderBy);
+                        },
+                        child: Icon(Iconsax.sort_copy, size: 21.sp),
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -90,8 +104,6 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
                       },
                       child: Icon(Iconsax.calendar_1_copy, size: 21.sp),
                     ),
-             
-             
                   ],
                 ),
               ),
@@ -101,5 +113,4 @@ class SortAndOrederOperationsWidget extends StatelessWidget {
       },
     );
   }
-
 }

@@ -57,6 +57,9 @@ dependencies:
   dropdown_textfield: ^1.2.0
   persistent_bottom_nav_bar: ^6.2.1
   infinite_scroll_pagination: ^4.0.0
+  # PDF generation and printing
+  pdf: ^3.10.6
+  printing: ^5.11.0
 
     
 
@@ -67,6 +70,9 @@ dependencies:
   flutter_local_notifications: ^19.3.0
   timezone: ^0.10.1
   flutter_timezone: ^4.1.1
+  # Showcase for onboarding and tutorials
+  showcaseview: ^4.0.1
+  url_launcher: ^6.3.2
 
 flutter_native_splash:
   color: "#f3f4f6"

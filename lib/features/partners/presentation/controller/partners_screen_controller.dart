@@ -1,5 +1,6 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:x_calcu/features/partners/cubit/partners/partner_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/statistics/statistics_cubit.dart';
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
@@ -18,6 +19,8 @@ class PartnersScreenController {
       _fetchPage(pageKey);
     });
     getIt<PartnerCubit>().getPartners(refresh: true);
+    getIt<StatisticsCubit>()
+        .getStatistics(); // Load statistics on initialization
   }
 
   Future<void> _fetchPage(int pageKey) async {
@@ -65,6 +68,7 @@ class PartnersScreenController {
   Future<void> handleRefresh() async {
     // Clear all filters and search when refreshing
     getIt<PartnerCubit>().clearAllFilters();
+    getIt<StatisticsCubit>().getStatistics(); // Refresh statistics
     pagingController.refresh();
     printSuccess('RefreshIndicator - All filters cleared');
   }

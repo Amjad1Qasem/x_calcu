@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:x_calcu/features/partners/data/models/partner_model.dart';
 import 'package:x_calcu/features/partners/presentation/widget/partners_card.dart';
+import 'package:x_calcu/features/partners/presentation/widget/partners_shimmer_widget.dart';
 import 'package:x_calcu/global/components/utils/error_widget_screen.dart';
 import 'package:x_calcu/global/utils/router/router_path.dart';
 
@@ -40,7 +41,7 @@ class PartnersListWidget extends StatelessWidget {
               message: 'failed_to_load_more_partners'.tr(),
             ),
         firstPageProgressIndicatorBuilder:
-            (context) => const Center(child: CircularProgressIndicator()),
+            (context) => const PartnersShimmerWidget(),
         newPageProgressIndicatorBuilder:
             (context) => Padding(
               padding: EdgeInsets.all(8.0),

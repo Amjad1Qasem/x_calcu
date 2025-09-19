@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
-import 'package:x_calcu/features/login/presentation/widget/backup_password_login_dialog.dart';
 import 'package:x_calcu/features/startup/bloc/biometric_auth/biometric_auth_cubit.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import 'package:x_calcu/global/utils/helper/local_storage_helper.dart';
 
 class BiometricLoginButton extends StatefulWidget {
@@ -23,270 +23,212 @@ class _BiometricLoginButtonState extends State<BiometricLoginButton> {
   late final AuthCubit _authCubit;
   bool _isBiometricAvailable = false;
   bool _isBiometricEnabled = false;
-  bool _hasBackupPassword = false;
 
   @override
   void initState() {
     super.initState();
-    _biometricCubit = getIt<BiometricAuthCubit>();
-    _authCubit = getIt<AuthCubit>();
+    _initializeCubits();
     _checkBiometricStatus();
   }
 
+  /// **Initialize Cubits**
+  void _initializeCubits() {
+    _biometricCubit = getIt<BiometricAuthCubit>();
+    _authCubit = getIt<AuthCubit>();
+  }
+
+  /// **Check Biometric Status**
   Future<void> _checkBiometricStatus() async {
     final isAvailable = await _biometricCubit.isBiometricAvailable();
     final isEnabled = await _biometricCubit.isBiometricEnabled();
-    final hasBackupPassword = await LocalStorageHelper.hasBackupPassword();
 
     if (mounted) {
       setState(() {
         _isBiometricAvailable = isAvailable;
         _isBiometricEnabled = isEnabled;
-        _hasBackupPassword = hasBackupPassword;
       });
     }
   }
 
+  /// **Handle Biometric Login Button Tap**
   Future<void> _handleBiometricLogin() async {
     if (!_isBiometricAvailable) {
-      snackBar(
-        context: context,
-        title: 'face_id_not_available'.tr(),
-        isErrorMessage: true,
-      );
+      _showErrorSnackBar('face_id_not_available'.tr());
       return;
     }
 
     if (!_isBiometricEnabled) {
-      snackBar(
-        context: context,
-        title: 'face_id_not_enabled'.tr(),
-        isErrorMessage: true,
-      );
+      _showErrorSnackBar('face_id_not_enabled'.tr());
       return;
     }
 
-    // Start biometric authentication
+    await _processBiometricLogin();
+  }
+
+  /// **Process Biometric Login with Saved Credentials**
+  Future<void> _processBiometricLogin() async {
+    try {
+      final savedCredentials = await _getSavedCredentials();
+
+      if (savedCredentials != null) {
+        await _startBiometricAuthentication();
+      } else {
+        _showErrorSnackBar('no_saved_accounts'.tr());
+      }
+    } catch (e) {
+      printError('Error processing biometric login: $e');
+      _showErrorSnackBar('error_loading_accounts'.tr());
+    }
+  }
+
+  /// **Get Saved Credentials**
+  Future<({String username, String password})?> _getSavedCredentials() async {
+    final username = await LocalStorageHelper.getSavedUsername();
+    final password = await LocalStorageHelper.getSavedPassword();
+
+    if (username != null && password != null) {
+      return (username: username, password: password);
+    }
+    return null;
+  }
+
+  /// **Start Biometric Authentication**
+  Future<void> _startBiometricAuthentication() async {
     await _biometricCubit.authenticateUser();
+  }
+
+  /// **Login with Saved Credentials (called after successful biometric auth)**
+  Future<void> _loginWithSavedCredentials() async {
+    try {
+      final savedCredentials = await _getSavedCredentials();
+
+      if (savedCredentials != null) {
+        _autoFillFormFields(savedCredentials);
+        _authCubit.submitLogin();
+      } else {
+        _authCubit.submitBiometricLogin();
+      }
+    } catch (e) {
+      printError('Error logging in with saved credentials: $e');
+      _showErrorSnackBar('login_failed'.tr());
+    }
+  }
+
+  /// **Auto-fill Form Fields**
+  void _autoFillFormFields(({String username, String password}) credentials) {
+    _authCubit.emailCont.text = credentials.username;
+    _authCubit.passwordCont.text = credentials.password;
+  }
+
+  /// **Show Error SnackBar**
+  void _showErrorSnackBar(String message) {
+    snackBar(context: context, title: message, isErrorMessage: true);
+  }
+
+  /// **Handle Biometric Auth State Changes**
+  void _handleBiometricAuthState(BiometricAuthState state) {
+    state.when(
+      initial: () {},
+      loading: () {},
+      authenticated: () async {
+        await _loginWithSavedCredentials();
+      },
+      failed: () {
+        _showErrorSnackBar('face_id_authentication_failed'.tr());
+      },
+      notSupported: () {
+        _showErrorSnackBar('face_id_not_available'.tr());
+      },
+      error: (error) {
+        if (error.contains('face_id_not_enabled')) {
+          _showErrorSnackBar('face_id_not_enabled'.tr());
+        } else {
+          _showErrorSnackBar('face_id_authentication_failed'.tr());
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Don't show button if biometric is not available
-    if (!_isBiometricAvailable) {
+    // Hide button if biometric is not available or not enabled
+    if (!_isBiometricAvailable || !_isBiometricEnabled) {
       return const SizedBox.shrink();
     }
 
     return BlocListener<BiometricAuthCubit, BiometricAuthState>(
       bloc: _biometricCubit,
-      listener: (context, state) {
-        state.when(
-          initial: () {},
-          loading: () {},
-          authenticated: () {
-            // Biometric authentication successful, proceed with login
-            _authCubit.submitBiometricLogin();
-          },
-          failed: () {
-            snackBar(
-              context: context,
-              title: 'face_id_authentication_failed'.tr(),
-              isErrorMessage: true,
-            );
-          },
-          notSupported: () {
-            snackBar(
-              context: context,
-              title: 'face_id_not_available'.tr(),
-              isErrorMessage: true,
-            );
-          },
-          error: (error) {
-            // Check if the error is about biometric not being enabled
-            if (error.contains('face_id_not_enabled')) {
-              snackBar(
-                context: context,
-                title: 'face_id_not_enabled'.tr(),
-                isErrorMessage: true,
-              );
-            } else {
-              snackBar(
-                context: context,
-                title: 'face_id_authentication_failed'.tr(),
-                isErrorMessage: true,
-              );
-            }
-          },
-        );
-      },
+      listener: (context, state) => _handleBiometricAuthState(state),
       child: BlocBuilder<BiometricAuthCubit, BiometricAuthState>(
         bloc: _biometricCubit,
         builder: (context, state) {
-          final isLoading = state is Loading;
-
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 8.h),
-            child: Column(
-              children: [
-                // Divider with "OR" text
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: Utils(context).secondTextColor.withOpacity(0.3),
-                        thickness: 1,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Text(
-                        'or'.tr(),
-                        style: Utils(context).normalText.copyWith(
-                          color: Utils(context).secondTextColor,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: Utils(context).secondTextColor.withOpacity(0.3),
-                        thickness: 1,
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 16.h),
-
-                // Biometric login button
-                GestureDetector(
-                  onTap: isLoading ? null : _handleBiometricLogin,
-                  child: Container(
-                    width: double.infinity,
-                    height: 56.h,
-                    decoration: BoxDecoration(
-                      color:
-                          _isBiometricEnabled
-                              ? Utils(context).primary.withOpacity(0.1)
-                              : Utils(context).primaryContainer,
-                      borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(
-                        color:
-                            _isBiometricEnabled
-                                ? Utils(context).primary
-                                : Utils(context).primary.withOpacity(0.3),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (isLoading)
-                          SizedBox(
-                            width: 20.w,
-                            height: 20.h,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Utils(context).primary,
-                              ),
-                            ),
-                          )
-                        else
-                          Icon(
-                            Iconsax.scan,
-                            color:
-                                _isBiometricEnabled
-                                    ? Utils(context).primary
-                                    : Utils(context).secondTextColor,
-                            size: 24.sp,
-                          ),
-                        SizedBox(width: 12.w),
-                        Text(
-                          _isBiometricEnabled
-                              ? 'login_with_face_id'.tr()
-                              : 'use_face_id_to_login'.tr(),
-                          style: Utils(context).normalText.copyWith(
-                            color:
-                                _isBiometricEnabled
-                                    ? Utils(context).primary
-                                    : Utils(context).secondTextColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                if (!_isBiometricEnabled) ...[
-                  SizedBox(height: 8.h),
-                  Text(
-                    'face_id_not_enabled'.tr(),
-                    style: Utils(context).normalText.copyWith(
-                      color: Utils(context).secondTextColor,
-                      fontSize: 12.sp,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-
-                // Show backup password option if biometric is enabled but failed
-                if (_isBiometricEnabled && _hasBackupPassword) ...[
-                  SizedBox(height: 16.h),
-                  GestureDetector(
-                    onTap: () async {
-                      await showDialog(
-                        context: context,
-                        builder:
-                            (context) => BackupPasswordLoginDialog(
-                              onSuccess: () {
-                                // Login successful, navigate to main screen
-                                // This will be handled by the AuthCubit listener
-                              },
-                            ),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 8.h,
-                        horizontal: 16.w,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Utils(context).primaryContainer,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(
-                          color: Utils(context).primary.withOpacity(0.3),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Iconsax.key,
-                            color: Utils(context).primary,
-                            size: 16.sp,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            'login_with_backup_password'.tr(),
-                            style: Utils(context).normalText.copyWith(
-                              color: Utils(context).primary,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          );
+          return _buildBiometricLoginSection(context, state);
         },
+      ),
+    );
+  }
+
+  /// **Build Biometric Login Section**
+  Widget _buildBiometricLoginSection(
+    BuildContext context,
+    BiometricAuthState state,
+  ) {
+    final isLoading = state is Loading;
+
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8.h),
+      child: _buildBiometricLoginButton(context, isLoading),
+    );
+  }
+
+  /// **Build Biometric Login Button**
+  Widget _buildBiometricLoginButton(BuildContext context, bool isLoading) {
+    return GestureDetector(
+      onTap: isLoading ? null : _handleBiometricLogin,
+      child: Container(
+        width: double.infinity,
+        height: 40.h,
+        decoration: BoxDecoration(
+          color: Utils(context).primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(color: Utils(context).primary, width: 1.5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildButtonIcon(context, isLoading),
+            SizedBox(width: 12.w),
+            _buildButtonText(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// **Build Button Icon**
+  Widget _buildButtonIcon(BuildContext context, bool isLoading) {
+    if (isLoading) {
+      return SizedBox(
+        width: 16.w,
+        height: 16.h,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          valueColor: AlwaysStoppedAnimation<Color>(Utils(context).primary),
+        ),
+      );
+    }
+
+    return Icon(Iconsax.scan, color: Utils(context).primary, size: 20.sp);
+  }
+
+  /// **Build Button Text**
+  Widget _buildButtonText(BuildContext context) {
+    return Text(
+      'login_with_face_id'.tr(),
+      style: Utils(context).normalText.copyWith(
+        color: Utils(context).primary,
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

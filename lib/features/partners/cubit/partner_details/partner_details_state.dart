@@ -6,7 +6,7 @@ class PartnerDetailsState with _$PartnerDetailsState {
   const factory PartnerDetailsState.loading() = Loading;
   const factory PartnerDetailsState.loaded({
     required PartnerDetailsData data,
-    required PartnerOperationsModel operations,
+    required List<PartnerDetailsOperation> operations,
   }) = Loaded;
   const factory PartnerDetailsState.error({required String message}) = Error;
 }

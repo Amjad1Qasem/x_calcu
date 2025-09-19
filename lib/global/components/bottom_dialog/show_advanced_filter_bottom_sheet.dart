@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:x_calcu/global/components/app_button.dart';
-import 'package:x_calcu/global/components/bottom_dialog/filter_components/date_range_section.dart';
-import 'package:x_calcu/global/components/bottom_dialog/filter_components/filter_actions.dart';
-import 'package:x_calcu/global/components/bottom_dialog/filter_components/filter_header.dart';
-import 'package:x_calcu/global/components/bottom_dialog/filter_components/sort_order_section.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 

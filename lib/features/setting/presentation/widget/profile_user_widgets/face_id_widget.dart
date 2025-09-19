@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:x_calcu/features/login/presentation/widget/backup_password_dialog.dart';
 import 'package:x_calcu/features/setting/presentation/widget/section_components_widget.dart';
 import 'package:x_calcu/features/startup/bloc/biometric_auth/biometric_auth_cubit.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
@@ -56,39 +55,9 @@ Widget faceIdWidget(BuildContext context) {
                     // Enable biometric - test authentication first
                     try {
                       await biometricCubit.authenticateUser();
-
-                      // Check if backup password exists
-                      final hasBackupPassword =
-                          await LocalStorageHelper.hasBackupPassword();
-
-                      if (!hasBackupPassword) {
-                        // Show backup password creation dialog
-                        await showDialog(
-                          context: context,
-                          builder:
-                              (context) => BackupPasswordDialog(
-                                onSuccess: () async {
-                                  // After creating backup password, enable biometric
-                                  await LocalStorageHelper.setBiometricEnabled(
-                                    true,
-                                  );
-                                  snackBar(
-                                    context: context,
-                                    title: 'face_id_enabled'.tr(),
-                                  );
-                                  setState(() {});
-                                },
-                              ),
-                        );
-                      } else {
-                        // If backup password exists, enable biometric directly
-                        await LocalStorageHelper.setBiometricEnabled(true);
-                        snackBar(
-                          context: context,
-                          title: 'face_id_enabled'.tr(),
-                        );
-                        setState(() {});
-                      }
+                      await LocalStorageHelper.setBiometricEnabled(true);
+                      snackBar(context: context, title: 'face_id_enabled'.tr());
+                      setState(() {});
                     } catch (e) {
                       snackBar(
                         context: context,

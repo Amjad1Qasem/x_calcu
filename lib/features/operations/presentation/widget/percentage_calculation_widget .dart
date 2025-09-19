@@ -1,14 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/global/components/text_field_app.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
+import 'package:x_calcu/global/utils/validation/input_validators.dart';
+
 class PercentageCalculationField extends StatefulWidget {
   final TextEditingController valueController; // لعرض القيمة المحسوبة
   final TextEditingController percentageController; // لإدخال النسبة
   final double baseValue; // المبلغ الأساسي يلي نحسب منه
   final bool isReadOnly;
   final String? errorText;
+  final VoidCallback? onPercentageChanged; // Callback for auto-calculations
   const PercentageCalculationField({
     super.key,
     required this.valueController,
@@ -16,6 +20,7 @@ class PercentageCalculationField extends StatefulWidget {
     required this.baseValue,
     required this.isReadOnly,
     this.errorText,
+    this.onPercentageChanged,
   });
 
   @override
@@ -37,7 +42,7 @@ class _PercentageCalculationFieldState
               errorText: widget.errorText,
               controller: widget.percentageController,
               readOnly: widget.isReadOnly,
-              
+
               hintText: '%',
               style: Utils(context).normalText.copyWith(
                 fontWeight: FontWeight.w700,
@@ -46,22 +51,26 @@ class _PercentageCalculationFieldState
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              // validation:
-              // widget.isReadOnly
-              //     ? null
-              //     : (value) => InputValidators.validatePercentage(
-              //       value,
-              //       isRequired: true,
-              //     ),
+              validation:
+                  widget.isReadOnly
+                      ? null
+                      : (value) => InputValidators.validateRequired(
+                        value,
+                        fieldName: 'percentage'.tr(),
+                      ),
               onChanged: (value) {
                 final percent = double.tryParse(value) ?? 0;
+                // Use paid amount as base value instead of invoice value
                 final calculated = (widget.baseValue * percent) / 100;
                 printSuccess('calculated $calculated');
-                widget.valueController.text = calculated.toStringAsFixed(0);
+                widget.valueController.text = calculated.toStringAsFixed(2);
                 setState(() {});
                 printSuccess(
                   'valueController.text ${widget.valueController.text}',
                 );
+
+                // Trigger auto-calculations when percentage changes
+                widget.onPercentageChanged?.call();
               },
             ),
           ),

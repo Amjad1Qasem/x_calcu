@@ -14,18 +14,15 @@ class FilterHeaderHomeWidget extends SliverPersistentHeaderDelegate {
     final cubit = getIt<HomeCubit>();
     return BlocBuilder<HomeCubit, HomeState>(
       bloc: cubit,
+      buildWhen: (previous, current) {
+        // Only rebuild when the state actually changes
+        return previous.runtimeType != current.runtimeType;
+      },
       builder: (context, state) {
         return Container(
           color: Utils(context).background,
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 0.h),
-          child: Center(
-            child: AnimatedToggleButton(
-              values: ["input".tr(), "output".tr()],
-              state: cubit.isInput,
-              onTap: () => state is Loading ? null : cubit.operationFilter(),
-              //  cubit.toggleHideCompanyName(),
-            ),
-          ),
+          child: Center(child: _buildShowcaseWidget(cubit, state)),
         );
       },
     );
@@ -40,4 +37,18 @@ class FilterHeaderHomeWidget extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
       false;
+
+  Widget _buildShowcaseWidget(HomeCubit cubit, HomeState state) {
+    // For now, disable showcase to avoid GlobalKey conflicts
+    // TODO: Re-enable showcase with proper key management
+    return AnimatedToggleButton(
+      values: ["input".tr(), "output".tr()],
+      state: cubit.isInput,
+      onTap: () {
+        if (state is! Loading) {
+          cubit.operationFilter();
+        }
+      },
+    );
+  }
 }

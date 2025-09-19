@@ -16,6 +16,7 @@ import 'package:x_calcu/global/components/x_calc/toggle_widget.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/validation/input_validators.dart';
 import 'package:x_calcu/global/components/validation_error_display.dart';
+import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import '../../../../../global/utils/di/dependency_injection.dart';
 
 class OperationsFieldsWidget extends StatelessWidget {
@@ -23,6 +24,7 @@ class OperationsFieldsWidget extends StatelessWidget {
   final bool isReadOnly;
   final OperationModel? model;
   final CubitType cubitType;
+  final CreateOperationCubit? createOperationCubit;
 
   const OperationsFieldsWidget({
     super.key,
@@ -30,6 +32,7 @@ class OperationsFieldsWidget extends StatelessWidget {
     this.isReadOnly = false,
     this.model,
     this.cubitType = CubitType.create, // Only supports create and edit modes
+    this.createOperationCubit,
   });
 
   @override
@@ -53,7 +56,7 @@ class OperationsFieldsWidget extends StatelessWidget {
       case CubitType.edit:
         return getIt<EditOperationCubit>();
       case CubitType.create:
-        return getIt<CreateOperationCubit>();
+        return createOperationCubit ?? getIt<CreateOperationCubit>();
       default:
         throw ArgumentError(
           'OperationsFieldsWidget only supports edit and create modes',
@@ -104,6 +107,8 @@ class OperationsFieldsWidget extends StatelessWidget {
         // Show validation errors summary if there are any
         if (cubit?.validationErrors?.isNotEmpty == true)
           ValidationErrorDisplay(validationErrors: cubit.validationErrors),
+
+        // Show partner dropdown only when not from partner
         if (!isFromPartner)
           ItemsDropDownMenu(
             label: 'partner_name'.tr(),
@@ -111,7 +116,11 @@ class OperationsFieldsWidget extends StatelessWidget {
             onChanged: isReadOnly ? null : (model) {},
             readOnly: isReadOnly,
             cubitType: cubitType,
+            operationsCubit: cubit,
           ),
+
+        // Show partner name as read-only field when from partner
+        if (isFromPartner) _buildPartnerNameField(context, cubit),
 
         FormLabelWidget(label: "customer_name"),
         TextFieldApp(
@@ -145,15 +154,17 @@ class OperationsFieldsWidget extends StatelessWidget {
         TextFieldApp(
           hintText: '',
           controller: cubit?.invoiceNumberController,
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.text,
           readOnly: isReadOnly,
           enable: !isReadOnly,
           errorText: cubit?.getFieldError('invoice_number'),
           validation:
               isReadOnly
                   ? null
-                  : (value) =>
-                      InputValidators.validateInteger(value, isRequired: true),
+                  : (value) => InputValidators.validateRequired(
+                    value,
+                    fieldName: 'invoice_number'.tr(),
+                  ),
         ),
 
         FormLabelWidget(label: "invoice_value"),
@@ -169,31 +180,25 @@ class OperationsFieldsWidget extends StatelessWidget {
                   ? null
                   : (value) =>
                       InputValidators.validateNumeric(value, isRequired: true),
+          onChanged: (value) {
+            // Trigger auto-calculations when invoice value changes
+            if (cubit != null) {
+              printSuccess('Invoice value changed to: $value');
+              cubit.triggerAllCalculations();
+            }
+          },
         ),
 
-        // Total Paid Value (قيمة السداد الكلية)
-        FormLabelWidget(label: "total_paid_value"),
-        TextFieldApp(
-          hintText: '',
-          controller: cubit?.totalPaidValueController,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
-          errorText: cubit?.getFieldError('total_paid_value'),
-          validation:
-              isReadOnly
-                  ? null
-                  : (value) =>
-                      InputValidators.validateNumeric(value, isRequired: false),
-        ),
-        FormLabelWidget(label: "paid_amount"),
-        buildPaymentField(
+        // FormLabelWidget(label: "paid_amount"),
+        buildDynamicPaymentField(
           context: context,
-          paidAmountController: cubit?.paidAmountController,
-          paidDateController: cubit?.paidDateController,
+          paidBills: cubit?.paidBills ?? [],
+          onPaidBillsChanged: (newPaidBills) {
+            if (cubit != null) {
+              cubit.updatePaidBills(newPaidBills);
+            }
+          },
           isReadOnly: isReadOnly,
-          errorText: cubit?.getFieldError('paid_amount'),
-          errorDateText: cubit?.getFieldError('paid_date'),
         ),
 
         FormLabelWidget(label: "remaining_invoice"),
@@ -201,14 +206,9 @@ class OperationsFieldsWidget extends StatelessWidget {
           hintText: '',
           controller: cubit?.remainingInvoiceController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
+          readOnly: true, // Make it read-only for auto-calculation
+          enable: false,
           errorText: cubit?.getFieldError('remaining_invoice'),
-          validation:
-              isReadOnly
-                  ? null
-                  : (value) =>
-                      InputValidators.validateNumeric(value, isRequired: false),
         ),
 
         FormLabelWidget(label: "percentage"),
@@ -216,9 +216,16 @@ class OperationsFieldsWidget extends StatelessWidget {
           valueController: cubit?.percentageAmountController,
           percentageController: cubit?.percentageController,
           baseValue:
-              double.tryParse(cubit?.invoiceValueController.text ?? '50') ?? 50,
+              double.tryParse(cubit?.paidAmountController.text ?? '0') ?? 0,
           isReadOnly: isReadOnly,
           errorText: cubit?.getFieldError('percentage_of_bill'),
+          onPercentageChanged: () {
+            // Trigger auto-calculations when percentage changes
+            if (cubit != null) {
+              printSuccess('Percentage changed, triggering calculations...');
+              cubit.triggerAllCalculations();
+            }
+          },
         ),
 
         FormLabelWidget(label: "total_due"),
@@ -226,38 +233,20 @@ class OperationsFieldsWidget extends StatelessWidget {
           hintText: '',
           controller: cubit?.totalDueController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
+          readOnly: true, // Make it read-only for auto-calculation
+          enable: false,
           errorText: cubit?.getFieldError('total_due'),
-          validation:
-              isReadOnly
-                  ? null
-                  : (value) =>
-                      InputValidators.validateNumeric(value, isRequired: false),
         ),
-        // Total Received Value (قيمة المقبوضات الكلية)
-        FormLabelWidget(label: "total_received_value"),
-        TextFieldApp(
-          hintText: '',
-          controller: cubit?.totalReceivedValueController,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
-          errorText: cubit?.getFieldError('total_received_value'),
-          validation:
-              isReadOnly
-                  ? null
-                  : (value) =>
-                      InputValidators.validateNumeric(value, isRequired: false),
-        ),
-        FormLabelWidget(label: "received_amount"),
-        buildReceivedField(
+        // FormLabelWidget(label: "received_amount"),
+        buildDynamicReceivedField(
           context: context,
-          receivedAmountController: cubit?.receivedAmountController,
-          receivedDateController: cubit?.receivedDateController,
+          receivedAmounts: cubit?.receivedAmounts ?? [],
+          onReceivedAmountsChanged: (newReceivedAmounts) {
+            if (cubit != null) {
+              cubit.updateReceivedAmounts(newReceivedAmounts);
+            }
+          },
           isReadOnly: isReadOnly,
-          errorText: cubit?.getFieldError('received_amount'),
-          errorDateText: cubit?.getFieldError('received_date'),
         ),
 
         FormLabelWidget(label: "remaining_amount"),
@@ -265,14 +254,9 @@ class OperationsFieldsWidget extends StatelessWidget {
           hintText: '',
           controller: cubit?.remainingAmountController,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
+          readOnly: true, // Make it read-only for auto-calculation
+          enable: false,
           errorText: cubit?.getFieldError('remaining_amount'),
-          validation:
-              isReadOnly
-                  ? null
-                  : (value) =>
-                      InputValidators.validateNumeric(value, isRequired: false),
         ),
 
         FormLabelWidget(label: "operation_date"),
@@ -281,9 +265,16 @@ class OperationsFieldsWidget extends StatelessWidget {
           controller: cubit?.operationDateController,
           isReadOnly: isReadOnly,
           errorDateText: cubit?.getFieldError('invoice_date'),
+          validation:
+              isReadOnly
+                  ? null
+                  : (value) => InputValidators.validateRequired(
+                    value,
+                    fieldName: 'operation_date'.tr(),
+                  ),
         ),
 
-        FormLabelWidget(label: "reminder_date"),
+        FormLabelWidget(label: "reminder_date", required: false),
         buildReminderDateTimePicker(
           context: context,
           cubit: cubit,
@@ -291,7 +282,7 @@ class OperationsFieldsWidget extends StatelessWidget {
           isReadOnly: isReadOnly,
           errorDateText: cubit?.getFieldError('alert_date'),
         ),
-        FormLabelWidget(label: "notes"),
+        FormLabelWidget(label: "notes", required: false),
         TextFieldApp(
           hintText: '',
           controller: cubit?.notesController,
@@ -299,6 +290,25 @@ class OperationsFieldsWidget extends StatelessWidget {
           readOnly: isReadOnly,
           enable: !isReadOnly,
           errorText: cubit?.getFieldError('comments'),
+          // No validation for notes field as it's optional
+        ),
+      ],
+    );
+  }
+
+  /// Builds a read-only partner name field when isFromPartner is true
+  Widget _buildPartnerNameField(BuildContext context, dynamic cubit) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FormLabelWidget(label: 'partner_name'.tr()),
+        CommonSizes.vSmallestSpace,
+        TextFieldApp(
+          hintText: '',
+          controller: cubit?.partnerNameController,
+          readOnly: true,
+          enable: false,
+          errorText: cubit?.getFieldError('partner_name'),
         ),
       ],
     );

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:x_calcu/features/operations/data/operation_request_model.dart';
 import 'package:x_calcu/features/operations/presentation/widget/build_date_picker_field.dart';
+import 'package:x_calcu/features/operations/presentation/widget/dynamic_payment_widget.dart';
 import 'package:x_calcu/global/components/form_label_widget.dart';
 import 'package:x_calcu/global/components/text_field_app.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
-import 'package:x_calcu/global/utils/validation/input_validators.dart';
 
 Widget buildPaymentField({
   required BuildContext context,
@@ -14,16 +15,17 @@ Widget buildPaymentField({
   bool isReadOnly = false,
   String? errorText,
   String? errorDateText,
+  VoidCallback? onPaidAmountChanged,
 }) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 1.sp),
+    padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 2.sp),
     child: Container(
       padding: EdgeInsets.symmetric(vertical: 18.sp, horizontal: 14.sp),
       decoration: BoxDecoration(
         color: Utils(context).backgroundColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(25),
+            color: Colors.black.withAlpha(75),
             offset: Offset(0, 0),
             blurRadius: 1,
           ),
@@ -41,13 +43,12 @@ Widget buildPaymentField({
             readOnly: isReadOnly,
             enable: !isReadOnly,
             errorText: errorText,
-            validation:
-                isReadOnly
-                    ? null
-                    : (value) => InputValidators.validateNumeric(
-                      value,
-                      isRequired: false,
-                    ),
+            // No validation for paid amount field as it's optional
+            onChanged: (value) {
+              // Trigger auto-calculations when paid amount changes
+              print('Paid amount changed to: $value');
+              onPaidAmountChanged?.call();
+            },
           ),
           CommonSizes.vSmallestSpace,
           FormLabelWidget(label: "date", required: false),
@@ -71,6 +72,7 @@ Widget buildReceivedField({
   bool isReadOnly = false,
   String? errorText,
   String? errorDateText,
+  VoidCallback? onReceivedAmountChanged,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: 1.sp),
@@ -98,13 +100,12 @@ Widget buildReceivedField({
             readOnly: isReadOnly,
             enable: !isReadOnly,
             errorText: errorText,
-            validation:
-                isReadOnly
-                    ? null
-                    : (value) => InputValidators.validateNumeric(
-                      value,
-                      isRequired: false,
-                    ),
+            // No validation for received amount field as it's optional
+            onChanged: (value) {
+              // Trigger auto-calculations when received amount changes
+              print('Received amount changed to: $value');
+              onReceivedAmountChanged?.call();
+            },
           ),
           CommonSizes.vSmallestSpace,
           FormLabelWidget(label: "date"),
@@ -118,5 +119,35 @@ Widget buildReceivedField({
         ],
       ),
     ),
+  );
+}
+
+// New dynamic payment field
+Widget buildDynamicPaymentField({
+  required BuildContext context,
+  required List<DynamicPaymentItem> paidBills,
+  required Function(List<DynamicPaymentItem>) onPaidBillsChanged,
+  bool isReadOnly = false,
+}) {
+  return DynamicPaymentWidget(
+    title: 'paid_amount',
+    items: paidBills,
+    onItemsChanged: onPaidBillsChanged,
+    isReadOnly: isReadOnly,
+  );
+}
+
+// New dynamic received field
+Widget buildDynamicReceivedField({
+  required BuildContext context,
+  required List<DynamicPaymentItem> receivedAmounts,
+  required Function(List<DynamicPaymentItem>) onReceivedAmountsChanged,
+  bool isReadOnly = false,
+}) {
+  return DynamicPaymentWidget(
+    title: 'received_amount',
+    items: receivedAmounts,
+    onItemsChanged: onReceivedAmountsChanged,
+    isReadOnly: isReadOnly,
   );
 }

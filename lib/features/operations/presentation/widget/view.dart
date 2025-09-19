@@ -42,17 +42,11 @@ class ViewWidget extends StatelessWidget {
     final invoiceValueController = TextEditingController(
       text: model?.invoiceValue?.toString() ?? '',
     );
-    final totalPaidValueController = TextEditingController(
-      text: model?.paidInvoice?.totalPaidValue?.toString() ?? '',
-    );
     final remainingInvoiceController = TextEditingController(
       text: model?.remainingInvoice?.toString() ?? '',
     );
     final totalDueController = TextEditingController(
       text: model?.totalDue?.toString() ?? '',
-    );
-    final totalReceivedValueController = TextEditingController(
-      text: model?.receivedAmount?.totalReceivedValue?.toString() ?? '',
     );
     final remainingAmountController = TextEditingController(
       text: model?.remainingAmount?.toString() ?? '',
@@ -116,7 +110,7 @@ class ViewWidget extends StatelessWidget {
           ignoring: isReadOnly,
           child: ToggleWidget(
             values: ["input".tr(), "output".tr()],
-            state: model?.operationType?.toLowerCase() == "output",
+            state: model?.operationType?.toLowerCase() == "input",
             onTap: () {},
           ),
         ),
@@ -140,14 +134,6 @@ class ViewWidget extends StatelessWidget {
           enable: !isReadOnly,
         ),
 
-        // Total Paid Value (قيمة السداد الكلية)
-        FormLabelWidget(label: "total_paid_value"),
-        TextFieldApp(
-          hintText: '',
-          controller: totalPaidValueController,
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
-        ),
         FormLabelWidget(label: "paid_amount"),
         buildPaymentField(
           context: context,
@@ -161,8 +147,8 @@ class ViewWidget extends StatelessWidget {
           hintText: '',
           controller: remainingInvoiceController,
           keyboardType: TextInputType.number,
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
+          readOnly: true, // Always read-only for auto-calculated field
+          enable: false,
         ),
 
         FormLabelWidget(label: "percentage"),
@@ -177,16 +163,8 @@ class ViewWidget extends StatelessWidget {
         TextFieldApp(
           hintText: '',
           controller: totalDueController,
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
-        ),
-        // Total Received Value (قيمة المقبوضات الكلية)
-        FormLabelWidget(label: "total_received_value"),
-        TextFieldApp(
-          hintText: '',
-          controller: totalReceivedValueController,
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
+          readOnly: true, // Always read-only for auto-calculated field
+          enable: false,
         ),
         FormLabelWidget(label: "received_amount"),
         buildReceivedField(
@@ -200,8 +178,8 @@ class ViewWidget extends StatelessWidget {
         TextFieldApp(
           hintText: '',
           controller: remainingAmountController,
-          readOnly: isReadOnly,
-          enable: !isReadOnly,
+          readOnly: true, // Always read-only for auto-calculated field
+          enable: false,
         ),
 
         FormLabelWidget(label: "operation_date"),
