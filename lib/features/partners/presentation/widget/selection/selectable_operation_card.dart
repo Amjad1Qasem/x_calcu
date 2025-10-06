@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -110,7 +111,7 @@ class SelectableOperationCard extends StatelessWidget {
                         if (!isSelectionMode)
                           AppButton(
                             onTap: onTap,
-                            label: 'Show details',
+                            label: "show_details".tr(),
                             icon: Iconsax.eye_copy,
                             padding: EdgeInsets.zero,
                             raduis: 16.r,

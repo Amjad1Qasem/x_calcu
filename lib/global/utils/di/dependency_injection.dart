@@ -1,6 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:x_calcu/features/companies/cubit/companies_cubit.dart';
-import 'package:x_calcu/features/companies/data/companies_repo.dart';
 import 'package:x_calcu/features/home/cubit/home_cubit.dart';
 import 'package:x_calcu/features/home/data/home_repo.dart';
 import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
@@ -48,7 +46,6 @@ void dependencyInjectionSetup() {
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo());
   getIt.registerLazySingleton<PartnerRepo>(() => PartnerRepo());
   getIt.registerLazySingleton<OperationsRepo>(() => OperationsRepo());
-  getIt.registerLazySingleton<CompaniesRepo>(() => CompaniesRepo());
   getIt.registerLazySingleton<NotificationRepo>(() => NotificationRepo());
 
   /// Blocs
@@ -96,14 +93,11 @@ void dependencyInjectionSetup() {
   getIt.registerLazySingleton<DeletePartnerCubit>(
     () => DeletePartnerCubit(getIt<PartnerRepo>()),
   );
-  getIt.registerLazySingleton<CompaniesCubit>(
-    () => CompaniesCubit(getIt<CompaniesRepo>()),
-  );
   getIt.registerLazySingleton<NotificationCubit>(
     () => NotificationCubit(getIt<NotificationRepo>()),
   );
   getIt.registerLazySingleton<StatisticsCubit>(
     () => StatisticsCubit(getIt<PartnerRepo>()),
   );
-  getIt.registerLazySingleton<SelectionCubit>(() => SelectionCubit());
+  getIt.registerFactory<SelectionCubit>(() => SelectionCubit());
 }

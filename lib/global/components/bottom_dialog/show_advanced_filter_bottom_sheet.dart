@@ -160,7 +160,7 @@ Future<void> showAdvancedFilterBottomSheet(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'from_date'.tr(),
+                                'to_date'.tr(),
                                 style: Utils(context).normalText.copyWith(
                                   color: Utils(context).primary,
                                   fontSize: 14.sp,
@@ -256,7 +256,7 @@ Future<void> showAdvancedFilterBottomSheet(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'to_date'.tr(),
+                                'from_date'.tr(),
                                 style: Utils(context).normalText.copyWith(
                                   color: Utils(context).primary,
                                   fontSize: 14.sp,

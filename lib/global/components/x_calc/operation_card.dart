@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -35,7 +36,7 @@ class OperationCard extends StatelessWidget {
             CommonSizes.vPluSmallerSpace,
             AppButton(
               onTap: () {},
-              label: 'Show details',
+              label: "show_details".tr(),
               icon: Iconsax.eye_copy,
               padding: EdgeInsets.zero,
               raduis: 16.r,

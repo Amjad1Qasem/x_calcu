@@ -46,32 +46,47 @@ class _FullScreenLoaderState extends State<_FullScreenLoader> {
   @override
   // Widget build(BuildContext context) => const WaitingWidget();
   Widget build(BuildContext context) => Center(
-    child: Container(
-      // padding: const EdgeInsets.all(50),
-      width: MediaQuery.of(context).size.width / 2,
-      height: 200.h,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Utils(context).primTextColor.withValues(alpha: 0.2),
-            offset: const Offset(0, 2),
-            spreadRadius: 1,
-            blurRadius: 2,
-          ),
-        ],
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18.r),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: Text('${'loading'.tr()}..'),
+    child: Material(
+      color: Colors.transparent,
+      child: Container(
+        // padding: const EdgeInsets.all(50),
+        width: MediaQuery.of(context).size.width / 2,
+        height: 200.h,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Utils(context).primTextColor.withValues(alpha: 0.2),
+              offset: const Offset(0, 2),
+              spreadRadius: 1,
+              blurRadius: 2,
             ),
           ],
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18.r),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator(),
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  child: Text(
+                    'loading'.tr(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ),

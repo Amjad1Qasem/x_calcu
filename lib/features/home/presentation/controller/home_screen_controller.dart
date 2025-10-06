@@ -21,7 +21,7 @@ class HomeScreenController {
   }
 
   Future<void> _fetchPage(int pageKey) async {
-    try {
+    try { 
       final cubit = getIt<HomeCubit>();
 
       if (pageKey == 1) {

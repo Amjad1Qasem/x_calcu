@@ -30,6 +30,9 @@ void snackBar({
     messageIconColor = iconColor ?? Colors.white;
   }
 
+  // Hide any existing snackbar first
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       duration: duration ?? const Duration(seconds: 5),

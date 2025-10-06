@@ -1,20 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:x_calcu/features/operations/cubit/edit_operation/edit_operation_cubit.dart';
 import 'package:x_calcu/features/operations/data/cubit_type.dart';
 import 'package:x_calcu/features/operations/data/operations_model.dart';
 import 'package:x_calcu/features/operations/presentation/widget/operations_fields_widget.dart';
 import 'package:x_calcu/features/operations/presentation/widget/update_operation_widgets/save_update_operation_btn.dart';
-import 'package:x_calcu/global/components/loaders/loading_overlay.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
-import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
+import 'package:x_calcu/global/utils/navigation/navigation_helper.dart';
 
 class EditOperationsScreen extends StatefulWidget {
   const EditOperationsScreen({
@@ -56,18 +53,24 @@ class _EditOperationsScreenState extends State<EditOperationsScreen> {
         listener: (context, state) {
           printWarning('state is :: $state');
           if (state.isLoading == true) {
-            LoadingOverlay.of(context).show();
+            // LoadingOverlay.of(context).show();
           } else if (state.isSuccess == true) {
-            LoadingOverlay.of(context).hide();
-            context.pop();
-            context.pop();
-            snackBar(
-              context: context,
-              title: 'operation_updated_successfully'.tr(),
-              isErrorMessage: false,
-            );
+            // LoadingOverlay.of(context).hide();
+            // Add small delay to ensure snackbar is shown before navigation
+            Future.delayed(const Duration(milliseconds: 100), () {
+              snackBar(
+                context: context,
+                title: 'operation_updated_successfully'.tr(),
+                isErrorMessage: false,
+              );
+            });
+            // Navigate back to home - use go instead of pop to avoid navigation stack issues
+            // context.go('/');
+            Future.delayed(const Duration(milliseconds: 200), () {
+              NavigationHelper.goToHome(context);
+            });
           } else if (state.isError == true) {
-            LoadingOverlay.of(context).hide();
+            // LoadingOverlay.of(context).hide();
             snackBar(
               context: context,
               title: state.errorMessage,

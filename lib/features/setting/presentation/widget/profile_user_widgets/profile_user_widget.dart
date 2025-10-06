@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -13,17 +12,77 @@ import 'package:x_calcu/global/components/app_bar.dart';
 import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/loaders/loading_overlay.dart';
 import 'package:x_calcu/global/components/scaffold_page.dart';
-import 'package:x_calcu/global/components/showcase/showcase_button.dart';
 import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/helper/console_logger.dart';
 import 'package:x_calcu/global/utils/router/router_path.dart';
 
 class ProfileUserWidget extends StatelessWidget {
   const ProfileUserWidget({super.key});
 
-  // @override
+  Future<void> _launchUrl(String url, BuildContext context) async {
+    try {
+      final uri = Uri.parse(url);
+      printInfo('Attempting to launch URL: $url');
+
+      bool launched = false;
+
+      if (await canLaunchUrl(uri)) {
+        printInfo('Can launch URL, attempting external application mode');
+        try {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+          launched = true;
+          printSuccess(
+            'URL launched successfully with external application mode',
+          );
+        } catch (e) {
+          printError('External application mode failed: $e');
+        }
+      }
+
+      if (!launched) {
+        printInfo('Trying platform default mode');
+        try {
+          await launchUrl(uri, mode: LaunchMode.platformDefault);
+          launched = true;
+          printSuccess('URL launched successfully with platform default mode');
+        } catch (e) {
+          printError('Platform default mode failed: $e');
+        }
+      }
+
+      if (!launched) {
+        printInfo('Trying in-app web view mode');
+        try {
+          await launchUrl(uri, mode: LaunchMode.inAppWebView);
+          launched = true;
+          printSuccess('URL launched successfully with in-app web view mode');
+        } catch (e) {
+          printError('In-app web view mode failed: $e');
+        }
+      }
+
+      if (!launched) {
+        printError('All launch modes failed');
+        snackBar(
+          context: context,
+          title: 'could_not_open_the_contact_page'.tr(),
+          isErrorMessage: true,
+        );
+      }
+    } catch (e, s) {
+      printError('Exception occurred: $e');
+      printError('Stack trace: $s');
+      snackBar(
+        context: context,
+        title: 'could_not_open_the_contact_page'.tr(),
+        isErrorMessage: true,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -51,18 +110,6 @@ class ProfileUserWidget extends StatelessWidget {
     return SectionComponentsWidget(lenght: 1, items: [faceIdWidget(context)]);
   }
 
-  Widget _buildTutorialSection(BuildContext context) {
-    return SectionComponentsWidget(
-      lenght: 1,
-      items: [
-        ShowcaseButton(
-          title: 'start_tutorial'.tr(),
-          description: 'tutorial_description'.tr(),
-        ),
-      ],
-    );
-  }
-
   Widget _buildPrivacySettingsSection(BuildContext context) {
     return SectionComponentsWidget(
       lenght: 3,
@@ -80,21 +127,7 @@ class ProfileUserWidget extends StatelessWidget {
           isGlobalSection: true,
         ),
         SectionItemWidget(
-          onTap: () async {
-            const url = 'https://x-secure.gmbh/contacts';
-            if (await canLaunchUrl(Uri.parse(url))) {
-              await launchUrl(
-                Uri.parse(url),
-                mode: LaunchMode.externalApplication,
-              );
-            } else {
-              snackBar(
-                context: context,
-                title: 'could_not_open_the_contact_page'.tr(),
-                isErrorMessage: true,
-              );
-            }
-          },
+          onTap: () => _launchUrl('https://x-secure.gmbh/contacts', context),
           title: "contact_ust".tr(),
           iconPath: Iconsax.message_copy,
           isGlobalSection: true,

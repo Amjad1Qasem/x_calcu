@@ -8,7 +8,6 @@ import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/constant/app_images.dart';
 
-
 Future<void> openDialog({
   required BuildContext context,
   String? title,
@@ -156,8 +155,8 @@ Future loginRequiredDialog({required BuildContext context}) => showDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Column(
           children: [
-            SvgPicture.asset(AppImages.loginRequiredSmall),
-            CommonSizes.vSmallSpace,
+            // SvgPicture.asset(AppImages.loginRequiredSmall),
+            // CommonSizes.vSmallSpace,
             Text(
               "login_required".tr(),
               style: Utils(context).normalText.copyWith(

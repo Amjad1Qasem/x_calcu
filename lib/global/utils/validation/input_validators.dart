@@ -71,9 +71,7 @@ class InputValidators {
   static String? validateRequired(String? value, {String? fieldName}) {
     if (value == null || value.trim().isEmpty) {
       return fieldName != null
-          ?
-          // tr('field_name_required', args: [fieldName])
-          'field_name_required'.tr().replaceAll('{fieldName}', fieldName)
+          ? 'this_field_is_required'.tr()
           : 'field_required'.tr();
     }
     return null;

@@ -90,7 +90,8 @@ class BiometricAuthCubit extends Cubit<BiometricAuthState> {
         options: const AuthenticationOptions(
           biometricOnly: true,
           stickyAuth: true,
-          useErrorDialogs: true,
+          useErrorDialogs: false,
+          sensitiveTransaction: true, // Force biometric authentication
         ),
       );
 
@@ -103,6 +104,46 @@ class BiometricAuthCubit extends Cubit<BiometricAuthState> {
       }
     } catch (e, s) {
       printError('Biometric Error: $e');
+      printError('Stack trace: $s');
+      emit(BiometricAuthState.error(error: e.toString()));
+    }
+  }
+
+  /// Force biometric authentication without cancel option
+  Future<void> forceBiometricAuthentication() async {
+    emit(const BiometricAuthState.loading());
+
+    try {
+      // Check if biometric is available on device
+      final isAvailable = await isBiometricAvailable();
+      if (!isAvailable) {
+        emit(BiometricAuthState.error(error: 'biometric_setup_required'.tr()));
+        return;
+      }
+
+      final availableBiometrics = await getAvailableBiometrics();
+      printInfo('Available biometrics: $availableBiometrics');
+
+      // Force authentication with no cancel option
+      final bool isAuthenticated = await _localAuth.authenticate(
+        localizedReason: 'biometric_required_to_continue'.tr(),
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+          useErrorDialogs: false,
+          sensitiveTransaction: true,
+        ),
+      );
+
+      if (isAuthenticated) {
+        printSuccess('Forced biometric authentication successful');
+        emit(const BiometricAuthState.authenticated());
+      } else {
+        printWarning('Forced biometric authentication failed');
+        emit(const BiometricAuthState.failed());
+      }
+    } catch (e, s) {
+      printError('Forced Biometric Error: $e');
       printError('Stack trace: $s');
       emit(BiometricAuthState.error(error: e.toString()));
     }

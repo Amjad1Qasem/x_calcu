@@ -49,8 +49,7 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
 
   @override
   void dispose() {
-    // Exit selection mode when leaving the screen
-    getIt<SelectionCubit>().exitSelectionMode();
+    // SelectionCubit will be created fresh each time, so no need to reset
     super.dispose();
   }
 

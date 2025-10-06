@@ -11,6 +11,7 @@ class SelectionCubit extends Cubit<SelectionState> {
 
   /// **Toggle selection mode on/off */
   void toggleSelectionMode() {
+    if (isClosed) return;
     state.when(
       initial: () => emit(const SelectionState.selectionMode()),
       selectionMode: () => emit(const SelectionState.initial()),
@@ -20,16 +21,27 @@ class SelectionCubit extends Cubit<SelectionState> {
 
   /// **Enter selection mode */
   void enterSelectionMode() {
+    if (isClosed) return;
     emit(const SelectionState.selectionMode());
   }
 
   /// **Exit selection mode */
   void exitSelectionMode() {
-    emit(const SelectionState.initial());
+    if (!isClosed) {
+      emit(const SelectionState.initial());
+    }
+  }
+
+  /// **Reset to initial state */
+  void resetToInitial() {
+    if (!isClosed) {
+      emit(const SelectionState.initial());
+    }
   }
 
   /// **Toggle item selection */
   void toggleItemSelection(PartnerDetailsOperation operation) {
+    if (isClosed) return;
     state.when(
       initial: () {
         // If not in selection mode, enter it first
@@ -42,15 +54,16 @@ class SelectionCubit extends Cubit<SelectionState> {
       selectionActive: (selectedItems) {
         final isSelected = selectedItems.any((item) => item.id == operation.id);
         List<PartnerDetailsOperation> newSelection;
-        
+
         if (isSelected) {
           // Remove from selection
-          newSelection = selectedItems.where((item) => item.id != operation.id).toList();
+          newSelection =
+              selectedItems.where((item) => item.id != operation.id).toList();
         } else {
           // Add to selection
           newSelection = [...selectedItems, operation];
         }
-        
+
         if (newSelection.isEmpty) {
           emit(const SelectionState.selectionMode());
         } else {
@@ -58,21 +71,24 @@ class SelectionCubit extends Cubit<SelectionState> {
         }
       },
     );
-    
-    printSuccess('Selection updated: ${state.maybeWhen(
-      selectionActive: (items) => '${items.length} items selected',
-      orElse: () => 'No items selected',
-    )}');
+
+    printSuccess(
+      'Selection updated: ${state.maybeWhen(selectionActive: (items) => '${items.length} items selected', orElse: () => 'No items selected')}',
+    );
   }
 
   /// **Select all items */
   void selectAll(List<PartnerDetailsOperation> allOperations) {
+    if (isClosed) return;
     emit(SelectionState.selectionActive(selectedItems: allOperations));
-    printSuccess('All ${allOperations.length} items selected');
+    printSuccess(
+      'All ***** ${allOperations.map((e) => e.id).join(', ')} items selected',
+    );
   }
 
   /// **Clear all selections */
   void clearSelection() {
+    if (isClosed) return;
     emit(const SelectionState.selectionMode());
     printSuccess('All selections cleared');
   }
@@ -80,8 +96,9 @@ class SelectionCubit extends Cubit<SelectionState> {
   /// **Check if item is selected */
   bool isItemSelected(PartnerDetailsOperation operation) {
     return state.maybeWhen(
-      selectionActive: (selectedItems) => 
-        selectedItems.any((item) => item.id == operation.id),
+      selectionActive:
+          (selectedItems) =>
+              selectedItems.any((item) => item.id == operation.id),
       orElse: () => false,
     );
   }

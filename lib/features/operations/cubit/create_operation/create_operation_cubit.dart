@@ -480,6 +480,12 @@ class CreateOperationCubit extends Cubit<CreateOperationState> {
   void _handleCreateFailure(dynamic error) {
     if (error is ValidationInputError) {
       _handleValidationError(error);
+    } else if (error is InternalServerError) {
+      _handleServerError(error);
+    } else if (error is NetworkFailure) {
+      _handleNetworkError(error);
+    } else if (error is ServerError || error is ServerFailure) {
+      _handleServerError(error);
     } else {
       _handleGenericError(error);
     }
@@ -493,6 +499,32 @@ class CreateOperationCubit extends Cubit<CreateOperationState> {
         isError: true,
         isLoading: false,
         isSuccess: false,
+        errorMessage: error.message,
+      ),
+    );
+  }
+
+  /// Handles server errors (500, 502, 503, 504)
+  void _handleServerError(dynamic error) {
+    printError('Server error: $error');
+    emit(
+      state.copyWith(
+        isError: true,
+        isSuccess: false,
+        isLoading: false,
+        errorMessage: error.message ?? 'internal_server_error'.tr(),
+      ),
+    );
+  }
+
+  /// Handles network errors
+  void _handleNetworkError(NetworkFailure error) {
+    printError('Network error: $error');
+    emit(
+      state.copyWith(
+        isError: true,
+        isSuccess: false,
+        isLoading: false,
         errorMessage: error.message,
       ),
     );

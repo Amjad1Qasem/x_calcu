@@ -15,11 +15,8 @@ class PdfService {
 
       final pdf = pw.Document();
 
-      // Add pages for operations
-      for (int i = 0; i < operations.length; i += 2) {
-        // Each page contains 2 operations
-        final pageOperations = operations.skip(i).take(2).toList();
-
+      // First page with header and first operation
+      if (operations.isNotEmpty) {
         pdf.addPage(
           pw.Page(
             pageFormat: PdfPageFormat.a4,
@@ -32,17 +29,41 @@ class PdfService {
                   _buildHeader(partnerName, operations.length),
                   pw.SizedBox(height: 20),
 
+                  // First operation
+                  _buildOperationCard(operations[0], 1),
+                ],
+              );
+            },
+          ),
+        );
+      }
+
+      // Remaining operations (2 per page)
+      for (int i = 1; i < operations.length; i += 2) {
+        // Each page contains 2 operations
+        final pageOperations = operations.skip(i).take(2).toList();
+
+        pdf.addPage(
+          pw.Page(
+            pageFormat: PdfPageFormat.a4,
+            margin: const pw.EdgeInsets.all(20),
+            build: (pw.Context context) {
+              return pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
                   // Operations
-                  ...pageOperations.map(
-                    (operation) => pw.Column(
+                  ...pageOperations.asMap().entries.map((entry) {
+                    final operationIndex = entry.key;
+                    final operation = entry.value;
+                    final globalOperationNumber = i + operationIndex + 1;
+                    return pw.Column(
                       children: [
-                        _buildOperationCard(operation),
-                        if (pageOperations.indexOf(operation) <
-                            pageOperations.length - 1)
+                        _buildOperationCard(operation, globalOperationNumber),
+                        if (operationIndex < pageOperations.length - 1)
                           pw.SizedBox(height: 20),
                       ],
-                    ),
-                  ),
+                    );
+                  }),
                 ],
               );
             },
@@ -105,7 +126,10 @@ class PdfService {
   }
 
   /// **Build operation card for PDF */
-  static pw.Widget _buildOperationCard(PartnerDetailsOperation operation) {
+  static pw.Widget _buildOperationCard(
+    PartnerDetailsOperation operation,
+    int operationNumber,
+  ) {
     return pw.Container(
       width: double.infinity,
       padding: const pw.EdgeInsets.all(16),
@@ -122,7 +146,7 @@ class PdfService {
             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
             children: [
               pw.Text(
-                'Operation #${operation.id ?? 'N/A'}',
+                'Operation #$operationNumber',
                 style: pw.TextStyle(
                   fontSize: 16,
                   fontWeight: pw.FontWeight.bold,
@@ -571,7 +595,8 @@ class PdfService {
                 pw.Text(
                   operation.notes!,
                   style: pw.TextStyle(fontSize: 14, color: PdfColors.grey800),
-                  maxLines: 3,
+                  textAlign: pw.TextAlign.start,
+                  maxLines: 10,
                   overflow: pw.TextOverflow.clip,
                 ),
               ],

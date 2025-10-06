@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'notification_model.freezed.dart';
@@ -35,9 +36,10 @@ extension NotificationTypeExtension on NotificationType {
   String get displayName {
     switch (this) {
       case NotificationType.input:
-        return 'Input Operation';
+        // return 'Input Operation';
+        return 'input_operation'.tr();
       case NotificationType.output:
-        return 'Output Operation';
+        return 'output_operation'.tr();
     }
   }
 

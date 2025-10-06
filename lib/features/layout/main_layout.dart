@@ -6,19 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:x_calcu/features/home/presentation/screen/home_screen.dart';
 import 'package:x_calcu/features/notification/presentation/screen/notification_screen.dart';
 import 'package:x_calcu/features/operations/presentation/screen/add_operations_screen.dart';
 import 'package:x_calcu/features/partners/presentation/screen/partners_screen.dart';
 import 'package:x_calcu/features/setting/presentation/screen/setting_screen.dart';
-import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
-import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/constant/app_images.dart';
-import 'package:x_calcu/global/utils/di/dependency_injection.dart';
-
-import '../../global/components/exit_handler_wrapper.dart';
+import 'package:x_calcu/global/components/exit_handler_wrapper.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({
@@ -36,74 +31,75 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   late PersistentTabController controller;
-  int _index = 0;
 
-  void _showNotAuthDialog(context) {
-    if (!getIt<AppStateModel>().isAuthenticated) {
-      loginRequiredDialog(context: context);
-    }
-  }
+  // void _showNotAuthDialog(context) {
+  //   if (!getIt<AppStateModel>().isAuthenticated) {
+  //     loginRequiredDialog(context: context);
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
     controller = PersistentTabController(initialIndex: widget.initialIndex);
-    _index = widget.initialIndex;
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   // Use post-frame callback to ensure the widget tree is fully built
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     _showNotAuthDialog(context);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppStateModel>(
-      builder: (context, appState, child) {
-        return PersistentTabView(
-          context,
-          controller: controller,
-          screens: _buildScreens(),
-          items: _navBarsItems(context: context),
-          onItemSelected: (index) async {
-            // if (index == 2) {
-            //   getIt<AppStateModel>().setClientType(clientType: 'client');
-            //   getIt<AppStateModel>().setStoreId(null);
-            //   _showNotAuthDialog(context);
-            //   return;
-            // }
-            setState(() {
-              _index = index;
-            });
-          },
-          handleAndroidBackButtonPress: true,
-          resizeToAvoidBottomInset: true,
-          stateManagement: true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          decoration: NavBarDecoration(
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 0.5,
-                offset: const Offset(0, -0),
-                color: const Color(0x2B000000).withAlpha(30),
-              ),
-            ],
-          ),
-          hideNavigationBarWhenKeyboardAppears: true,
-          isVisible: true,
-          animationSettings: const NavBarAnimationSettings(
-            navBarItemAnimation: ItemAnimationSettings(
-              duration: Duration(milliseconds: 400),
-              curve: Curves.fastEaseInToSlowEaseOut,
-            ),
-            screenTransitionAnimation: ScreenTransitionAnimationSettings(
-              animateTabTransition: true,
-              duration: Duration(milliseconds: 200),
-              screenTransitionAnimationType:
-                  ScreenTransitionAnimationType.slide,
-            ),
-          ),
-          confineToSafeArea: false,
-          navBarHeight: kBottomNavigationBarHeight + 0,
-          navBarStyle: NavBarStyle.style12,
-          // navBarStyle: NavBarStyle.style16,
-        );
+    return PersistentTabView(
+      context,
+      controller: controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(context: context),
+      onItemSelected: (index) async {
+        // if (index == 2) {
+        //   getIt<AppStateModel>().setClientType(clientType: 'client');
+        //   getIt<AppStateModel>().setStoreId(null);
+        //   _showNotAuthDialog(context);
+        //   return;
+        // }
+        // setState to rebuild if needed
+        setState(() {});
       },
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      decoration: NavBarDecoration(
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 0.5,
+            offset: const Offset(0, -0),
+            color: const Color(0x2B000000).withAlpha(30),
+          ),
+        ],
+      ),
+      hideNavigationBarWhenKeyboardAppears: true,
+      isVisible: true,
+      animationSettings: const NavBarAnimationSettings(
+        navBarItemAnimation: ItemAnimationSettings(
+          duration: Duration(milliseconds: 400),
+          curve: Curves.fastEaseInToSlowEaseOut,
+        ),
+        screenTransitionAnimation: ScreenTransitionAnimationSettings(
+          animateTabTransition: true,
+          duration: Duration(milliseconds: 200),
+          screenTransitionAnimationType: ScreenTransitionAnimationType.slide,
+        ),
+      ),
+      confineToSafeArea: false,
+      navBarHeight: kBottomNavigationBarHeight + 0,
+      navBarStyle: NavBarStyle.style12,
+      // navBarStyle: NavBarStyle.style16,
     );
   }
 }

@@ -39,27 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   children: [
-            //     /* Language Btn */
-            //     // GestureDetector(
-            //     //   onTap: () => showLanguageBottomSheet(context),
-            //     //   child: CircleAvatar(
-            //     //     backgroundColor: Utils(context).primary,
-            //     //     child: Icon(
-            //     //       Icons.translate,
-            //     //       color: Colors.white,
-            //     //       size: 14.sp,
-            //     //     ),
-            //     //   ),
-            //     // ),
-            //   ],
-            // ),
-            // CommonSizes.vSmallestSpace,
             const LogoAvatar(),
-            // CommonSizes.vBigSpaSce,
             LoginForm(formKey: loginForm, onFieldChanged: onFieldChanged),
             CommonSizes.vBigSpace,
             LoginButton(formKey: loginForm, isFormValid: isFormValid),
@@ -80,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  /// **Build Divider with "OR" Text**
   Widget _buildDividerWithOr(BuildContext context) {
     return Row(
       children: [

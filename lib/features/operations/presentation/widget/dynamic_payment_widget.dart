@@ -29,11 +29,35 @@ class DynamicPaymentWidget extends StatefulWidget {
 
 class _DynamicPaymentWidgetState extends State<DynamicPaymentWidget> {
   late List<DynamicPaymentItem> _items;
+  final Map<int, TextEditingController> _valueControllers = {};
+  final Map<int, TextEditingController> _dateControllers = {};
 
   @override
   void initState() {
     super.initState();
     _items = List.from(widget.items);
+    _initializeControllers();
+  }
+
+  void _initializeControllers() {
+    for (int i = 0; i < _items.length; i++) {
+      _valueControllers[i] = TextEditingController(
+        text: _items[i].invoiceValue,
+      );
+      _dateControllers[i] = TextEditingController(text: _items[i].invoiceDate);
+    }
+  }
+
+  @override
+  void dispose() {
+    // Dispose all controllers
+    for (final controller in _valueControllers.values) {
+      controller.dispose();
+    }
+    for (final controller in _dateControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -106,8 +130,16 @@ class _DynamicPaymentWidgetState extends State<DynamicPaymentWidget> {
   }
 
   Widget _buildPaymentItem(int index, DynamicPaymentItem item) {
-    final valueController = TextEditingController(text: item.invoiceValue);
-    final dateController = TextEditingController(text: item.invoiceDate);
+    // Get or create controllers for this index
+    if (!_valueControllers.containsKey(index)) {
+      _valueControllers[index] = TextEditingController(text: item.invoiceValue);
+    }
+    if (!_dateControllers.containsKey(index)) {
+      _dateControllers[index] = TextEditingController(text: item.invoiceDate);
+    }
+
+    final valueController = _valueControllers[index]!;
+    final dateController = _dateControllers[index]!;
 
     return Container(
       margin: EdgeInsets.only(bottom: 12.sp),
@@ -174,7 +206,11 @@ class _DynamicPaymentWidgetState extends State<DynamicPaymentWidget> {
 
   void _addNewItem() {
     setState(() {
+      final newIndex = _items.length;
       _items.add(DynamicPaymentItem(invoiceValue: '', invoiceDate: ''));
+      // Create controllers for the new item
+      _valueControllers[newIndex] = TextEditingController();
+      _dateControllers[newIndex] = TextEditingController();
     });
     widget.onItemsChanged(_items);
     printSuccess('Added new ${widget.title.toLowerCase()} item');
@@ -182,6 +218,26 @@ class _DynamicPaymentWidgetState extends State<DynamicPaymentWidget> {
 
   void _removeItem(int index) {
     setState(() {
+      // Dispose controllers for the removed item
+      _valueControllers[index]?.dispose();
+      _dateControllers[index]?.dispose();
+      _valueControllers.remove(index);
+      _dateControllers.remove(index);
+
+      // Shift remaining controllers down
+      final keysToUpdate =
+          _valueControllers.keys.where((key) => key > index).toList();
+      for (final key in keysToUpdate) {
+        final valueController = _valueControllers.remove(key);
+        final dateController = _dateControllers.remove(key);
+        if (valueController != null) {
+          _valueControllers[key - 1] = valueController;
+        }
+        if (dateController != null) {
+          _dateControllers[key - 1] = dateController;
+        }
+      }
+
       _items.removeAt(index);
     });
     widget.onItemsChanged(_items);

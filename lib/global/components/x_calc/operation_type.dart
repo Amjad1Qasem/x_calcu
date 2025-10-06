@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/global/design/color_app.dart';
@@ -20,7 +21,7 @@ class OperationType extends StatelessWidget {
     final Color textColor =
         isInput ? ColorManager.greenDark : ColorManager.redDark;
     final String operationText =
-        isInput ? 'Input operation' : 'Output operation';
+        isInput ? 'input_operation'.tr() : 'output_operation'.tr();
 
     // Define the shadow for the text
     final List<Shadow> textShadow = [
@@ -43,7 +44,7 @@ class OperationType extends StatelessWidget {
         style: Utils(context).normalText.copyWith(
           color: textColor,
           fontWeight: FontWeight.bold,
-          shadows: textShadow, 
+          shadows: textShadow,
         ),
       ),
     );

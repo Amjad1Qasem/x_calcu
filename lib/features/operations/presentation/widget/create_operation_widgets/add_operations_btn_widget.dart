@@ -5,7 +5,6 @@ import 'package:x_calcu/features/operations/cubit/create_operation/create_operat
 import 'package:x_calcu/global/components/app_button.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
-import 'package:x_calcu/global/utils/navigation/navigation_helper.dart';
 
 class AddOperationsBtnWidget extends StatelessWidget {
   final CreateOperationCubit? createOperationCubit;
@@ -51,57 +50,8 @@ class AddOperationsBtnWidget extends StatelessWidget {
     CreateOperationState state,
     CreateOperationCubit cubit,
   ) {
-    if (state.isSuccess) {
-      _handleSuccess(context, cubit);
-    } else if (state.isError) {
-      _handleError(context, state, cubit);
-    }
-  }
-
-  /// Handles successful operation creation
-  void _handleSuccess(BuildContext context, CreateOperationCubit cubit) {
-    snackBar(
-      context: context,
-      title: 'operation_created_successfully'.tr(),
-      isErrorMessage: false,
-    );
-
-    cubit.resetState();
-    _navigateToHome(context);
-  }
-
-  /// Handles operation creation errors
-  void _handleError(
-    BuildContext context,
-    CreateOperationState state,
-    CreateOperationCubit cubit,
-  ) {
-    final errorMessage = _getErrorMessage(state, cubit);
-    snackBar(context: context, title: errorMessage, isErrorMessage: true);
-  }
-
-  /// Gets the appropriate error message
-  String _getErrorMessage(
-    CreateOperationState state,
-    CreateOperationCubit cubit,
-  ) {
-    if (cubit.validationErrors.isNotEmpty) {
-      final firstError = cubit.validationErrors.values.first;
-      if (firstError is List && firstError.isNotEmpty) {
-        return firstError.first.toString();
-      }
-    }
-
-    if (state.errorMessage.isNotEmpty) {
-      return state.errorMessage;
-    }
-
-    return 'failed_to_create_operation'.tr();
-  }
-
-  /// Navigates to home screen
-  void _navigateToHome(BuildContext context) {
-    NavigationHelper.goToHome(context);
+    // State changes are now handled in the screen's BlocConsumer
+    // This method is kept for compatibility but does nothing
   }
 
   /// Builds the button widgets
@@ -112,7 +62,7 @@ class AddOperationsBtnWidget extends StatelessWidget {
   ) {
     return Column(
       children: [
-        _buildTestDataButton(context, state, cubit),
+        // _buildTestDataButton(context, state, cubit),
         const SizedBox(height: 12),
         _buildAddButton(context, state, cubit),
       ],

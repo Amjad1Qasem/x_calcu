@@ -1,6 +1,5 @@
 import 'package:go_router/go_router.dart';
 import 'package:x_calcu/features/home/presentation/screen/home_screen.dart';
-import 'package:x_calcu/features/companies/presentation/screen/companies_screen.dart';
 import 'package:x_calcu/features/layout/main_layout.dart';
 import 'package:x_calcu/features/login/presentation/screen/login_screen.dart';
 import 'package:x_calcu/features/notification/presentation/screen/notification_screen.dart';
@@ -75,11 +74,6 @@ final GoRouter router = GoRouter(
       path: RouterPath.notificationScreen,
       name: RouterPath.notificationScreen,
       builder: (context, state) => const NotificationScreen(),
-    ),
-    GoRoute(
-      path: RouterPath.companiesScreen,
-      name: RouterPath.companiesScreen,
-      builder: (context, state) => const CompaniesScreen(),
     ),
     GoRoute(
       path: RouterPath.partnersScreen,

@@ -1,16 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:x_calcu/global/components/app_button.dart';
-import 'package:x_calcu/global/components/user_messages/popup_widget.dart';
 import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/design/common_sizes.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
-import 'package:x_calcu/global/utils/constant/app_images.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
+import 'package:x_calcu/global/utils/router/router_path.dart';
 
 class AuthGuard extends StatelessWidget {
   final Widget child;
@@ -18,57 +15,33 @@ class AuthGuard extends StatelessWidget {
 
   const AuthGuard({super.key, required this.child, this.title});
 
-  void _showLoginPopup(BuildContext context) {
-    loginRequiredDialog(context: context);
-  }
-
-  void _handleTap(BuildContext context) {
-    final isLoggedIn = getIt<AppStateModel>().isAuthenticated;
-
-    if (!isLoggedIn) {
-      _showLoginPopup(context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = getIt<AppStateModel>().isAuthenticated;
 
-    return GestureDetector(
-      onTap: () => _handleTap(context),
-      child: AbsorbPointer(
-        absorbing: !isLoggedIn,
-        child:
-            isLoggedIn
-                ? child
-                : Center(
-                  child: Container(
-                    width: 500.w,
-                    // height: containerHeight,
-                    margin: EdgeInsets.symmetric(horizontal: 20.w),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 15.h,
-                      vertical: 12.w,
-                    ),
-                    decoration: BoxDecoration(
-                      // color: Colors.red,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _buildWarningIcon(500.w * 0.5),
-                        CommonSizes.vSmallestSpace,
-                        _buildMessageText(context, 500.w * 0.5),
-                        CommonSizes.vSmallestSpace,
-                        _buildRetryButton(context, 500.w * 0.5),
-                      ],
-                    ),
-                  ),
-                ),
-      ),
-    );
+    return isLoggedIn
+        ? child
+        : Center(
+          child: Container(
+            width: 500.w,
+            margin: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 12.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildWarningIcon(500.w * 0.5),
+                CommonSizes.vSmallestSpace,
+                _buildMessageText(context, 500.w * 0.5),
+                CommonSizes.vSmallestSpace,
+                _buildRetryButton(context, 500.w * 0.5),
+              ],
+            ),
+          ),
+        );
   }
 
   Widget _buildWarningIcon(double containerHeight) {
@@ -84,8 +57,6 @@ class AuthGuard extends StatelessWidget {
   }
 
   Widget _buildMessageText(BuildContext context, double containerHeight) {
-    // double fontSize = (containerHeight * 0.08).clamp(12.sp, 18.sp);
-
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Column(
@@ -97,7 +68,6 @@ class AuthGuard extends StatelessWidget {
             ).blackBigText.copyWith(fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
-
           CommonSizes.vSmallestSpace,
           Text(
             'you_need_to_login_to_access_this_page'.tr(),
@@ -110,28 +80,40 @@ class AuthGuard extends StatelessWidget {
   }
 
   Widget _buildRetryButton(BuildContext context, double containerHeight) {
-    // double buttonHeight = (containerHeight * 0.15).clamp(30.h, 50.h);
-
     return FractionallySizedBox(
       widthFactor: 0.7,
-      child: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton.icon(
-          iconAlignment: IconAlignment.end,
-          onPressed: () {
-            _handleTap(context);
-          },
-          icon: const Icon(Iconsax.login, color: Colors.white),
-          label: Text(
-            'login'.tr(),
-            style: const TextStyle(color: Colors.white),
+      child: GestureDetector(
+        onTap: () {
+          print("Button pressed - navigating to login");
+          context.go(RouterPath.loginScreen);
+        },
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'login'.tr(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(Iconsax.login, color: Colors.white, size: 20),
+            ],
           ),
         ),
       ),

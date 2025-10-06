@@ -8,11 +8,7 @@ class ForgetPasswordText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // getIt<AuthCubit>().phoneCodeCont.clear();
-        // getIt<AuthCubit>().phoneCont.clear();
-        // context.push(RouterPath.confirmNumberScreen);
-      },
+      onTap: () {},
       child: Align(
         alignment: Alignment.bottomRight,
         child: Text(

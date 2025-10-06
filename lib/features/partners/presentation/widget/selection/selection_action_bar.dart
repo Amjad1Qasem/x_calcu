@@ -8,7 +8,6 @@ import 'package:x_calcu/features/partners/data/models/partner_details_model.dart
 import 'package:x_calcu/features/partners/services/pdf_service.dart';
 import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
-import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
 class SelectionActionBar extends StatelessWidget {
@@ -26,8 +25,8 @@ class SelectionActionBar extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
       child: BlocBuilder<SelectionCubit, SelectionState>(
-        bloc: getIt<SelectionCubit>(),
         builder: (context, state) {
+          printSuccess('🔍 Selection state: $state');
           return state.when(
             initial: () => const SizedBox.shrink(),
             selectionMode: () => _buildSelectionModeBar(context),
@@ -53,7 +52,7 @@ class SelectionActionBar extends StatelessWidget {
               icon: Iconsax.tick_circle,
               label: 'select_all'.tr(),
               onTap: () {
-                getIt<SelectionCubit>().selectAll(allOperations);
+                context.read<SelectionCubit>().selectAll(allOperations);
               },
               color: Utils(context).primary,
             ),
@@ -66,7 +65,7 @@ class SelectionActionBar extends StatelessWidget {
               icon: Iconsax.close_circle,
               label: 'cancel'.tr(),
               onTap: () {
-                getIt<SelectionCubit>().exitSelectionMode();
+                context.read<SelectionCubit>().exitSelectionMode();
               },
               color: Utils(context).red,
             ),
@@ -93,7 +92,7 @@ class SelectionActionBar extends StatelessWidget {
               icon: Iconsax.refresh,
               label: 'clear_selection'.tr(),
               onTap: () {
-                getIt<SelectionCubit>().clearSelection();
+                context.read<SelectionCubit>().clearSelection();
               },
               color: Colors.orange,
             ),
@@ -117,7 +116,7 @@ class SelectionActionBar extends StatelessWidget {
               icon: Iconsax.close_circle,
               label: 'cancel'.tr(),
               onTap: () {
-                getIt<SelectionCubit>().exitSelectionMode();
+                context.read<SelectionCubit>().exitSelectionMode();
               },
               color: Utils(context).red,
             ),
@@ -190,7 +189,7 @@ class SelectionActionBar extends StatelessWidget {
         Navigator.of(context).pop();
 
         // Exit selection mode
-        getIt<SelectionCubit>().exitSelectionMode();
+        context.read<SelectionCubit>().exitSelectionMode();
 
         // Show success message
         snackBar(

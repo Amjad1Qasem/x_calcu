@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -57,7 +58,7 @@ class OperationCard extends StatelessWidget {
             CommonSizes.vPluSmallerSpace,
             AppButton(
               onTap: onTap,
-              label: 'Show details',
+              label: 'show_details'.tr(),
               icon: Iconsax.eye_copy,
               padding: EdgeInsets.zero,
               raduis: 16.r,
@@ -93,9 +94,9 @@ class OperationCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Amount due: ', style: Utils(context).normalText),
+            Text("${'amount_due'.tr()} :", style: Utils(context).normalText),
             Text(
-              dueAmount?.toStringAsFixed(0) ?? 'لا يوجد',
+              dueAmount?.toStringAsFixed(0) ?? 'no_data'.tr(),
               style: Utils(
                 context,
               ).normalText.copyWith(fontWeight: FontWeight.bold),
@@ -128,7 +129,7 @@ class OperationCard extends StatelessWidget {
         Icon(CupertinoIcons.person, size: 20.sp, color: Utils(context).primary),
         CommonSizes.hTheSmallestSpace,
         Text(
-          clientName ?? 'لا يوجد',
+          clientName ?? 'no_data'.tr(),
           style: Utils(
             context,
           ).normalText.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600),

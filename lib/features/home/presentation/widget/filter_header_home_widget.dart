@@ -1,4 +1,3 @@
-// Sticky Filter Header
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,14 +14,13 @@ class FilterHeaderHomeWidget extends SliverPersistentHeaderDelegate {
     return BlocBuilder<HomeCubit, HomeState>(
       bloc: cubit,
       buildWhen: (previous, current) {
-        // Only rebuild when the state actually changes
         return previous.runtimeType != current.runtimeType;
       },
       builder: (context, state) {
         return Container(
           color: Utils(context).background,
           padding: EdgeInsets.symmetric(horizontal: 2, vertical: 0.h),
-          child: Center(child: _buildShowcaseWidget(cubit, state)),
+          child: Center(child: _buildToggleWidget(cubit, state)),
         );
       },
     );
@@ -38,9 +36,7 @@ class FilterHeaderHomeWidget extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
       false;
 
-  Widget _buildShowcaseWidget(HomeCubit cubit, HomeState state) {
-    // For now, disable showcase to avoid GlobalKey conflicts
-    // TODO: Re-enable showcase with proper key management
+  Widget _buildToggleWidget(HomeCubit cubit, HomeState state) {
     return AnimatedToggleButton(
       values: ["input".tr(), "output".tr()],
       state: cubit.isInput,

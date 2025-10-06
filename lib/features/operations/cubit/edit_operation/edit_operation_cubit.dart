@@ -316,6 +316,30 @@ class EditOperationCubit extends Cubit<EditOperationState> {
               errorMessage: error.message,
             ),
           );
+        } else if (error is InternalServerError) {
+          emit(
+            state.copyWith(
+              isError: true,
+              isLoading: false,
+              errorMessage: error.message,
+            ),
+          );
+        } else if (error is NetworkFailure) {
+          emit(
+            state.copyWith(
+              isError: true,
+              isLoading: false,
+              errorMessage: error.message,
+            ),
+          );
+        } else if (error is ServerError || error is ServerFailure) {
+          emit(
+            state.copyWith(
+              isError: true,
+              isLoading: false,
+              errorMessage: error.message,
+            ),
+          );
         } else {
           emit(
             state.copyWith(

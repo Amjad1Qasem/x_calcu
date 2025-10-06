@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:x_calcu/global/bloc/theme_bloc/theme_bloc.dart';
 import 'package:x_calcu/global/core/app_state.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
@@ -31,9 +30,7 @@ class MyApp extends StatelessWidget {
           builder: (_, child) {
             return BlocBuilder<ThemeBloc, ThemeState>(
               bloc: getIt<ThemeBloc>(),
-              buildWhen:
-                  (previous, current) =>
-                      current is ThemeFetched, // Ensure rebuild
+              buildWhen: (previous, current) => current is ThemeFetched,
               builder: (context, state) {
                 final themeMode =
                     state is ThemeFetched ? state.themeMode : ThemeMode.light;
@@ -41,24 +38,17 @@ class MyApp extends StatelessWidget {
                     themeMode == ThemeMode.dark
                         ? AppThemes.dark
                         : AppThemes.light;
-                return ShowCaseWidget(
-                  builder:
-                      (context) => MaterialApp.router(
-                        builder: (context, child) {
-                          return DevicePreview.appBuilder(context, child);
-                          // final appBuilder = DevicePreview.appBuilder(context, child);
-                          // return DeepLinkListener(child: appBuilder);
-                        },
-                        localizationsDelegates: [
-                          ...context.localizationDelegates,
-                        ],
-                        supportedLocales: context.supportedLocales,
-                        locale: context.locale,
-                        debugShowCheckedModeBanner: false,
-                        theme: themeData,
-                        themeMode: themeMode,
-                        routerConfig: router,
-                      ),
+                return MaterialApp.router(
+                  builder: (context, child) {
+                    return DevicePreview.appBuilder(context, child);
+                  },
+                  localizationsDelegates: [...context.localizationDelegates],
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
+                  debugShowCheckedModeBanner: false,
+                  theme: themeData,
+                  themeMode: themeMode,
+                  routerConfig: router,
                 );
               },
             );
