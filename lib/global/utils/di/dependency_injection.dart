@@ -5,6 +5,7 @@ import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
 import 'package:x_calcu/features/login/data/auth_repo.dart';
 import 'package:x_calcu/features/notification/cubit/notification_cubit.dart';
 import 'package:x_calcu/features/notification/data/notification_repo.dart';
+import 'package:x_calcu/features/operations/cubit/delete_operation/delete_operation_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/get_partner/get_partner_drop_down_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/operations/operations_cubit.dart';
 import 'package:x_calcu/features/operations/cubit/edit_operation/edit_operation_cubit.dart';
@@ -100,4 +101,8 @@ void dependencyInjectionSetup() {
     () => StatisticsCubit(getIt<PartnerRepo>()),
   );
   getIt.registerFactory<SelectionCubit>(() => SelectionCubit());
+
+  getIt.registerLazySingleton<DeleteOperationCubit>(
+    () => DeleteOperationCubit(getIt<OperationsRepo>()),
+  );
 }

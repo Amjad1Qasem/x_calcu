@@ -22,9 +22,9 @@ mixin _$AuthState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) => throw _privateConstructorUsedError;
@@ -33,9 +33,9 @@ mixin _$AuthState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) => throw _privateConstructorUsedError;
@@ -44,9 +44,9 @@ mixin _$AuthState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -56,9 +56,9 @@ mixin _$AuthState {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -68,9 +68,9 @@ mixin _$AuthState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -80,9 +80,9 @@ mixin _$AuthState {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,
@@ -156,9 +156,9 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) {
@@ -171,9 +171,9 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) {
@@ -186,9 +186,9 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -205,9 +205,9 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -221,9 +221,9 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -237,9 +237,9 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,
@@ -302,9 +302,9 @@ class _$LoadingImpl implements Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) {
@@ -317,9 +317,9 @@ class _$LoadingImpl implements Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) {
@@ -332,9 +332,9 @@ class _$LoadingImpl implements Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -351,9 +351,9 @@ class _$LoadingImpl implements Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -367,9 +367,9 @@ class _$LoadingImpl implements Loading {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -383,9 +383,9 @@ class _$LoadingImpl implements Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,
@@ -487,9 +487,9 @@ class _$SuccessImpl implements Success {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) {
@@ -502,9 +502,9 @@ class _$SuccessImpl implements Success {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) {
@@ -517,9 +517,9 @@ class _$SuccessImpl implements Success {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -536,9 +536,9 @@ class _$SuccessImpl implements Success {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -552,9 +552,9 @@ class _$SuccessImpl implements Success {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -568,9 +568,9 @@ class _$SuccessImpl implements Success {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,
@@ -592,6 +592,187 @@ abstract class Success implements AuthState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ErrorImplCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+    _$ErrorImpl value,
+    $Res Function(_$ErrorImpl) then,
+  ) = __$$ErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+    _$ErrorImpl _value,
+    $Res Function(_$ErrorImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? message = null}) {
+    return _then(
+      _$ErrorImpl(
+        null == message
+            ? _value.message
+            : message // ignore: cast_nullable_to_non_nullable
+                as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ErrorImpl implements Error {
+  const _$ErrorImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'AuthState.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
+    required TResult Function(AuthModel accountDetails) suspended,
+    required TResult Function(AuthModel accountDetails) banned,
+    required TResult Function(bool isVisible) passwordVisibilityToggled,
+    required TResult Function() loggedOut,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
+    TResult? Function(AuthModel accountDetails)? suspended,
+    TResult? Function(AuthModel accountDetails)? banned,
+    TResult? Function(bool isVisible)? passwordVisibilityToggled,
+    TResult? Function()? loggedOut,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
+    TResult Function(AuthModel accountDetails)? suspended,
+    TResult Function(AuthModel accountDetails)? banned,
+    TResult Function(bool isVisible)? passwordVisibilityToggled,
+    TResult Function()? loggedOut,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
+    required TResult Function(Suspended value) suspended,
+    required TResult Function(Banned value) banned,
+    required TResult Function(PasswordVisibilityToggled value)
+    passwordVisibilityToggled,
+    required TResult Function(LoggedOut value) loggedOut,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
+    TResult? Function(Suspended value)? suspended,
+    TResult? Function(Banned value)? banned,
+    TResult? Function(PasswordVisibilityToggled value)?
+    passwordVisibilityToggled,
+    TResult? Function(LoggedOut value)? loggedOut,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
+    TResult Function(Suspended value)? suspended,
+    TResult Function(Banned value)? banned,
+    TResult Function(PasswordVisibilityToggled value)?
+    passwordVisibilityToggled,
+    TResult Function(LoggedOut value)? loggedOut,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error implements AuthState {
+  const factory Error(final String message) = _$ErrorImpl;
+
+  String get message;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -681,9 +862,9 @@ class _$SuspendedImpl implements Suspended {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) {
@@ -696,9 +877,9 @@ class _$SuspendedImpl implements Suspended {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) {
@@ -711,9 +892,9 @@ class _$SuspendedImpl implements Suspended {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -730,9 +911,9 @@ class _$SuspendedImpl implements Suspended {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -746,9 +927,9 @@ class _$SuspendedImpl implements Suspended {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -762,9 +943,9 @@ class _$SuspendedImpl implements Suspended {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,
@@ -875,9 +1056,9 @@ class _$BannedImpl implements Banned {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) {
@@ -890,9 +1071,9 @@ class _$BannedImpl implements Banned {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) {
@@ -905,9 +1086,9 @@ class _$BannedImpl implements Banned {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -924,9 +1105,9 @@ class _$BannedImpl implements Banned {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -940,9 +1121,9 @@ class _$BannedImpl implements Banned {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -956,9 +1137,9 @@ class _$BannedImpl implements Banned {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,
@@ -980,187 +1161,6 @@ abstract class Banned implements AuthState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BannedImplCopyWith<_$BannedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ErrorImplCopyWith<$Res> {
-  factory _$$ErrorImplCopyWith(
-    _$ErrorImpl value,
-    $Res Function(_$ErrorImpl) then,
-  ) = __$$ErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$AuthStateCopyWithImpl<$Res, _$ErrorImpl>
-    implements _$$ErrorImplCopyWith<$Res> {
-  __$$ErrorImplCopyWithImpl(
-    _$ErrorImpl _value,
-    $Res Function(_$ErrorImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? message = null}) {
-    return _then(
-      _$ErrorImpl(
-        null == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$ErrorImpl implements Error {
-  const _$ErrorImpl(this.message);
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'AuthState.error(message: $message)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ErrorImpl &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(AuthModel user) success,
-    required TResult Function(AuthModel accountDetails) suspended,
-    required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
-    required TResult Function(bool isVisible) passwordVisibilityToggled,
-    required TResult Function() loggedOut,
-  }) {
-    return error(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(AuthModel user)? success,
-    TResult? Function(AuthModel accountDetails)? suspended,
-    TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
-    TResult? Function(bool isVisible)? passwordVisibilityToggled,
-    TResult? Function()? loggedOut,
-  }) {
-    return error?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(AuthModel user)? success,
-    TResult Function(AuthModel accountDetails)? suspended,
-    TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
-    TResult Function(bool isVisible)? passwordVisibilityToggled,
-    TResult Function()? loggedOut,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Success value) success,
-    required TResult Function(Suspended value) suspended,
-    required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
-    required TResult Function(PasswordVisibilityToggled value)
-    passwordVisibilityToggled,
-    required TResult Function(LoggedOut value) loggedOut,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Success value)? success,
-    TResult? Function(Suspended value)? suspended,
-    TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
-    TResult? Function(PasswordVisibilityToggled value)?
-    passwordVisibilityToggled,
-    TResult? Function(LoggedOut value)? loggedOut,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Success value)? success,
-    TResult Function(Suspended value)? suspended,
-    TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
-    TResult Function(PasswordVisibilityToggled value)?
-    passwordVisibilityToggled,
-    TResult Function(LoggedOut value)? loggedOut,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Error implements AuthState {
-  const factory Error(final String message) = _$ErrorImpl;
-
-  String get message;
-
-  /// Create a copy of AuthState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1240,9 +1240,9 @@ class _$PasswordVisibilityToggledImpl implements PasswordVisibilityToggled {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) {
@@ -1255,9 +1255,9 @@ class _$PasswordVisibilityToggledImpl implements PasswordVisibilityToggled {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) {
@@ -1270,9 +1270,9 @@ class _$PasswordVisibilityToggledImpl implements PasswordVisibilityToggled {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -1289,9 +1289,9 @@ class _$PasswordVisibilityToggledImpl implements PasswordVisibilityToggled {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -1305,9 +1305,9 @@ class _$PasswordVisibilityToggledImpl implements PasswordVisibilityToggled {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -1321,9 +1321,9 @@ class _$PasswordVisibilityToggledImpl implements PasswordVisibilityToggled {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,
@@ -1395,9 +1395,9 @@ class _$LoggedOutImpl implements LoggedOut {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(AuthModel user) success,
+    required TResult Function(String message) error,
     required TResult Function(AuthModel accountDetails) suspended,
     required TResult Function(AuthModel accountDetails) banned,
-    required TResult Function(String message) error,
     required TResult Function(bool isVisible) passwordVisibilityToggled,
     required TResult Function() loggedOut,
   }) {
@@ -1410,9 +1410,9 @@ class _$LoggedOutImpl implements LoggedOut {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(AuthModel user)? success,
+    TResult? Function(String message)? error,
     TResult? Function(AuthModel accountDetails)? suspended,
     TResult? Function(AuthModel accountDetails)? banned,
-    TResult? Function(String message)? error,
     TResult? Function(bool isVisible)? passwordVisibilityToggled,
     TResult? Function()? loggedOut,
   }) {
@@ -1425,9 +1425,9 @@ class _$LoggedOutImpl implements LoggedOut {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(AuthModel user)? success,
+    TResult Function(String message)? error,
     TResult Function(AuthModel accountDetails)? suspended,
     TResult Function(AuthModel accountDetails)? banned,
-    TResult Function(String message)? error,
     TResult Function(bool isVisible)? passwordVisibilityToggled,
     TResult Function()? loggedOut,
     required TResult orElse(),
@@ -1444,9 +1444,9 @@ class _$LoggedOutImpl implements LoggedOut {
     required TResult Function(_Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Success value) success,
+    required TResult Function(Error value) error,
     required TResult Function(Suspended value) suspended,
     required TResult Function(Banned value) banned,
-    required TResult Function(Error value) error,
     required TResult Function(PasswordVisibilityToggled value)
     passwordVisibilityToggled,
     required TResult Function(LoggedOut value) loggedOut,
@@ -1460,9 +1460,9 @@ class _$LoggedOutImpl implements LoggedOut {
     TResult? Function(_Initial value)? initial,
     TResult? Function(Loading value)? loading,
     TResult? Function(Success value)? success,
+    TResult? Function(Error value)? error,
     TResult? Function(Suspended value)? suspended,
     TResult? Function(Banned value)? banned,
-    TResult? Function(Error value)? error,
     TResult? Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult? Function(LoggedOut value)? loggedOut,
@@ -1476,9 +1476,9 @@ class _$LoggedOutImpl implements LoggedOut {
     TResult Function(_Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Success value)? success,
+    TResult Function(Error value)? error,
     TResult Function(Suspended value)? suspended,
     TResult Function(Banned value)? banned,
-    TResult Function(Error value)? error,
     TResult Function(PasswordVisibilityToggled value)?
     passwordVisibilityToggled,
     TResult Function(LoggedOut value)? loggedOut,

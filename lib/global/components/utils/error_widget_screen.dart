@@ -48,8 +48,8 @@ class ErrorWidgetScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            isIcon ? _buildWarningIcon(containerHeight) : SizedBox.shrink(),
-            CommonSizes.vSmallestSpace,
+            // isIcon ? _buildWarningIcon(containerHeight) : SizedBox.shrink(),
+            // CommonSizes.vSmallestSpace,
             _buildMessageText(context, containerHeight),
             CommonSizes.vSmallestSpace,
             _buildRetryButton(context, containerHeight),

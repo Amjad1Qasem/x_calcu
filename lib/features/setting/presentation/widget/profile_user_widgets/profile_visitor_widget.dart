@@ -38,7 +38,7 @@ class ProfileVisitorWidget extends StatelessWidget {
 
   Widget _buildPrivacySettingsSection(BuildContext context) {
     return SectionComponentsWidget(
-      lenght: 3,
+      lenght: 2,
       items: [
         SectionItemWidget(
           onTap: () => context.push(RouterPath.privacyPolicyScreen),
@@ -46,12 +46,12 @@ class ProfileVisitorWidget extends StatelessWidget {
           iconPath: Iconsax.security_safe_copy,
           isGlobalSection: true,
         ),
-        SectionItemWidget(
-          onTap: () {},
-          title: "help_and_support".tr(),
-          iconPath: Iconsax.message_question_copy,
-          isGlobalSection: true,
-        ),
+        // SectionItemWidget(
+        //   onTap: () {},
+        //   title: "help_and_support".tr(),
+        //   iconPath: Iconsax.message_question_copy,
+        //   isGlobalSection: true,
+        // ),
         SectionItemWidget(
           onTap: () => loginRequiredDialog(context: context),
           title: "contact_ust".tr(),

@@ -57,6 +57,21 @@ class TermsAndConditionsScreen extends StatelessWidget {
             ),
             _buildTermsSection(
               context,
+              "terms_user_obligations",
+              "terms_user_obligations_content",
+            ),
+            _buildTermsSection(
+              context,
+              "terms_data_protection",
+              "terms_data_protection_content",
+            ),
+            _buildTermsSection(
+              context,
+              "terms_termination",
+              "terms_termination_content",
+            ),
+            _buildTermsSection(
+              context,
               "terms_modifications",
               "terms_modifications_content",
             ),
@@ -64,6 +79,11 @@ class TermsAndConditionsScreen extends StatelessWidget {
               context,
               "terms_governing_law",
               "terms_governing_law_content",
+            ),
+            _buildTermsSection(
+              context,
+              "terms_contact",
+              "terms_contact_content",
             ),
             CommonSizes.vBigSpace,
           ],

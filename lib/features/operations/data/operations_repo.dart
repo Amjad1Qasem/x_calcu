@@ -61,6 +61,14 @@ class OperationsRepo {
     );
   }
 
+  //* Delete Operation */
+  Future<Result<bool>> deleteOperation({required int operationId}) async {
+    return await DioHelper.deleteModel(
+      url: UrlApi.deleteOperation(operationId),
+      body: {}, // Empty body for DELETE request
+    );
+  }
+
   //* Get Operations Data with Filtering */
   Future<Result<List<OperationModel>>> getOperationsDataWithFilter({
     String? operationType,

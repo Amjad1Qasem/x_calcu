@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:x_calcu/features/operations/data/operations_model.dart';
@@ -12,21 +13,30 @@ import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/functions/format_time.dart';
 
 // Operation Card Widget
-class OperationCard extends StatelessWidget {
+class OperationCard extends StatefulWidget {
   const OperationCard({
     super.key,
     required this.onTap,
+    this.onDelete,
     this.operation,
     this.partnerOperation,
   });
   final Function()? onTap;
+  final Function()? onDelete;
   final OperationModel? operation;
   final PartnerDetailsOperation? partnerOperation;
 
   @override
+  State<OperationCard> createState() => _OperationCardState();
+}
+
+class _OperationCardState extends State<OperationCard> {
+  bool _isDeleting = false;
+
+  @override
   Widget build(BuildContext context) {
-    final currentOperation = partnerOperation ?? operation;
-    final notes = partnerOperation?.notes ?? operation?.notes;
+    final currentOperation = widget.partnerOperation ?? widget.operation;
+    final notes = widget.partnerOperation?.notes ?? widget.operation?.notes;
     final isVisible = notes != null && notes.isNotEmpty;
 
     return Padding(
@@ -56,29 +66,85 @@ class OperationCard extends StatelessWidget {
             CommonSizes.vSmallestSpace,
             nameAnDate(context),
             CommonSizes.vPluSmallerSpace,
-            AppButton(
-              onTap: onTap,
-              label: 'show_details'.tr(),
-              icon: Iconsax.eye_copy,
-              padding: EdgeInsets.zero,
-              raduis: 16.r,
-              textStyle: Utils(
-                context,
-              ).buttonText.copyWith(color: Utils(context).secondTextColor),
-              color: Utils(context).primaryContainer,
-            ),
+            _cardBtnsWidget(context, currentOperation),
           ],
         ),
       ),
     );
   }
 
+  Widget _cardBtnsWidget(BuildContext context, Object? currentOperation) {
+    return Row(
+      children: [
+        Expanded(
+          child: AppButton(
+            onTap: _isDeleting ? null : widget.onTap,
+            label: 'show_details'.tr(),
+            icon: Iconsax.eye_copy,
+            padding: EdgeInsets.zero,
+            raduis: 16.r,
+            textStyle: Utils(
+              context,
+            ).buttonText.copyWith(color: Utils(context).secondTextColor),
+            color: Utils(context).primaryContainer,
+          ),
+        ),
+
+        CommonSizes.hSmallestSpace,
+        if (currentOperation != null && widget.onDelete != null)
+          GestureDetector(
+            onTap: _isDeleting ? null : _handleDelete,
+            child: Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: Colors.red.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child:
+                  _isDeleting
+                      ? SizedBox(
+                        width: 18.sp,
+                        height: 18.sp,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                        ),
+                      )
+                      : Icon(Iconsax.trash, size: 18.sp, color: Colors.red),
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _handleDelete() async {
+    if (_isDeleting) return;
+
+    setState(() {
+      _isDeleting = true;
+    });
+
+    try {
+      // Call the onDelete callback
+      if (widget.onDelete != null) {
+        await widget.onDelete!();
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDeleting = false;
+        });
+      }
+    }
+  }
+
   Row typeAndAmount(BuildContext context) {
-    final currentOperation = partnerOperation ?? operation;
     final operationType =
-        partnerOperation?.operationType ?? operation?.operationType;
+        widget.partnerOperation?.operationType ??
+        widget.operation?.operationType;
     final isInput = operationType?.toLowerCase() == 'input';
-    final dueAmount = partnerOperation?.dueAmount ?? operation?.totalDue;
+    final dueAmount =
+        widget.partnerOperation?.dueAmount ?? widget.operation?.totalDue;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,9 +174,10 @@ class OperationCard extends StatelessWidget {
   }
 
   Row nameAnDate(BuildContext context) {
-    final currentOperation = partnerOperation ?? operation;
-    final clientName = partnerOperation?.clientName ?? operation?.clientName;
-    final operationDate = partnerOperation?.date ?? operation?.operationDate;
+    final clientName =
+        widget.partnerOperation?.clientName ?? widget.operation?.clientName;
+    final operationDate =
+        widget.partnerOperation?.date ?? widget.operation?.operationDate;
 
     String formattedDate = '';
     if (operationDate != null && operationDate.isNotEmpty) {

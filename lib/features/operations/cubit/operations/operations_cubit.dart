@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:x_calcu/features/home/cubit/home_cubit.dart';
 import 'package:x_calcu/features/operations/data/operations_model.dart';
 import 'package:x_calcu/features/operations/data/operation_request_model.dart';
 import 'package:x_calcu/features/operations/data/operations_repo.dart';
+import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/functions/format_time.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 

@@ -15,8 +15,13 @@ import 'package:x_calcu/global/utils/router/router_path.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 
 class ShowOperationsDetailsScreen extends StatefulWidget {
-  const ShowOperationsDetailsScreen({super.key, required this.operationId});
+  ShowOperationsDetailsScreen({
+    super.key,
+    required this.operationId,
+    this.isFromNotification = false,
+  });
   final int operationId;
+  bool? isFromNotification;
 
   @override
   State<ShowOperationsDetailsScreen> createState() =>
@@ -40,7 +45,10 @@ class _ShowOperationsDetailsScreenState
       isAppBarNull: false,
       isBack: true,
       title: 'operation_details'.tr(),
-      actions: [_EditBtn(operationsCubit: _operationsCubit)],
+      actions:
+          widget.isFromNotification == true
+              ? []
+              : [_EditBtn(operationsCubit: _operationsCubit)],
       body: AuthGuard(
         child: BlocBuilder<OperationsCubit, OperationsState>(
           bloc: _operationsCubit,

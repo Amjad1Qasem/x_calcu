@@ -145,7 +145,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
     // Navigate to operation details using the operationId
     context.push(
       RouterPath.showOperationsDetailsScreen,
-      extra: notification.operationId,
+      extra: {
+        'operationId': notification.operationId,
+        'isFromNotification': true,
+      },
     );
   }
 

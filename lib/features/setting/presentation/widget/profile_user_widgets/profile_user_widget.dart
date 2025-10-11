@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:x_calcu/features/login/cubit/auth_cubit.dart';
 import 'package:x_calcu/features/setting/presentation/widget/profile_user_widgets/face_id_widget.dart';
 import 'package:x_calcu/features/setting/presentation/widget/section_components_widget.dart';
+import 'package:x_calcu/features/notification/presentation/widget/notification_permission_widget.dart';
+import 'package:x_calcu/notification_service.dart';
 import 'package:x_calcu/features/startup/bloc/startup/startup_cubit.dart';
 import 'package:x_calcu/global/components/app_bar.dart';
 import 'package:x_calcu/global/components/app_button.dart';
@@ -95,8 +98,12 @@ class ProfileUserWidget extends StatelessWidget {
             children: [
               _buildfaceIdSection(context),
               CommonSizes.vSmallerSpace,
+
               // _buildTutorialSection(context),
               _buildPrivacySettingsSection(context),
+              CommonSizes.vSmallerSpace,
+              // _buildNotificationPermissionsSection(context),
+              CommonSizes.vSmallerSpace,
               _buildLogoutSection(context),
               CommonSizes.vSmallerSpace,
             ],
@@ -110,9 +117,61 @@ class ProfileUserWidget extends StatelessWidget {
     return SectionComponentsWidget(lenght: 1, items: [faceIdWidget(context)]);
   }
 
+  Widget _buildNotificationPermissionsSection(BuildContext context) {
+    return FutureBuilder<Map<String, bool>>(
+      future: NotificationService.checkAllNotificationPermissions(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox.shrink(); // إخفاء أثناء التحميل
+        }
+
+        if (snapshot.hasError) {
+          return const SizedBox.shrink(); // إخفاء في حالة الخطأ
+        }
+
+        final permissions = snapshot.data ?? {};
+        bool shouldShow = false;
+
+        if (Platform.isAndroid) {
+          // إظهار إذا لم تكن أذونات الإشعارات أو التنبيه الدقيق موجودة
+          shouldShow =
+              !(permissions['notification_permission'] == true &&
+                  permissions['exact_alarm_permission'] == true);
+        } else if (Platform.isIOS) {
+          // إظهار إذا لم تكن أذونات الإشعارات موجودة
+          shouldShow = permissions['ios_notification_permission'] != true;
+        }
+
+        return Visibility(
+          visible: shouldShow,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.0),
+            child: NotificationPermissionWidget(
+              onPermissionGranted: () {
+                snackBar(
+                  context: context,
+                  title: 'all_permissions_granted'.tr(),
+                  isErrorMessage: false,
+                );
+                // سيتم إعادة بناء الويدجيت تلقائياً عند تحديث الأذونات
+              },
+              onPermissionDenied: () {
+                snackBar(
+                  context: context,
+                  title: 'some_permissions_missing'.tr(),
+                  isErrorMessage: true,
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildPrivacySettingsSection(BuildContext context) {
     return SectionComponentsWidget(
-      lenght: 3,
+      lenght: 2,
       items: [
         SectionItemWidget(
           onTap: () => context.push(RouterPath.privacyPolicyScreen),
@@ -120,12 +179,12 @@ class ProfileUserWidget extends StatelessWidget {
           iconPath: Iconsax.security_safe_copy,
           isGlobalSection: true,
         ),
-        SectionItemWidget(
-          onTap: () {},
-          title: "help_and_support".tr(),
-          iconPath: Iconsax.message_question_copy,
-          isGlobalSection: true,
-        ),
+        // SectionItemWidget(
+        //   onTap: () {},
+        //   title: "help_and_support".tr(),
+        //   iconPath: Iconsax.message_question_copy,
+        //   isGlobalSection: true,
+        // ),
         SectionItemWidget(
           onTap: () => _launchUrl('https://x-secure.gmbh/contacts', context),
           title: "contact_ust".tr(),

@@ -17,6 +17,7 @@ import 'package:x_calcu/features/partners/presentation/widget/partner_details/pa
 import 'package:x_calcu/features/partners/presentation/widget/partner_details/partner_details_popup_menu.dart';
 import 'package:x_calcu/features/partners/presentation/widget/partner_details/partner_details_shimmer_widget.dart';
 import 'package:x_calcu/features/partners/presentation/widget/partner_details/partner_details_statistics_section.dart';
+import 'package:x_calcu/features/partners/presentation/widget/partner_details/partner_info_widget.dart';
 import 'package:x_calcu/features/partners/presentation/widget/selection/selection_action_bar.dart';
 import 'package:x_calcu/features/partners/cubit/selection/selection_cubit.dart';
 import 'package:x_calcu/features/partners/presentation/widget/sort_and_oreder_operations_partners_widget.dart';
@@ -245,10 +246,20 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
                                   (data, operations) => [
                                     // Statistics Section
                                     SliverToBoxAdapter(
-                                      child: PartnerDetailsStatisticsSection(
-                                        state: state,
-                                        partner: widget.partner,
-                                        cubit: _partnerDetailsCubit,
+                                      child: Column(
+                                        children: [
+                                          PartnerDetailsStatisticsSection(
+                                            state: state,
+                                            partner: widget.partner,
+                                            cubit: _partnerDetailsCubit,
+                                          ),
+                                          CommonSizes.vSmallerSpace,
+                                          PartnerInfoWidget(
+                                            partnerDetails:
+                                                _currentPartner ??
+                                                widget.partner,
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SliverToBoxAdapter(
@@ -266,6 +277,7 @@ class _PartnerDetailsScreenState extends State<PartnerDetailsScreen> {
                                     PartnerDetailsOperationsList(
                                       state: state,
                                       cubit: _partnerDetailsCubit,
+                                      partnerId: widget.partner.id!,
                                     ),
                                   ],
                               error:

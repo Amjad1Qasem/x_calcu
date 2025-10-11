@@ -14,6 +14,7 @@ class UrlApi {
   static String addOperation = '/operations';
   static String operationsDetails(operationId) => '/operations/$operationId';
   static String editOperations(operationId) => '/operations/$operationId';
+  static String deleteOperation(operationId) => '/operations/$operationId';
 
   static String allOperations = '/operations';
 

@@ -19,6 +19,9 @@ class PartnerDetailsCubit extends Cubit<PartnerDetailsState> {
   DateTime? _startDate;
   DateTime? _endDate;
 
+  // Getter for current partner ID
+  int? get currentPartnerId => _currentPartnerId;
+
   // Pagination variables for operations
   List<PartnerDetailsOperation> _allOperations = [];
   int _currentPage = 1;

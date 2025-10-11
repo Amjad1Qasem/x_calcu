@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/features/operations/data/operation_request_model.dart';
@@ -130,7 +131,7 @@ Widget buildDynamicPaymentField({
   bool isReadOnly = false,
 }) {
   return DynamicPaymentWidget(
-    title: 'paid_amount',
+    title: 'paid_amount'.tr(),
     items: paidBills,
     onItemsChanged: onPaidBillsChanged,
     isReadOnly: isReadOnly,
@@ -145,7 +146,7 @@ Widget buildDynamicReceivedField({
   bool isReadOnly = false,
 }) {
   return DynamicPaymentWidget(
-    title: 'received_amount',
+    title: 'received_amount'.tr(),
     items: receivedAmounts,
     onItemsChanged: onReceivedAmountsChanged,
     isReadOnly: isReadOnly,

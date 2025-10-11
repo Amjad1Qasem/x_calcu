@@ -41,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(bloc.passwordFocusNode);
             },
-            validation: (v) => Validation().validateName(v!, 3),
+            validation: (v) => Validation().validateEmail(v!),
             errorText: bloc.validationErrors["email"]?[0],
             autofillHints: const [AutofillHints.email],
             onChanged: (_) => widget.onFieldChanged(),

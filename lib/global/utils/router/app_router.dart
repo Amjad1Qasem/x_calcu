@@ -113,8 +113,11 @@ final GoRouter router = GoRouter(
       path: RouterPath.showOperationsDetailsScreen,
       name: RouterPath.showOperationsDetailsScreen,
       builder: (context, state) {
-        final operationId = state.extra as int;
-        return ShowOperationsDetailsScreen(operationId: operationId);
+        final data = state.extra as Map<String, dynamic>;
+        return ShowOperationsDetailsScreen(
+          operationId: data['operationId'] as int,
+          isFromNotification: data['isFromNotification'] as bool?,
+        );
       },
     ),
     GoRoute(

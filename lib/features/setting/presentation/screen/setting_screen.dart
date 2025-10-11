@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:x_calcu/features/setting/cubit/setting_cubit.dart';
 import 'package:x_calcu/features/setting/presentation/widget/profile_user_widgets/profile_user_widget.dart';
 import 'package:x_calcu/features/setting/presentation/widget/profile_user_widgets/profile_visitor_widget.dart';
+import 'package:x_calcu/features/notification/presentation/widget/notification_permission_widget.dart';
 import 'package:x_calcu/global/components/loaders/loading_widget.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';

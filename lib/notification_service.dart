@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart' show FlutterTimezone;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:x_calcu/features/notification/data/notification_model.dart';
 import 'package:x_calcu/features/notification/data/notification_repo.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
@@ -107,19 +108,49 @@ class NotificationService {
 
   // ==================== Permission Management ====================
 
-  /// Checks if notification permissions are granted
+  /// Checks if notification permissions are granted using permission_handler
   static Future<bool> areNotificationsEnabled() async {
+    if (Platform.isAndroid) {
+      // Check using permission_handler for Android 13+
+      final status = await Permission.notification.status;
+      print('🔐 Notification permission status: $status');
+
+      if (status.isGranted) {
+        return true;
+      } else if (status.isDenied) {
+        // Try to request permission
+        final result = await Permission.notification.request();
+        print('🔐 Notification permission request result: $result');
+        return result.isGranted;
+      } else if (status.isPermanentlyDenied) {
+        print('⚠️ Notification permission permanently denied');
+        return false;
+      }
+    }
+
+    // Fallback to original method for iOS or older Android versions
     final androidPlugin = _getAndroidPlugin();
     final result = await androidPlugin?.areNotificationsEnabled();
-    print('🔐 Notifications enabled check: $result');
+    print('🔐 Notifications enabled check (fallback): $result');
     return result ?? false;
   }
 
-  /// Requests notification permissions
+  /// Requests notification permissions using permission_handler
   static Future<bool> requestNotificationPermission() async {
+    if (Platform.isAndroid) {
+      // Use permission_handler for Android
+      final status = await Permission.notification.request();
+      print('🔐 Notification permission request result: $status');
+      return status.isGranted;
+    } else if (Platform.isIOS) {
+      // Use iOS specific method
+      return await requestIOSNotificationPermissions();
+    }
+
+    // Fallback to original method
     final androidPlugin = _getAndroidPlugin();
     final result = await androidPlugin?.requestNotificationsPermission();
-    print('🔐 Permission request result: $result');
+    print('🔐 Permission request result (fallback): $result');
     return result ?? false;
   }
 
@@ -253,6 +284,80 @@ class NotificationService {
         >();
   }
 
+  /// Comprehensive permission check for notifications
+  static Future<Map<String, bool>> checkAllNotificationPermissions() async {
+    final results = <String, bool>{};
+
+    try {
+      if (Platform.isAndroid) {
+        // Check notification permission
+        final notificationStatus = await Permission.notification.status;
+        results['notification_permission'] = notificationStatus.isGranted;
+
+        // Check exact alarm permission
+        final exactAlarmStatus = await Permission.scheduleExactAlarm.status;
+        results['exact_alarm_permission'] = exactAlarmStatus.isGranted;
+
+        // Check battery optimization
+        final batteryOptimizationStatus =
+            await Permission.ignoreBatteryOptimizations.status;
+        results['battery_optimization'] = batteryOptimizationStatus.isGranted;
+
+        // Check system alert window (for heads-up notifications)
+        final systemAlertStatus = await Permission.systemAlertWindow.status;
+        results['system_alert_window'] = systemAlertStatus.isGranted;
+
+        print('🔍 Permission check results: $results');
+      } else if (Platform.isIOS) {
+        // iOS permission check
+        final iosPermissions = await checkIOSNotificationPermissions();
+        results['ios_notification_permission'] = iosPermissions;
+      }
+    } catch (e) {
+      print('❌ Error checking permissions: $e');
+      results['error'] = false;
+    }
+
+    return results;
+  }
+
+  /// Request all necessary permissions for notifications
+  static Future<Map<String, bool>> requestAllNotificationPermissions() async {
+    final results = <String, bool>{};
+
+    try {
+      if (Platform.isAndroid) {
+        // Request notification permission
+        final notificationResult = await Permission.notification.request();
+        results['notification_permission'] = notificationResult.isGranted;
+
+        // Request exact alarm permission
+        final exactAlarmResult = await Permission.scheduleExactAlarm.request();
+        results['exact_alarm_permission'] = exactAlarmResult.isGranted;
+
+        // Request battery optimization permission
+        final batteryResult =
+            await Permission.ignoreBatteryOptimizations.request();
+        results['battery_optimization'] = batteryResult.isGranted;
+
+        // Request system alert window permission
+        final systemAlertResult = await Permission.systemAlertWindow.request();
+        results['system_alert_window'] = systemAlertResult.isGranted;
+
+        print('🔐 Permission request results: $results');
+      } else if (Platform.isIOS) {
+        // iOS permission request
+        final iosResult = await requestIOSNotificationPermissions();
+        results['ios_notification_permission'] = iosResult;
+      }
+    } catch (e) {
+      print('❌ Error requesting permissions: $e');
+      results['error'] = false;
+    }
+
+    return results;
+  }
+
   // ==================== Notification Scheduling ====================
 
   /// Schedules a notification with custom content based on operation type
@@ -359,71 +464,102 @@ class NotificationService {
     }
   }
 
-  /// Ensures notification permission is granted
+  /// Ensures notification permission is granted with comprehensive checks
   static Future<void> _ensureNotificationPermission() async {
-    if (Platform.isAndroid) {
-      final isEnabled = await areNotificationsEnabled();
-      print('🔐 Android Notifications enabled: $isEnabled');
+    print('🔐 Starting comprehensive permission check...');
 
-      if (!isEnabled) {
-        print('🔐 Requesting Android notification permission...');
-        final granted = await requestNotificationPermission();
-        print('🔐 Android Permission granted: $granted');
+    try {
+      // Check all permissions first
+      final permissionResults = await checkAllNotificationPermissions();
+      print('🔐 Current permission status: $permissionResults');
 
-        if (!granted) {
-          throw Exception('Android notification permission not granted');
+      if (Platform.isAndroid) {
+        // Check notification permission
+        final isEnabled = await areNotificationsEnabled();
+        print('🔐 Android Notifications enabled: $isEnabled');
+
+        if (!isEnabled) {
+          print('🔐 Requesting Android notification permission...');
+          final granted = await requestNotificationPermission();
+          print('🔐 Android Permission granted: $granted');
+
+          if (!granted) {
+            print('⚠️ Warning: Android notification permission not granted');
+            // Don't throw exception, just warn
+          }
         }
-      }
 
-      // Check if notification channel is enabled
-      final channelEnabled = await isNotificationChannelEnabled();
-      print('🔐 Android Notification channel enabled: $channelEnabled');
+        // Check if notification channel is enabled
+        final channelEnabled = await isNotificationChannelEnabled();
+        print('🔐 Android Notification channel enabled: $channelEnabled');
 
-      if (!channelEnabled) {
-        print('⚠️ Warning: Android notification channel is disabled');
-      }
+        if (!channelEnabled) {
+          print('⚠️ Warning: Android notification channel is disabled');
+        }
 
-      // Check exact alarm permission for Android 12+
-      final androidPlugin =
-          _plugin
-              .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin
-              >();
-      if (androidPlugin != null) {
-        final canScheduleExactAlarms =
-            await androidPlugin.canScheduleExactNotifications();
-        print('🔐 Can schedule exact alarms: $canScheduleExactAlarms');
+        // Check and request exact alarm permission
+        final exactAlarmStatus = await Permission.scheduleExactAlarm.status;
+        if (!exactAlarmStatus.isGranted) {
+          print('🔐 Requesting exact alarm permission...');
+          final exactAlarmResult =
+              await Permission.scheduleExactAlarm.request();
+          print('🔐 Exact alarm permission result: $exactAlarmResult');
 
-        if (canScheduleExactAlarms == false) {
-          print(
-            '⚠️ Warning: Cannot schedule exact alarms. Notifications may be delayed.',
-          );
-          print(
-            '💡 Consider requesting exact alarm permission from user settings',
-          );
+          if (!exactAlarmResult.isGranted) {
+            print(
+              '⚠️ Warning: Exact alarm permission not granted. Notifications may be delayed.',
+            );
+          }
+        }
 
-          // Try to request exact alarm permission
-          try {
-            await requestExactAlarmPermission();
-          } catch (e) {
-            print('❌ Failed to request exact alarm permission: $e');
+        // Check battery optimization permission
+        final batteryStatus =
+            await Permission.ignoreBatteryOptimizations.status;
+        if (!batteryStatus.isGranted) {
+          print('🔐 Requesting battery optimization permission...');
+          final batteryResult =
+              await Permission.ignoreBatteryOptimizations.request();
+          print('🔐 Battery optimization permission result: $batteryResult');
+
+          if (!batteryResult.isGranted) {
+            print(
+              '⚠️ Warning: Battery optimization not disabled. Notifications may be delayed.',
+            );
+          }
+        }
+
+        // Check system alert window permission for heads-up notifications
+        final systemAlertStatus = await Permission.systemAlertWindow.status;
+        if (!systemAlertStatus.isGranted) {
+          print('🔐 Requesting system alert window permission...');
+          final systemAlertResult =
+              await Permission.systemAlertWindow.request();
+          print('🔐 System alert window permission result: $systemAlertResult');
+        }
+      } else if (Platform.isIOS) {
+        // Check iOS notification permissions
+        final iosPermissionsGranted = await checkIOSNotificationPermissions();
+        print('📱 iOS Notifications permissions: $iosPermissionsGranted');
+
+        if (!iosPermissionsGranted) {
+          print('📱 Requesting iOS notification permissions...');
+          final granted = await requestIOSNotificationPermissions();
+          print('📱 iOS Permission granted: $granted');
+
+          if (!granted) {
+            print('⚠️ Warning: iOS notification permission not granted');
+            // Don't throw exception, just warn
           }
         }
       }
-    } else if (Platform.isIOS) {
-      // Check iOS notification permissions
-      final iosPermissionsGranted = await checkIOSNotificationPermissions();
-      print('📱 iOS Notifications permissions: $iosPermissionsGranted');
 
-      if (!iosPermissionsGranted) {
-        print('📱 Requesting iOS notification permissions...');
-        final granted = await requestIOSNotificationPermissions();
-        print('📱 iOS Permission granted: $granted');
-
-        if (!granted) {
-          throw Exception('iOS notification permission not granted');
-        }
-      }
+      print('✅ Permission check completed');
+    } catch (e) {
+      print('❌ Error during permission check: $e');
+      print(
+        '⚠️ Continuing with notification scheduling despite permission issues',
+      );
+      // Don't throw exception, allow notification to be scheduled
     }
   }
 
@@ -480,6 +616,10 @@ class NotificationService {
 
       // Try to schedule with exact alarm first, fallback to inexact if not permitted
       try {
+        print('🔔 Attempting to schedule notification...');
+        print('📅 Scheduled time: $tzDateTime');
+        print('📅 Current time: ${tz.TZDateTime.now(tz.local)}');
+
         await _plugin.zonedSchedule(
           id,
           title,
@@ -492,21 +632,39 @@ class NotificationService {
         );
         print('✅ Notification scheduled with exact alarm mode');
       } catch (e) {
-        if (e.toString().contains('exact_alarms_not_permitted')) {
+        print('❌ Exact alarm scheduling failed: $e');
+
+        if (e.toString().contains('exact_alarms_not_permitted') ||
+            e.toString().contains('exact_alarm')) {
           print(
             '⚠️ Exact alarms not permitted, falling back to inexact scheduling',
           );
-          await _plugin.zonedSchedule(
-            id,
-            title,
-            body,
-            tzDateTime,
-            notificationDetails,
-            androidScheduleMode: AndroidScheduleMode.inexact,
-            payload: payload,
-            matchDateTimeComponents: DateTimeComponents.time,
-          );
-          print('✅ Notification scheduled with inexact alarm mode');
+          try {
+            await _plugin.zonedSchedule(
+              id,
+              title,
+              body,
+              tzDateTime,
+              notificationDetails,
+              androidScheduleMode: AndroidScheduleMode.inexact,
+              payload: payload,
+              matchDateTimeComponents: DateTimeComponents.time,
+            );
+            print('✅ Notification scheduled with inexact alarm mode');
+          } catch (inexactError) {
+            print('❌ Inexact scheduling also failed: $inexactError');
+            // Try without matchDateTimeComponents
+            await _plugin.zonedSchedule(
+              id,
+              title,
+              body,
+              tzDateTime,
+              notificationDetails,
+              androidScheduleMode: AndroidScheduleMode.inexact,
+              payload: payload,
+            );
+            print('✅ Notification scheduled with basic inexact mode');
+          }
         } else if (e.toString().contains('invalid_icon')) {
           print('⚠️ Custom icon failed, trying with default icon');
           try {
@@ -517,7 +675,7 @@ class NotificationService {
               channelDescription: 'Reminder notifications for due payments',
               importance: Importance.max,
               priority: Priority.high,
-              icon: 'ic_stat_x',
+              icon: '@drawable/ic_stat_x',
               enableVibration: true,
               playSound: true,
               showWhen: true,
@@ -555,43 +713,73 @@ class NotificationService {
     }
   }
 
-  /// Converts DateTime to TZDateTime
+  /// Converts DateTime to TZDateTime with proper timezone handling
   static Future<tz.TZDateTime> _convertToTZDateTime(DateTime dateTime) async {
     try {
-      // Ensure timezone data is initialized
+      // Initialize timezone data first
       tz.initializeTimeZones();
 
-      // Get local timezone
+      // Get the device's local timezone
       final timeZoneName = await FlutterTimezone.getLocalTimezone();
-      print('🌍 Local timezone: $timeZoneName');
+      print('🌍 Device timezone: $timeZoneName');
 
-      // Set local location
-      tz.setLocalLocation(tz.getLocation(timeZoneName));
+      // Get the timezone location
+      final location = tz.getLocation(timeZoneName);
+      print('🌍 Timezone location: ${location.name}');
 
-      // Convert to TZDateTime
-      final tzDateTime = tz.TZDateTime.from(dateTime, tz.local);
+      // Set the local location for the app
+      tz.setLocalLocation(location);
+
+      // Convert the DateTime to TZDateTime using the local timezone
+      final tzDateTime = tz.TZDateTime.from(dateTime, location);
+
+      // Get current time in the same timezone for validation
+      final now = tz.TZDateTime.now(location);
+      print('🕐 Current time in $timeZoneName: $now');
+      print('🕐 Scheduled time in $timeZoneName: $tzDateTime');
+      print(
+        '⏰ Time difference: ${tzDateTime.difference(now).inMinutes} minutes',
+      );
 
       // Validate the converted time
-      if (tzDateTime.isBefore(tz.TZDateTime.now(tz.local))) {
-        print('⚠️ Warning: Converted time is in the past');
+      if (tzDateTime.isBefore(now)) {
+        print('⚠️ Warning: Scheduled time is in the past!');
+        print('⚠️ Current: $now');
+        print('⚠️ Scheduled: $tzDateTime');
       }
 
       return tzDateTime;
     } catch (e) {
-      print('⚠️ Error with local timezone conversion: $e');
-      print('🔄 Falling back to UTC timezone');
+      print('❌ Error with timezone conversion: $e');
+      print('🔄 Attempting fallback methods...');
 
       try {
-        // Fallback to UTC
+        // Fallback 1: Try with system timezone
         tz.initializeTimeZones();
-        return tz.TZDateTime.from(dateTime, tz.UTC);
-      } catch (utcError) {
-        print('❌ Error with UTC timezone conversion: $utcError');
-        // Last resort: create a TZDateTime with current time + offset
-        final now = DateTime.now();
-        final offset = dateTime.difference(now);
-        final fallbackTime = now.add(offset);
-        return tz.TZDateTime.from(fallbackTime, tz.UTC);
+        final systemLocation = tz.local;
+        final tzDateTime = tz.TZDateTime.from(dateTime, systemLocation);
+        print('✅ Fallback 1 successful with system timezone');
+        return tzDateTime;
+      } catch (e1) {
+        print('❌ Fallback 1 failed: $e1');
+
+        try {
+          // Fallback 2: Use UTC and let the system handle conversion
+          tz.initializeTimeZones();
+          final utcDateTime = tz.TZDateTime.from(dateTime, tz.UTC);
+          print('✅ Fallback 2 successful with UTC timezone');
+          return utcDateTime;
+        } catch (e2) {
+          print('❌ Fallback 2 failed: $e2');
+
+          // Last resort: Create a TZDateTime with current time + offset
+          final now = DateTime.now();
+          final offset = dateTime.difference(now);
+          final fallbackTime = now.add(offset);
+          final fallbackTzDateTime = tz.TZDateTime.from(fallbackTime, tz.UTC);
+          print('⚠️ Using last resort fallback');
+          return fallbackTzDateTime;
+        }
       }
     }
   }
@@ -1014,6 +1202,119 @@ class NotificationService {
     }
   }
 
+  /// Tests timezone conversion and scheduling
+  static Future<void> testTimezoneConversion() async {
+    try {
+      print('🌍 Testing timezone conversion...');
+
+      // Initialize timezone
+      tz.initializeTimeZones();
+
+      // Get device timezone
+      final timeZoneName = await FlutterTimezone.getLocalTimezone();
+      print('🌍 Device timezone: $timeZoneName');
+
+      // Get timezone location
+      final location = tz.getLocation(timeZoneName);
+      print('🌍 Timezone location: ${location.name}');
+
+      // Set local location
+      tz.setLocalLocation(location);
+
+      // Test current time
+      final now = DateTime.now();
+      final tzNow = tz.TZDateTime.now(location);
+      print('🕐 System time: $now');
+      print('🕐 Timezone time: $tzNow');
+
+      // Test future time (5 seconds from now)
+      final futureTime = now.add(const Duration(seconds: 5));
+      final tzFutureTime = tz.TZDateTime.from(futureTime, location);
+      print('⏰ Future system time: $futureTime');
+      print('⏰ Future timezone time: $tzFutureTime');
+
+      // Test scheduling a notification
+      final testId = DateTime.now().millisecondsSinceEpoch.remainder(100000);
+      print('🔔 Testing notification scheduling with timezone...');
+
+      await _plugin.zonedSchedule(
+        testId,
+        'Timezone Test',
+        'This notification tests timezone conversion',
+        tzFutureTime,
+        _buildNotificationDetails(),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        payload: 'timezone_test',
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+
+      print('✅ Timezone test notification scheduled successfully');
+      print('⏰ Should appear in 5 seconds');
+    } catch (e) {
+      print('❌ Timezone test failed: $e');
+      rethrow;
+    }
+  }
+
+  /// Test all notification permissions with permission_handler
+  static Future<void> testAllNotificationPermissions() async {
+    try {
+      print('🔔 Testing all notification permissions...');
+
+      // Check current permissions
+      final currentPermissions = await checkAllNotificationPermissions();
+      print('📋 Current permissions: $currentPermissions');
+
+      // Request all permissions
+      final requestedPermissions = await requestAllNotificationPermissions();
+      print('📋 Requested permissions: $requestedPermissions');
+
+      // Test notification system
+      final systemCheck = await checkNotificationSystem();
+      print('📋 System check results: $systemCheck');
+
+      // Show test notification
+      await showTestNotification();
+      print('✅ Permission test completed successfully');
+    } catch (e) {
+      print('❌ Permission test failed: $e');
+      rethrow;
+    }
+  }
+
+  /// Initialize notification service with comprehensive permission checks
+  static Future<void> initializeWithPermissionChecks() async {
+    try {
+      print('🔔 Initializing notification service with permission checks...');
+
+      // Initialize the service
+      await init();
+
+      // Check and request permissions
+      final permissionResults = await requestAllNotificationPermissions();
+      print('📋 Permission results: $permissionResults');
+
+      // Check system status
+      final systemStatus = await checkNotificationSystem();
+      print('📋 System status: $systemStatus');
+
+      // Show test notification if permissions are granted
+      if (systemStatus['system_working'] == true) {
+        await showTestNotification();
+        print(
+          '✅ Notification service initialized successfully with permissions',
+        );
+      } else {
+        print(
+          '⚠️ Notification service initialized but some permissions are missing',
+        );
+      }
+    } catch (e) {
+      print('❌ Error initializing notification service: $e');
+      rethrow;
+    }
+  }
+
   /// Cancels a notification by its ID
   static Future<void> cancelNotification(int id) async {
     await _plugin.cancel(id);
@@ -1039,11 +1340,15 @@ class NotificationService {
     }
   }
 
-  /// Comprehensive notification system check
+  /// Comprehensive notification system check with permission_handler
   static Future<Map<String, dynamic>> checkNotificationSystem() async {
     final results = <String, dynamic>{};
 
     try {
+      // Check all permissions using permission_handler
+      final permissionResults = await checkAllNotificationPermissions();
+      results.addAll(permissionResults);
+
       // Check basic permissions
       final isEnabled = await areNotificationsEnabled();
       results['notifications_enabled'] = isEnabled;
@@ -1057,12 +1362,18 @@ class NotificationService {
       bool iosPermissionsEnabled = true;
 
       if (Platform.isAndroid) {
-        final androidPlugin = _getAndroidPlugin();
-        if (androidPlugin != null) {
-          exactAlarmsEnabled =
-              await androidPlugin.canScheduleExactNotifications() ?? false;
-        }
+        final exactAlarmStatus = await Permission.scheduleExactAlarm.status;
+        exactAlarmsEnabled = exactAlarmStatus.isGranted;
         results['exact_alarms_enabled'] = exactAlarmsEnabled;
+
+        // Check battery optimization
+        final batteryStatus =
+            await Permission.ignoreBatteryOptimizations.status;
+        results['battery_optimization_enabled'] = batteryStatus.isGranted;
+
+        // Check system alert window
+        final systemAlertStatus = await Permission.systemAlertWindow.status;
+        results['system_alert_window_enabled'] = systemAlertStatus.isGranted;
       } else if (Platform.isIOS) {
         iosPermissionsEnabled = await checkIOSNotificationPermissions();
         results['ios_permissions_enabled'] = iosPermissionsEnabled;
@@ -1078,20 +1389,41 @@ class NotificationService {
       results['current_time'] = currentTime.toString();
       results['timezone'] = tz.local.name;
 
-      // Overall status
-      results['system_working'] = isEnabled && channelEnabled;
+      // Overall status - more comprehensive check
+      final allPermissionsGranted =
+          Platform.isAndroid
+              ? (isEnabled && channelEnabled && exactAlarmsEnabled)
+              : (isEnabled && channelEnabled);
+      results['system_working'] = allPermissionsGranted;
 
-      print('🔍 Notification System Check:');
+      print('🔍 Comprehensive Notification System Check:');
       print('   - Notifications enabled: $isEnabled');
       print('   - Channel enabled: $channelEnabled');
+      print('   - Permission results: $permissionResults');
 
       if (Platform.isAndroid) {
         print('   - Exact alarms enabled: $exactAlarmsEnabled');
+        print(
+          '   - Battery optimization disabled: ${results['battery_optimization_enabled']}',
+        );
+        print(
+          '   - System alert window enabled: ${results['system_alert_window_enabled']}',
+        );
+
         if (!exactAlarmsEnabled) {
           print('⚠️ Exact alarms not enabled - notifications may be delayed');
           print('💡 To enable exact alarms:');
           print('   1. Go to Settings > Apps > X Calcu > Special app access');
           print('   2. Find "Alarms & reminders" and enable it');
+        }
+
+        if (!results['battery_optimization_enabled']) {
+          print(
+            '⚠️ Battery optimization not disabled - notifications may be delayed',
+          );
+          print('💡 To disable battery optimization:');
+          print('   1. Go to Settings > Apps > X Calcu > Battery');
+          print('   2. Select "Don\'t optimize" or "Unrestricted"');
         }
       } else if (Platform.isIOS) {
         print('   - iOS permissions enabled: $iosPermissionsEnabled');
@@ -1107,7 +1439,7 @@ class NotificationService {
       print('   - Pending notifications: ${pending.length}');
       print('   - Current time: $currentTime');
       print('   - Timezone: ${tz.local.name}');
-      print('   - System working: ${results['system_working']}');
+      print('   - System working: $allPermissionsGranted');
     } catch (e) {
       results['error'] = e.toString();
       print('🔍 Error checking notification system: $e');

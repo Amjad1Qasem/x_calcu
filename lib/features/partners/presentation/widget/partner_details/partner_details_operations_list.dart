@@ -4,44 +4,66 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_calcu/features/home/presentation/widget/operation_card.dart';
+import 'package:x_calcu/features/operations/cubit/delete_operation/delete_operation_cubit.dart';
 import 'package:x_calcu/features/partners/presentation/widget/selection/selectable_operation_card.dart';
 import 'package:x_calcu/features/partners/cubit/selection/selection_cubit.dart';
-import 'package:x_calcu/features/partners/cubit/partner_details/partner_details_cubit.dart';
+import 'package:x_calcu/features/partners/cubit/partner_details/partner_details_cubit.dart'
+    hide Error;
 import 'package:x_calcu/features/partners/data/models/partner_details_model.dart';
+import 'package:x_calcu/features/operations/utils/operation_delete_helper.dart';
+import 'package:x_calcu/global/components/user_messages/snack_bar.dart';
 import 'package:x_calcu/global/components/utils/error_widget_screen.dart';
 import 'package:x_calcu/global/design/themes/themes.dart';
+import 'package:x_calcu/global/utils/di/dependency_injection.dart';
 import 'package:x_calcu/global/utils/router/router_path.dart';
 
 class PartnerDetailsOperationsList extends StatelessWidget {
   final PartnerDetailsState state;
   final PartnerDetailsCubit cubit;
+  final int partnerId;
 
   const PartnerDetailsOperationsList({
     super.key,
     required this.state,
     required this.cubit,
+    required this.partnerId,
   });
 
   @override
   Widget build(BuildContext context) {
-    return state.when(
-      initial: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
-      loading:
-          () => const SliverToBoxAdapter(
-            child: Center(child: CircularProgressIndicator()),
-          ),
-      loaded: (data, operations) => _buildOperationsList(context, operations),
-      error:
-          (message) => SliverToBoxAdapter(
-            child: ErrorWidgetScreen(
-              isIcon: false,
-              onRetry:
-                  () => cubit.getPartnerDetails(
-                    partnerId: 0,
-                  ), // Will be handled by parent
-              message: message,
+    return BlocListener<DeleteOperationCubit, DeleteOperationState>(
+      bloc: getIt<DeleteOperationCubit>(),
+      listener: (context, deleteOperationState) {
+        if (deleteOperationState is Success) {
+          cubit.getPartnerDetails(partnerId: partnerId);
+        }
+        if (deleteOperationState is Error) {
+          snackBar(
+            context: context,
+            title: deleteOperationState.message,
+            isErrorMessage: true,
+          );
+        }
+      },
+      child: state.when(
+        initial: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
+        loading:
+            () => const SliverToBoxAdapter(
+              child: Center(child: CircularProgressIndicator()),
             ),
-          ),
+        loaded: (data, operations) => _buildOperationsList(context, operations),
+        error:
+            (message) => SliverToBoxAdapter(
+              child: ErrorWidgetScreen(
+                isIcon: false,
+                onRetry:
+                    () => cubit.getPartnerDetails(
+                      partnerId: 0,
+                    ), // Will be handled by parent
+                message: message,
+              ),
+            ),
+      ),
     );
   }
 
@@ -101,7 +123,10 @@ class PartnerDetailsOperationsList extends StatelessWidget {
                   onTap:
                       () => context.push(
                         RouterPath.showOperationsDetailsScreen,
-                        extra: operation.id,
+                        extra: {
+                          'operationId': operation.id,
+                          'isFromNotification': false,
+                        },
                       ),
                 ),
               );
@@ -110,10 +135,18 @@ class PartnerDetailsOperationsList extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 0.h),
                 child: OperationCard(
                   partnerOperation: operation,
+                  onDelete:
+                      () => OperationDeleteHelper.showDeleteConfirmation(
+                        context,
+                        operation.id!,
+                      ),
                   onTap:
                       () => context.push(
                         RouterPath.showOperationsDetailsScreen,
-                        extra: operation.id,
+                        extra: {
+                          'operationId': operation.id,
+                          'isFromNotification': false,
+                        },
                       ),
                 ),
               );

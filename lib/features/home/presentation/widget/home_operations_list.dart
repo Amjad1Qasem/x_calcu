@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:x_calcu/features/home/cubit/home_cubit.dart';
+import 'package:x_calcu/features/home/presentation/controller/home_screen_controller.dart';
 import 'package:x_calcu/features/home/presentation/widget/operation_card.dart';
 import 'package:x_calcu/features/home/presentation/widget/operation_card_shimmer.dart';
 import 'package:x_calcu/features/operations/data/operations_model.dart';
+import 'package:x_calcu/features/operations/utils/operation_delete_helper.dart';
 import 'package:x_calcu/global/components/utils/empty_list_widget.dart';
 import 'package:x_calcu/global/components/utils/error_widget_screen.dart';
 import 'package:x_calcu/global/utils/di/dependency_injection.dart';
@@ -13,8 +15,13 @@ import 'package:x_calcu/global/utils/router/router_path.dart';
 
 class HomeOperationsList extends StatelessWidget {
   final PagingController<int, OperationModel> pagingController;
+  final HomeScreenController? controller;
 
-  const HomeOperationsList({super.key, required this.pagingController});
+  const HomeOperationsList({
+    super.key,
+    required this.pagingController,
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +31,18 @@ class HomeOperationsList extends StatelessWidget {
         itemBuilder:
             (context, operation, index) => OperationCard(
               operation: operation,
+              onDelete:
+                  () => OperationDeleteHelper.showDeleteConfirmation(
+                    context,
+                    operation.id!,
+                  ),
               onTap:
                   () => context.push(
                     RouterPath.showOperationsDetailsScreen,
-                    extra: operation.id,
+                    extra: {
+                      'operationId': operation.id,
+                      'isFromNotification': false,
+                    },
                   ),
             ),
         firstPageProgressIndicatorBuilder: (context) => _buildShimmerList(),
@@ -44,7 +59,6 @@ class HomeOperationsList extends StatelessWidget {
             ),
         noItemsFoundIndicatorBuilder:
             (context) => EmptyListWidget(
-              
               message:
                   getIt<HomeCubit>().isSearching
                       ? 'No operations found for "${getIt<HomeCubit>().searchQuery}"'

@@ -38,7 +38,7 @@ class EmptyListWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _buildWarningIcon(containerHeight),
+            // _buildWarningIcon(containerHeight),
             _buildMessageText(context, containerHeight),
             CommonSizes.vSmallestSpace,
             _buildRetryButton(context, containerHeight),

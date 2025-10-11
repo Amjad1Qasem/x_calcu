@@ -91,8 +91,8 @@ class Validation {
   }
 
   String? validatePhoneNumber({required String value}) {
-    // Standard international phone number pattern: allows optional +, country code, and 9-15 digits
-    String pattern = r'^\+?[1-9]\d{8,14}$';
+    // تعديل pattern للسماح بإدخال رقم يبدأ بـ 0 أو +
+    String pattern = r'^(?:0|\+)[0-9]{9,15}$';
     RegExp regex = RegExp(pattern);
 
     if (value.isEmpty) {
@@ -119,9 +119,9 @@ class Validation {
   }
 
   String? validateEmail(String email) {
-    // if (email.isEmpty) {
-    //   return "email_required".tr(); // البريد الإلكتروني مطلوب
-    // }
+    if (email.isEmpty) {
+      return "email_required".tr(); // البريد الإلكتروني مطلوب
+    }
 
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(email)) {
