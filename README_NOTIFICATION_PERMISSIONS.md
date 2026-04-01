@@ -1,28 +1,28 @@
-# إدارة أذونات الإشعارات - Notification Permissions Management
+# Notification Permissions Management
 
-## نظرة عامة
-تم إضافة نظام شامل لإدارة أذونات الإشعارات باستخدام `permission_handler` لضمان عمل الإشعارات بشكل صحيح على الأجهزة الحقيقية.
+## Overview
+A comprehensive notification permission management system has been added using `permission_handler` to ensure notifications work correctly on real devices.
 
-## الميزات المضافة
+## Added Features
 
-### 1. إضافة permission_handler
-- تم إضافة `permission_handler: ^11.3.1` إلى `pubspec.yaml`
-- يوفر إدارة شاملة للأذونات على Android و iOS
+### 1. Added `permission_handler`
+- Added `permission_handler: ^11.3.1` to `pubspec.yaml`
+- Provides comprehensive permission management on Android and iOS
 
-### 2. تحديث AndroidManifest.xml
-تم إضافة الأذونات التالية:
+### 2. Updated `AndroidManifest.xml`
+The following permissions were added:
 ```xml
-<!-- أذونات الإشعارات الأساسية -->
+<!-- Core notification permissions -->
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
 
-<!-- أذونات إضافية للإشعارات في الخلفية -->
+<!-- Extra permissions for background notifications -->
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 <uses-permission android:name="android.permission.VIBRATE"/>
 
-<!-- أذونات إضافية لضمان عمل الإشعارات على الأجهزة الحقيقية -->
+<!-- Additional permissions to improve notification reliability on real devices -->
 <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
@@ -30,157 +30,157 @@
 <uses-permission android:name="android.permission.TURN_SCREEN_ON" />
 ```
 
-### 3. تحديث NotificationService
-تم إضافة الدوال التالية:
+### 3. Updated `NotificationService`
+The following methods were added:
 
-#### دوال فحص الأذونات:
-- `checkAllNotificationPermissions()` - فحص جميع أذونات الإشعارات
-- `requestAllNotificationPermissions()` - طلب جميع أذونات الإشعارات
-- `areNotificationsEnabled()` - فحص أذونات الإشعارات (محدثة)
-- `requestNotificationPermission()` - طلب أذونات الإشعارات (محدثة)
+#### Permission checking methods:
+- `checkAllNotificationPermissions()` - Check all notification permissions
+- `requestAllNotificationPermissions()` - Request all notification permissions
+- `areNotificationsEnabled()` - Check notification permission status (updated)
+- `requestNotificationPermission()` - Request notification permissions (updated)
 
-#### دوال اختبار:
-- `testAllNotificationPermissions()` - اختبار جميع الأذونات
-- `initializeWithPermissionChecks()` - تهيئة الخدمة مع فحص الأذونات
+#### Testing methods:
+- `testAllNotificationPermissions()` - Test all permissions
+- `initializeWithPermissionChecks()` - Initialize the service with permission checks
 
-### 4. إضافة NotificationPermissionWidget
-تم إنشاء widget جديد لإدارة الأذونات:
-- فحص حالة الأذونات الحالية
-- طلب الأذونات المطلوبة
-- فتح إعدادات التطبيق
-- عرض تفاصيل كل إذن
+### 4. Added `NotificationPermissionWidget`
+A new widget was created to manage permissions:
+- Check current permission status
+- Request required permissions
+- Open app settings
+- Show details for each permission
 
-### 5. إضافة الترجمات
-تم إضافة ترجمات عربية وإنجليزية للأذونات:
-- `notification_permissions` - أذونات الإشعارات
-- `checking_permissions` - جاري فحص الأذونات
-- `request_permissions` - طلب الأذونات
-- `open_settings` - فتح الإعدادات
-- وغيرها...
+### 5. Added translations
+Arabic and English translations were added for permissions:
+- `notification_permissions` - Notification permissions
+- `checking_permissions` - Checking permissions
+- `request_permissions` - Request permissions
+- `open_settings` - Open settings
+- And more...
 
-## كيفية الاستخدام
+## How to Use
 
-### 1. فحص الأذونات
+### 1. Check permissions
 ```dart
-// فحص جميع الأذونات
+// Check all permissions
 final permissions = await NotificationService.checkAllNotificationPermissions();
 
-// فحص حالة النظام
+// Check system status
 final systemStatus = await NotificationService.checkNotificationSystem();
 ```
 
-### 2. طلب الأذونات
+### 2. Request permissions
 ```dart
-// طلب جميع الأذونات
+// Request all permissions
 final results = await NotificationService.requestAllNotificationPermissions();
 
-// طلب أذونات الإشعارات فقط
+// Request notification permissions only
 final granted = await NotificationService.requestNotificationPermission();
 ```
 
-### 3. استخدام Widget الأذونات
+### 3. Use the permissions widget
 ```dart
 NotificationPermissionWidget(
   onPermissionGranted: () {
-    // تم منح الأذونات
+    // Permissions granted
   },
   onPermissionDenied: () {
-    // تم رفض الأذونات
+    // Permissions denied
   },
 )
 ```
 
-### 4. تهيئة الخدمة مع الأذونات
+### 4. Initialize the service with permissions
 ```dart
-// تهيئة مع فحص الأذونات
+// Initialize with permission checks
 await NotificationService.initializeWithPermissionChecks();
 
-// أو التهيئة العادية
+// Or regular initialization
 await NotificationService.init();
 ```
 
-## الأذونات المطلوبة
+## Required Permissions
 
 ### Android:
-1. **POST_NOTIFICATIONS** - أذن الإشعارات الأساسي
-2. **SCHEDULE_EXACT_ALARM** - أذن التنبيه الدقيق
-3. **USE_EXACT_ALARM** - أذن استخدام التنبيه الدقيق
-4. **WAKE_LOCK** - أذن إيقاظ الجهاز
-5. **RECEIVE_BOOT_COMPLETED** - أذن استقبال إشارة بدء التشغيل
-6. **VIBRATE** - أذن الاهتزاز
-7. **REQUEST_IGNORE_BATTERY_OPTIMIZATIONS** - أذن تجاهل تحسين البطارية
-8. **SYSTEM_ALERT_WINDOW** - أذن نافذة التنبيهات
-9. **ACCESS_NOTIFICATION_POLICY** - أذن الوصول لسياسة الإشعارات
-10. **DISABLE_KEYGUARD** - أذن تعطيل قفل الشاشة
-11. **TURN_SCREEN_ON** - أذن تشغيل الشاشة
+1. **POST_NOTIFICATIONS** - Core notification permission
+2. **SCHEDULE_EXACT_ALARM** - Exact alarm scheduling permission
+3. **USE_EXACT_ALARM** - Exact alarm usage permission
+4. **WAKE_LOCK** - Device wake lock permission
+5. **RECEIVE_BOOT_COMPLETED** - Boot completed broadcast permission
+6. **VIBRATE** - Vibration permission
+7. **REQUEST_IGNORE_BATTERY_OPTIMIZATIONS** - Ignore battery optimizations permission
+8. **SYSTEM_ALERT_WINDOW** - System alert window permission
+9. **ACCESS_NOTIFICATION_POLICY** - Notification policy access permission
+10. **DISABLE_KEYGUARD** - Disable lock screen permission
+11. **TURN_SCREEN_ON** - Turn screen on permission
 
 ### iOS:
-1. **Notification Permission** - أذن الإشعارات
+1. **Notification Permission** - Notification permission
 
-## نصائح للاستخدام
+## Usage Tips
 
-### 1. فحص الأذونات قبل الجدولة
+### 1. Check permissions before scheduling
 ```dart
-// فحص الأذونات قبل جدولة إشعار
+// Check permissions before scheduling a notification
 final hasPermission = await NotificationService.areNotificationsEnabled();
 if (hasPermission) {
   await NotificationService.scheduleNotification(...);
 } else {
-  // طلب الأذونات أو إظهار رسالة للمستخدم
+  // Request permissions or show a message to the user
 }
 ```
 
-### 2. التعامل مع رفض الأذونات
+### 2. Handle permission denial
 ```dart
 final results = await NotificationService.requestAllNotificationPermissions();
 if (!results['notification_permission']) {
-  // إظهار رسالة للمستخدم أو فتح الإعدادات
+  // Show a message to the user or open settings
   await openAppSettings();
 }
 ```
 
-### 3. اختبار الأذونات
+### 3. Test permissions
 ```dart
-// اختبار شامل للأذونات
+// Comprehensive permission test
 await NotificationService.testAllNotificationPermissions();
 
-// اختبار النظام
+// System test
 await NotificationService.testNotificationSystemComprehensive();
 ```
 
-## استكشاف الأخطاء
+## Troubleshooting
 
-### مشاكل شائعة:
-1. **الإشعارات لا تظهر على الأجهزة الحقيقية**
-   - تأكد من منح أذن الإشعارات
-   - تحقق من إعدادات تحسين البطارية
-   - تأكد من تفعيل قنوات الإشعارات
+### Common issues:
+1. **Notifications do not appear on real devices**
+   - Make sure notification permission is granted
+   - Check battery optimization settings
+   - Ensure notification channels are enabled
 
-2. **الإشعارات متأخرة**
-   - تحقق من أذن التنبيه الدقيق
-   - تأكد من تعطيل تحسين البطارية للتطبيق
+2. **Notifications are delayed**
+   - Check exact alarm permission
+   - Make sure battery optimization is disabled for the app
 
-3. **الإشعارات لا تعمل في الخلفية**
-   - تحقق من أذن WAKE_LOCK
-   - تأكد من إعدادات النظام
+3. **Notifications do not work in background**
+   - Check `WAKE_LOCK` permission
+   - Verify system settings
 
-### أدوات التشخيص:
+### Diagnostic tools:
 ```dart
-// فحص شامل للنظام
+// Full system check
 final status = await NotificationService.checkNotificationSystem();
 print('System status: $status');
 
-// اختبار الأذونات
+// Permission test
 await NotificationService.testAllNotificationPermissions();
 ```
 
-## التحديثات المستقبلية
+## Future Updates
 
-1. إضافة دعم لأذونات إضافية حسب الحاجة
-2. تحسين واجهة إدارة الأذونات
-3. إضافة إحصائيات استخدام الأذونات
-4. دعم أذونات متقدمة للإشعارات التفاعلية
+1. Add support for additional permissions when needed
+2. Improve the permission management UI
+3. Add permission usage analytics
+4. Support advanced permissions for interactive notifications
 
 ---
 
-**ملاحظة:** تأكد من اختبار الإشعارات على أجهزة حقيقية بعد تطبيق هذه التحديثات.
+**Note:** Make sure to test notifications on real devices after applying these updates.

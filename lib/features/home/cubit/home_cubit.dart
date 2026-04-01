@@ -27,13 +27,13 @@ class HomeCubit extends Cubit<HomeState> {
   bool _hasReachedMax = false;
 
   /// **Filter Result by Input or Output*
-  void operationFilter() {
+  Future<void> operationFilter() async {
     isInput = !isInput;
     // Reset pagination state
     resetPagination();
     emit(HomeState.filterChanged(isInput: isInput));
     // Automatically refresh operations with new filter
-    getOperations(refresh: true);
+    await getOperations(refresh: true);
   }
 
   /// **Get Operations Data */
@@ -48,9 +48,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
 
     final searchParam = _isSearching ? _searchQuery : null;
-    print(
-      '📡 API Call - operationType: ${isInput ? 'input' : 'output'}, search: "$searchParam", page: $_currentPage',
-    );
 
     final result = await _homeRepo.getOperationsDataWithFilter(
       operationType: isInput ? 'input' : 'output',
@@ -98,9 +95,6 @@ class HomeCubit extends Cubit<HomeState> {
     _currentPage++;
 
     final searchParam = _isSearching ? _searchQuery : null;
-    print(
-      '📡 Load More API Call - search: "$searchParam", page: $_currentPage',
-    );
 
     final result = await _homeRepo.getOperationsDataWithFilter(
       operationType: isInput ? 'input' : 'output',
@@ -165,9 +159,6 @@ class HomeCubit extends Cubit<HomeState> {
     _searchQuery = query.trim();
     _isSearching = _searchQuery.isNotEmpty;
 
-    print('🔍 Searching for: "$_searchQuery"');
-    print('🔍 Is searching: $_isSearching');
-
     // Reset pagination for new search
     resetPagination();
     emit(HomeState.searching(query: _searchQuery));
@@ -177,18 +168,16 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   /// **Clear Search */
-  void clearSearch() {
+  Future<void> clearSearch() async {
     _searchQuery = '';
     _isSearching = false;
-
-    print('🧹 Clearing search');
 
     // Reset pagination and fetch all operations
     resetPagination();
     emit(HomeState.searchCleared());
 
     // Fetch operations without search
-    getOperations(refresh: true);
+    await getOperations(refresh: true);
   }
 
   /// **Get search query */
@@ -198,24 +187,24 @@ class HomeCubit extends Cubit<HomeState> {
   bool get isSearching => _isSearching;
 
   /// **Set Order By */
-  void setOrderBy(String orderBy) {
+  Future<void> setOrderBy(String orderBy) async {
     _orderBy = orderBy;
     resetPagination();
     emit(HomeState.filterChanged(isInput: isInput));
-    getOperations(refresh: true);
+    await getOperations(refresh: true);
   }
 
   /// **Set Date Range */
-  void setDateRange(DateTime? startDate, DateTime? endDate) {
+  Future<void> setDateRange(DateTime? startDate, DateTime? endDate) async {
     _startDate = startDate;
     _endDate = endDate;
     resetPagination();
     emit(HomeState.filterChanged(isInput: isInput));
-    getOperations(refresh: true);
+    await getOperations(refresh: true);
   }
 
   /// **Clear All Filters and Search */
-  void clearAllFilters() {
+  Future<void> clearAllFilters() async {
     _searchQuery = '';
     _isSearching = false;
     _orderBy = 'asc';
@@ -223,16 +212,16 @@ class HomeCubit extends Cubit<HomeState> {
     _endDate = null;
     resetPagination();
     emit(HomeState.searchCleared());
-    getOperations(refresh: true);
+    await getOperations(refresh: true);
   }
 
   /// **Clear Date Range */
-  void clearDateRange() {
+  Future<void> clearDateRange() async {
     _startDate = null;
     _endDate = null;
     resetPagination();
     emit(HomeState.filterChanged(isInput: isInput));
-    getOperations(refresh: true);
+    await getOperations(refresh: true);
   }
 
   /// **Get current order by */

@@ -17,19 +17,17 @@ void main() async {
   await initFunction();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
+  final app = EasyLocalization(
+    supportedLocales: const [Locale('en'), Locale('ar')],
+    path: 'assets/translation',
+    startLocale: const Locale('ar'),
+    saveLocale: true,
+    assetLoader: const RootBundleAssetLoader(),
+    child: const MyApp(),
+  );
+
   runApp(
-    DevicePreview(
-      enabled: kDebugMode,
-      builder:
-          (context) => EasyLocalization(
-            supportedLocales: const [Locale('en'), Locale('ar')],
-            path: 'assets/translation',
-            startLocale: const Locale('ar'),
-            saveLocale: true,
-            assetLoader: const RootBundleAssetLoader(),
-            child: const MyApp(),
-          ),
-    ),
+    kDebugMode ? DevicePreview(enabled: true, builder: (context) => app) : app,
   );
 }
 
