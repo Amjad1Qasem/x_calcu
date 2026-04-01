@@ -1,4 +1,4 @@
-part of 'notification_service.dart';
+part of '../notification_service.dart';
 
 Future<void> _nsShowTestNotification() async {
   try {

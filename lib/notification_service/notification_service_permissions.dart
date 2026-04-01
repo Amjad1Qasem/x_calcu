@@ -1,4 +1,4 @@
-part of 'notification_service.dart';
+part of '../notification_service.dart';
 
 Future<bool> _nsAreNotificationsEnabled() async {
   if (Platform.isAndroid) {

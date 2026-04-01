@@ -11,10 +11,10 @@ import 'package:x_calcu/features/notification/data/notification_model.dart';
 import 'package:x_calcu/features/notification/data/notification_repo.dart';
 import 'package:x_calcu/global/utils/helper/console_logger.dart';
 
-part 'notification_service_init.dart';
-part 'notification_service_permissions.dart';
-part 'notification_service_scheduling.dart';
-part 'notification_service_testing.dart';
+part 'notification_service/notification_service_init.dart';
+part 'notification_service/notification_service_permissions.dart';
+part 'notification_service/notification_service_scheduling.dart';
+part 'notification_service/notification_service_testing.dart';
 
 /// Service for managing local notifications
 class NotificationService {
