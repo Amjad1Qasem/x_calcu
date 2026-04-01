@@ -68,7 +68,29 @@
 		<key>NSAppTransportSecurity</key>
 		<dict>
 			<key>NSAllowsArbitraryLoads</key>
-			<true/>
+			<false/>
+			<key>NSExceptionDomains</key>
+			<dict>
+				<key>x-secure.gmbh</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+				</dict>
+				<key>localhost</key>
+				<dict>
+					<key>NSIncludesSubdomains</key>
+					<true/>
+					<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+				</dict>
+				<key>10.0.2.2</key>
+				<dict>
+					<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+				</dict>
+			</dict>
 		</dict>
 	</dict>
 </plist>
